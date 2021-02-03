@@ -1,0 +1,39 @@
+{
+  "name": "svelte-ts-tailwind-base",
+  "version": "1.0.0",
+  "scripts": {
+    "watch:tailwind": "postcss public/tailwind.css -o public/index.css -w",
+    "build:tailwind": "cross-env NODE_ENV=production postcss public/tailwind.css -o public/index.css",
+    "build": "npm run build:tailwind && rollup -c",
+    "start": "sirv public",
+    "serve": "serve public -p 80",
+    "dev": "concurrently \"rollup -c -w\" \"npm run watch:tailwind\""
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^16.0.0",
+    "@rollup/plugin-node-resolve": "^10.0.0",
+    "@rollup/plugin-typescript": "^6.0.0",
+    "@tsconfig/svelte": "^1.0.0",
+    "autoprefixer": "^10.2.1",
+    "concurrently": "^5.3.0",
+    "cross-env": "^7.0.3",
+    "postcss-cli": "^8.3.1",
+    "rollup": "^2.3.4",
+    "rollup-plugin-css-only": "^3.1.0",
+    "rollup-plugin-livereload": "^2.0.0",
+    "rollup-plugin-svelte": "^7.0.0",
+    "rollup-plugin-terser": "^7.0.0",
+    "svelte": "^3.0.0",
+    "svelte-check": "^1.0.0",
+    "svelte-preprocess": "^4.0.0",
+    "tailwindcss": "^2.0.2",
+    "tslib": "^2.0.0",
+    "typescript": "^3.9.3"
+  },
+  "dependencies": {
+    "chartist": "^0.11.4",
+    "lottie-web": "^5.7.6",
+    "sirv-cli": "^1.0.0",
+    "svelte-spa-router": "^3.1.0"
+  }
+}

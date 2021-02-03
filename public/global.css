@@ -1,0 +1,39 @@
+.ct-grid {
+  stroke: rgb(122, 122, 122);
+}
+
+.ct-label {
+  color: rgb(238, 238, 238);
+}
+
+.ct-series-a .ct-bar {
+  stroke: #0cc162;
+}
+.ct-series-b .ct-bar {
+  stroke: #0cc139;
+}
+.ct-series-c .ct-bar {
+  stroke: #3fc10c;
+}
+.ct-series-d .ct-bar {
+  stroke: #73c10c;
+}
+.ct-series-e .ct-bar {
+  stroke: #a6c10c;
+}
+.ct-series-f .ct-bar {
+  stroke: #afc10c;
+}
+.ct-series-g .ct-bar {
+  stroke: #c1b50c;
+}
+.ct-series-h .ct-bar {
+  stroke: #c1af0c;
+}
+
+.ct-series-i .ct-bar {
+  stroke: #c1880c;
+}
+.ct-series-j .ct-bar {
+  stroke: #c1450c;
+}
