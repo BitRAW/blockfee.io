@@ -69,7 +69,22 @@
 </script>
 
 <div class="grid grid-cols-2 h-full w-full p-4 block-page-grid">
-  <div class="col-span-2 pb-20 flex justify-center items-center">
+  <div class="col-span-2 pb-20 flex justify-center items-center pt-8 gap-x-10">
+    <div class="w-10 h-10 mr-6">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z"
+        />
+      </svg>
+    </div>
     <Block />
     <div class="w-10 h-10">
       <svg

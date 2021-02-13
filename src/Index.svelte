@@ -7,10 +7,10 @@
   <div class="col-span-2 overflow-x-scroll blockchain-scroll">
     <Blockchain />
   </div>
-  <div class="lg:col-span-1 col-span-2 p-4 pr-0">
+  <div class="lg:col-span-1 col-span-2 p-4 lg:pr-0">
     <PriceChart />
   </div>
-  <div class="flex h-full flex-wrap gap-4 p-4 pl-0">
+  <div class="flex h-full flex-wrap gap-4 p-4 lg:pl-0">
     <div
       class="bg-gray-900 flex-grow w-full rounded-md shadow-2xl p-2 flex justify-center"
     >

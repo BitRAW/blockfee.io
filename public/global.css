@@ -6,6 +6,48 @@
   color: rgb(238, 238, 238);
 }
 
+.ct-series-a .ct-line {
+  stroke: #c1450c;
+  stroke-width: 1px;
+}
+.ct-series-b .ct-line {
+  stroke: #c1af0c;
+  stroke-width: 1px;
+}
+.ct-series-c .ct-line {
+  stroke: #a6c10c;
+  stroke-width: 1px;
+}
+.ct-series-d .ct-line {
+  stroke: #3fc10c;
+  stroke-width: 1px;
+}
+.ct-series-e .ct-line {
+  stroke: #0cc162;
+  stroke-width: 1px;
+}
+
+.ct-series-a .ct-area {
+  fill: #c1450c;
+  fill-opacity: 0.25;
+}
+.ct-series-b .ct-area {
+  fill: #c1af0c;
+  fill-opacity: 0.25;
+}
+.ct-series-c .ct-area {
+  fill: #a6c10c;
+  fill-opacity: 0.25;
+}
+.ct-series-d .ct-area {
+  fill: #3fc10c;
+  fill-opacity: 0.25;
+}
+.ct-series-e .ct-area {
+  fill: #0cc162;
+  fill-opacity: 0.25;
+}
+
 .ct-series-a .ct-bar {
   stroke: #0cc162;
 }
