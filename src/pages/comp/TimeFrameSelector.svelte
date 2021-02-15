@@ -14,7 +14,7 @@
   }
 </script>
 
-<div class="flex pr-2">
+<div class="flex pr-2 text-xs font-bold">
   <div
     class:bg-cyan-500={activeElem !== "1 h"}
     class:bg-cyan-600={activeElem === "1 h"}

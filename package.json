@@ -12,11 +12,12 @@
   "devDependencies": {
     "@rollup/plugin-commonjs": "^16.0.0",
     "@rollup/plugin-node-resolve": "^10.0.0",
+    "@rollup/plugin-replace": "^2.3.4",
     "@rollup/plugin-typescript": "^6.0.0",
     "@tsconfig/svelte": "^1.0.0",
     "autoprefixer": "^10.2.1",
     "concurrently": "^5.3.0",
-    "cross-env": "^7.0.3",
+    "dotenv": "^8.2.0",
     "postcss-cli": "^8.3.1",
     "rollup": "^2.3.4",
     "rollup-plugin-css-only": "^3.1.0",
@@ -31,6 +32,7 @@
     "typescript": "^3.9.3"
   },
   "dependencies": {
+    "@popperjs/core": "^2.6.0",
     "chartist": "^0.11.4",
     "lottie-web": "^5.7.6",
     "sirv-cli": "^1.0.0",
