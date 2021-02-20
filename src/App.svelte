@@ -15,10 +15,6 @@
     "/settings": wrap({
       asyncComponent: () => import("./pages/Settings.svelte"),
     }),
-
-    "/block": wrap({
-      asyncComponent: () => import("./pages/BlockPage.svelte"),
-    }),
     "*": NotFound,
   };
 </script>

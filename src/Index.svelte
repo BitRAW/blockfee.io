@@ -1,5 +1,7 @@
 <script>
+  import BarComp from "./pages/comp/BarComp.svelte";
   import Blockchain from "./pages/comp/Blockchain.svelte";
+  import PercentilesComp from "./pages/comp/PercentilesComp.svelte";
   import PriceChart from "./pages/comp/PriceChart.svelte";
 </script>
 
@@ -10,17 +12,9 @@
   <div class="lg:col-span-1 col-span-2 p-4 lg:pr-0">
     <PriceChart />
   </div>
-  <div class="flex h-full flex-wrap gap-4 p-4 lg:pl-0">
-    <div
-      class="bg-gray-900 flex-grow w-full rounded-md shadow-2xl p-2 flex justify-center"
-    >
-      <div class="text-lg"><p>Metric 1</p></div>
-    </div>
-    <div
-      class="bg-gray-900 flex-grow w-full rounded-md shadow-2xl p-2 flex justify-center"
-    >
-      <div class="text-lg"><p>Metric 2</p></div>
-    </div>
+  <div class="flex h-full flex-col gap-4 p-4 lg:pl-0">
+    <PercentilesComp />
+    <BarComp />
   </div>
 </div>
 

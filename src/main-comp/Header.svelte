@@ -6,7 +6,7 @@
   class="z-50 fixed top-0 items-center bg-gray-900 w-full h-20 left-0 shadow-2xl flex justify-between flex-grow p-5"
 >
   <div class="flex space-x-5">
-    <div class="h-10 w-10"><img src="../logo-icon.svg" alt="" /></div>
+    <div class="h-10 w-20"><img src="../logo-icon.svg" alt="" /></div>
     <div>
       <ul class="flex space-x-5">
         <li class="h-10 w-10">
@@ -46,45 +46,6 @@
               />
             </svg>
           </a>
-        </li>
-
-        <li class="h-10 w-10">
-          <a href="#/chain">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              class:text-cyan-500={$location === "/chain"}
-              class=" hover:text-gray-400 stroke-current cursor-pointer"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
-              />
-            </svg>
-          </a>
-        </li>
-        <li class="h-10 w-10">
-          <a href="#/block">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              class:text-cyan-500={$location === "/block"}
-              class=" hover:text-gray-400 stroke-current cursor-pointer"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
-              />
-            </svg></a
-          >
         </li>
       </ul>
     </div>

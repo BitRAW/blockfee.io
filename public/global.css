@@ -79,7 +79,3 @@
 .ct-series-j .ct-bar {
   stroke: #c1450c;
 }
-
-#tooltip[data-popper-placement^='bottom'] > #arrow {
-  top: -4px;
-}
