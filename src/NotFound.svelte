@@ -12,6 +12,7 @@
   });
 </script>
 
-<div class="w-full h-full">
+<div class="w-full h-full flex-col flex items-center">
   <div class="h-52" id="not-found-body" />
+  <p>There is nothing here...</p>
 </div>

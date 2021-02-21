@@ -8,6 +8,7 @@ import typescript from '@rollup/plugin-typescript'
 import css from 'rollup-plugin-css-only'
 import { config } from 'dotenv'
 import replace from '@rollup/plugin-replace'
+import json from 'rollup-plugin-json'
 
 const production = !process.env.ROLLUP_WATCH
 
@@ -45,6 +46,7 @@ export default {
     dir: 'public/build/',
   },
   plugins: [
+    json(),
     svelte({
       preprocess: sveltePreprocess(),
       compilerOptions: {

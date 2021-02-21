@@ -89,7 +89,7 @@
     <div
       class=" p-2  flex justify-between flex-grow w-full flex-wrap items-center gap-y-4"
     >
-      <p class="text-lg font-bold order-1">Price Distribution</p>
+      <p class="text-lg font-bold order-1">Fee Insight</p>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"

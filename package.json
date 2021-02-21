@@ -21,6 +21,7 @@
     "postcss-cli": "^8.3.1",
     "rollup": "^2.3.4",
     "rollup-plugin-css-only": "^3.1.0",
+    "rollup-plugin-json": "^4.0.0",
     "rollup-plugin-livereload": "^2.0.0",
     "rollup-plugin-svelte": "^7.0.0",
     "rollup-plugin-terser": "^7.0.0",
@@ -36,6 +37,7 @@
     "chartist": "^0.11.4",
     "lottie-web": "^5.7.6",
     "sirv-cli": "^1.0.0",
+    "svelte-i18n-light": "^1.0.1",
     "svelte-spa-router": "^3.1.0"
   }
 }

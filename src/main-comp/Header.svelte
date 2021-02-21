@@ -3,10 +3,12 @@
 </script>
 
 <div
-  class="z-50 fixed top-0 items-center bg-gray-900 w-full h-20 left-0 shadow-2xl flex justify-between flex-grow p-5"
+  class="z-50 fixed top-0 items-center bg-gray-900 w-full h-20 left-0 shadow-2xl flex justify-between flex-grow p-2"
 >
   <div class="flex space-x-5">
-    <div class="h-10 w-20"><img src="../logo-icon.svg" alt="" /></div>
+    <div class="cursor-pointer">
+      <a href="/#/"><img class="h-10 w-24" src="../logo-icon.svg" alt="" /></a>
+    </div>
     <div>
       <ul class="flex space-x-5">
         <li class="h-10 w-10">
@@ -28,7 +30,7 @@
             </svg>
           </a>
         </li>
-        <li class="h-10 w-10">
+        <!-- <li class="h-10 w-10">
           <a href="#/tv">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -46,7 +48,7 @@
               />
             </svg>
           </a>
-        </li>
+        </li> -->
       </ul>
     </div>
   </div>

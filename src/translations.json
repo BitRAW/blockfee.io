@@ -1,0 +1,12 @@
+{
+    "en": {
+        "hello": "hello world",
+        "language": "Language",
+        "settings": "Settings"
+    },
+    "de": {
+        "hello": "hallo Welt",
+        "language": "Sprache",
+        "settings": "Einstellungen"
+    }
+}

@@ -5,14 +5,14 @@
   import PriceChart from "./pages/comp/PriceChart.svelte";
 </script>
 
-<div class="grid grid-cols-2 w-full gap-4 chain-chart-grid">
+<div class="grid grid-cols-2 w-full lg:gap-4 chain-chart-grid">
   <div class="col-span-2 overflow-x-scroll blockchain-scroll">
     <Blockchain />
   </div>
   <div class="lg:col-span-1 col-span-2 p-4 lg:pr-0">
     <PriceChart />
   </div>
-  <div class="flex h-full flex-col gap-4 p-4 lg:pl-0">
+  <div class=" lg:col-span-1 col-span-2 flex h-full flex-col gap-4 p-4 lg:pl-0">
     <PercentilesComp />
     <BarComp />
   </div>
