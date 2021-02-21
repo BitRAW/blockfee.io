@@ -23,7 +23,7 @@
     setTimeout(() => {
       Object.assign(document.createElement("a"), {
         target: "_blank",
-        href: "https://www.bitr.aw",
+        href: "https://bitraw.io",
       }).click();
       setTimeout(() => {
         lightning.stop();

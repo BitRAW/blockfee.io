@@ -1,6 +1,14 @@
 const colors = require('tailwindcss/colors')
 module.exports = {
-  purge: ['./public/**/*.html', './public/**/*.svelte'],
+  purge: {
+    content: ['./public/**/*.html', './src/**/*.svelte'],
+    options: {
+      defaultExtractor: (content) => [
+        ...(content.match(/[^<>"'`\s]*[^<>"'`\s:]/g) || []),
+        ...(content.match(/(?<=class:)[^=>\/\s]*/g) || []),
+      ],
+    },
+  },
   theme: {
     colors: {
       transparent: 'transparent',
