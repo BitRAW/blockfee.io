@@ -9,7 +9,9 @@ import css from 'rollup-plugin-css-only'
 import { config } from 'dotenv'
 import replace from '@rollup/plugin-replace'
 import json from 'rollup-plugin-json'
+import { generateSW } from 'rollup-plugin-workbox'
 
+const workboxConfig = require('./workbox-config.js')
 const production = !process.env.ROLLUP_WATCH
 
 function serve() {
@@ -94,6 +96,8 @@ export default {
     // If we're building for production (npm run build
     // instead of npm run dev), minify
     production && terser(),
+
+    production && generateSW(workboxConfig)
   ],
   watch: {
     clearScreen: false,

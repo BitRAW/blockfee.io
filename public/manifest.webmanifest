@@ -1,0 +1,8 @@
+{
+  "name": "blockfee.io",
+  "theme_color": "#06b6d4",
+  "background_color": "#06b6d4",
+  "display": "fullscreen",
+  "scope": "/",
+  "start_url": "/"
+}
