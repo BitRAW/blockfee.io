@@ -17,11 +17,29 @@
     }),
     "*": NotFound,
   };
+
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function () {
+      navigator.serviceWorker.register("/sw.js").then(
+        function (registration) {
+          // Registration was successful
+          console.log(
+            "ServiceWorker registration successful with scope: ",
+            registration.scope
+          );
+        },
+        function (err) {
+          // registration failed :(
+          console.log("ServiceWorker registration failed: ", err);
+        }
+      );
+    });
+  }
 </script>
 
-<div class="h-full">
+<div class="">
   <Header />
-  <div class="pt-24 flex min-h-full bg-gray-800 pb-14">
+  <div class="pt-24 flex bg-gray-800 pb-14">
     <Router {routes} />
   </div>
   <Footer />

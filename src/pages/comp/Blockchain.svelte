@@ -9,7 +9,7 @@
       renderer: "svg",
       loop: true,
       autoplay: true,
-      path: "../trail-circle.json",
+      path: "../img/trail-circle.json",
     });
   });
   let items = [1, 2, 4, 5, 11, 1, 1, 1, 1, 1];

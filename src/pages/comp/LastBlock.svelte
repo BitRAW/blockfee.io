@@ -7,7 +7,7 @@
       renderer: "svg",
       loop: true,
       autoplay: true,
-      path: "../trail-circle.json",
+      path: "../img/trail-circle.json",
     });
   });
 </script>

@@ -9,7 +9,7 @@
       renderer: "svg",
       loop: false,
       autoplay: false,
-      path: "../ui-lightning.json",
+      path: "../img/ui-lightning.json",
     });
   });
 

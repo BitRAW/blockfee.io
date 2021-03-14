@@ -7,7 +7,7 @@
       renderer: "svg",
       loop: true,
       autoplay: true,
-      path: "../turkey.json",
+      path: "../img/turkey.json",
     });
   });
 </script>
