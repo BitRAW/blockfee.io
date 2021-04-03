@@ -1,5 +1,6 @@
 <script>
   import Chartist from "chartist";
+  import dateFormat from "dateformat";
   import { onMount } from "svelte";
 
   import TimeFrameSelector from "./TimeFrameSelector.svelte";
@@ -22,7 +23,8 @@
 
     data["dataset"].forEach((element) => {
       if (table === "median_fee") {
-        chartData["labels"].push(new Date(element[1]));
+        let date = new Date(element[1]);
+        chartData["labels"].push(dateFormat(date, "dd.mm.yyyy HH:MM"));
       }
       feeSet.push(element[0]);
     });
