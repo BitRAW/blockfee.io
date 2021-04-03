@@ -78,7 +78,6 @@
     };
     let sample = "1h";
     let limit = "24";
-    console.log(e);
     switch (e.detail) {
       case "1h":
         sample = "10m";

@@ -1,4 +1,4 @@
-let host = 'http://35.238.39.189'
+let host = 'https://35.238.39.189'
 let path = 'exec'
 let param = 'query'
 
