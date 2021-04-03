@@ -1,6 +1,6 @@
 <script>
   import LastBlock from "./LastBlock.svelte";
-
+  export let item = {};
   export let isLastBlock = false;
 </script>
 
@@ -23,12 +23,13 @@
         {:else}
           <div class="flex-col gap-y-2 items-center justify-center flex">
             <p class="font-bold text-sm text-gray-700">
-              # <a class="underline" href="#/block">6798347</a>
+              # <a class="underline" href="#/block">{item[1]}</a>
             </p>
-            <p class="text-sm">2594 Transactions</p>
-            <p class="text-lg font-bold">1.2 BTC Fees</p>
-            <p class="text-xs">112-488 sat/vB</p>
-            <p class="text-xs">~112 sat/vB</p>
+            <p class="text-xs">Max Fee: {item[2]} sat/vB</p>
+            <p class="text-xs">75th percentile: {item[3]} sat/vB</p>
+            <p class="text-xs font-bold">Median Fee: {item[4]} sat/vB</p>
+            <p class="text-xs">25th percentile: {item[5]} sat/vB</p>
+            <p class="text-xs">min Fee: {item[6]} sat/vB</p>
           </div>
         {/if}
       </div>
