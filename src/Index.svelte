@@ -13,8 +13,8 @@
     <PriceChart />
   </div>
   <div class=" lg:col-span-1 col-span-2 flex h-full flex-col gap-4 p-4 lg:pl-0">
-    <PercentilesComp />
-    <BarComp />
+    <!-- <PercentilesComp />
+    <BarComp /> -->
   </div>
 </div>
 
