@@ -21,6 +21,8 @@
 
     let feeSet = [];
 
+    data["dataset"].reverse();
+
     data["dataset"].forEach((element) => {
       if (table === "median_fee") {
         let date = new Date(element[1]);
@@ -90,18 +92,18 @@
         limit = "6";
         break;
       case "24h":
-        sample = "1h";
-        limit = "24";
+        sample = "3h";
+        limit = "8";
         break;
       case "7d":
         sample = "12h";
         limit = "14";
         break;
       case "30d":
-        sample = "1d";
-        limit = "30";
+        sample = "3d";
+        limit = "10";
         break;
-      case "all":
+      case "1y":
         sample = "1M";
         limit = "12";
         break;

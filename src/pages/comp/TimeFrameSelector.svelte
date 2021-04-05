@@ -59,11 +59,11 @@
     30d
   </div>
   <div
-    class:bg-cyan-500={activeElem !== "All"}
-    class:bg-cyan-600={activeElem === "All"}
+    class:bg-cyan-500={activeElem !== "1y"}
+    class:bg-cyan-600={activeElem === "1y"}
     on:click={setActiveElem}
     class="bg-cyan-500 hover:bg-cyan-600 rounded-r-sm p-2 transition ease-in-out cursor-pointer"
   >
-    All
+    1y
   </div>
 </div>
