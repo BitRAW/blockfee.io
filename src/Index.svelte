@@ -3,6 +3,7 @@
   import Blockchain from "./pages/comp/Blockchain.svelte";
   import PercentilesComp from "./pages/comp/PercentilesComp.svelte";
   import PriceChart from "./pages/comp/PriceChart.svelte";
+  import SubsidyChart from "./pages/comp/SubsidyChart.svelte";
 </script>
 
 <div class="grid grid-cols-2 w-full lg:gap-4 chain-chart-grid">
@@ -13,6 +14,7 @@
     <PriceChart />
   </div>
   <div class=" lg:col-span-1 col-span-2 flex h-full flex-col gap-4 p-4 lg:pl-0">
+    <SubsidyChart />
     <!-- <PercentilesComp />
     <BarComp /> -->
   </div>

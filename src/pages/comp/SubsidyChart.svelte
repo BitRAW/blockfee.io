@@ -4,7 +4,9 @@
 
   import TimeFrameSelector from "./TimeFrameSelector.svelte";
   import { getDataURI } from "../../API/BitrawAPI";
-  let tables = ["perc_75", "median_fee", "perc_25", "min_fee"];
+  import { calculateBlockSubsidyRatio } from "../../API/BTCAPI";
+
+  let tables = ["total_fee"];
 
   let seriesOptions = {};
   let hasLoaded = 0;
@@ -23,11 +25,13 @@
     data["dataset"].reverse();
 
     data["dataset"].forEach((element) => {
-      if (table === "median_fee") {
+      if (table === "total_fee") {
         let date = new Date(element[1]);
         chartData["labels"].push(dateFormat(date, "dd.mm.yyyy HH:MM"));
       }
-      feeSet.push(element[0]);
+      let blockreward =
+        calculateBlockSubsidyRatio(element[2], element[0]) * 100;
+      feeSet.push(blockreward);
     });
     chartData.series.forEach((e) => {
       if (e.name === table) {
@@ -52,7 +56,7 @@
     };
 
     setTimeout(() => {
-      let chart = new Chartist.Line(".ct-chart", chartData, options);
+      let chart = new Chartist.Line(".ct-chart-subsidy", chartData, options);
       chart.on("draw", function (chartData) {
         if (chartData.type === "line" || chartData.type === "area") {
           chartData.element.animate({
@@ -112,7 +116,7 @@
     }
     tables.forEach((table) => {
       chartData.series.push({ name: table, data: {} });
-      let query = `SELECT avg(val), ${table}.ts FROM ${table} SAMPLE BY ${sample} ORDER BY ${table}.ts desc LIMIT ${limit};`;
+      let query = `SELECT avg(val), ${table}.ts as ts, blocks.block_nr FROM ${table} JOIN blocks on ts SAMPLE BY ${sample} ORDER BY ${table}.ts desc LIMIT ${limit};`;
       let uri = getDataURI(query);
       loadChartData(uri, table);
       seriesOptions[table] = { showPoint: false, showArea: true };
@@ -124,16 +128,16 @@
   class=" bg-gray-900 rounded-md w-full h-full p-2 shadow-2xl items-center flex flex-col justify-center"
 >
   <div class="p-2 flex justify-between w-full flex-wrap items-start gap-y-4">
-    <p class="text-lg font-bold order-1">Fee Insight</p>
+    <p class="text-lg font-bold order-1">Block subsidy</p>
 
     <div class="order-2 lg:order-3">
       <TimeFrameSelector on:selectTime={updateTimeFrame} />
     </div>
   </div>
   {#if hasLoaded >= tables.length}
-    <p class="self-start pl-5">sat/vB</p>
+    <p class="self-start pl-5">% are subsidy</p>
     <div class=" w-full h-full flex items-center">
-      <div class="ct-chart w-full h-full" />
+      <div class="ct-chart-subsidy w-full h-full" />
     </div>
   {:else}
     <div class="flex-grow place-items-center">
