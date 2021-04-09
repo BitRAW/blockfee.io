@@ -21,7 +21,7 @@
 
 <div class="">
   <Header />
-  <div class="pt-24 flex bg-green-800 pb-14">
+  <div class="pt-24 flex bg-gray-800 pb-14">
     <Router {routes} />
   </div>
   <Footer />
