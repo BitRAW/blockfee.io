@@ -87,16 +87,16 @@
     let limit = "24";
     switch (e.detail) {
       case "1h":
-        sample = "10m";
+        sample = "0";
         limit = "6";
         break;
       case "6h":
-        sample = "1h";
-        limit = "6";
+        sample = "0";
+        limit = "36";
         break;
       case "24h":
-        sample = "3h";
-        limit = "8";
+        sample = "0";
+        limit = "144";
         break;
       case "7d":
         sample = "12h";
@@ -116,7 +116,10 @@
     }
     tables.forEach((table) => {
       chartData.series.push({ name: table, data: {} });
-      let query = `SELECT avg(val), ${table}.ts as ts, blocks.block_nr FROM ${table} JOIN blocks on ts SAMPLE BY ${sample} ORDER BY ${table}.ts desc LIMIT ${limit};`;
+      let subQuerryAvg = sample !== "0" ? "avg(val)" : "val";
+      let subQuerySample = sample !== "0" ? `SAMPLE BY ${sample}` : "";
+      let subQueryLimit = limit !== "0" ? `LIMIT ${limit}` : "";
+      let query = `SELECT  ${subQuerryAvg}, ${table}.ts as ts, blocks.block_nr FROM ${table} JOIN blocks on ts ${subQuerySample} ORDER BY ${table}.ts desc ${subQueryLimit};`;
       let uri = getDataURI(query);
       loadChartData(uri, table);
       seriesOptions[table] = { showPoint: false, showArea: true };

@@ -7,7 +7,7 @@
 
   onMount(() => {
     if (!activeElem) {
-      activeElem = "24h";
+      activeElem = "6h";
       dispatch("selectTime", activeElem);
     }
   });
