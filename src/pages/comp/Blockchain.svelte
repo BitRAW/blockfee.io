@@ -1,9 +1,9 @@
 <script>
   import Block from "./Block.svelte";
   import { getDataURI } from "../../API/BitrawAPI";
-
   import lottie from "lottie-web";
   import { onMount } from "svelte";
+
   onMount(() => {
     lottie.loadAnimation({
       container: document.getElementById("block-loading"),
