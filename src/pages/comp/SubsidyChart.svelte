@@ -22,12 +22,12 @@
 
     let feeSet = [];
 
-    data["dataset"].reverse();
+    data.dataset.reverse();
 
-    data["dataset"].forEach((element) => {
+    data.dataset.forEach((element) => {
       if (table === "total_fee") {
         let date = new Date(element[1]);
-        chartData["labels"].push(dateFormat(date, "dd.mm.yyyy HH:MM"));
+        chartData.labels.push(date);
       }
       let blockreward =
         calculateBlockSubsidyRatio(element[2], element[0]) * 100;
@@ -40,17 +40,20 @@
     });
 
     if (hasLoaded >= tables.length) {
-      createChart();
+      createChart(chartData.labels.length);
     }
   }
 
-  async function createChart() {
+  async function createChart(length) {
     var options = {
       series: seriesOptions,
       fullWidth: true,
       axisX: {
         labelInterpolationFnc: function (value, index) {
-          return index % 4 === 0 ? value : null;
+          let labelSpace = (length / 4).toFixed(0);
+          if (index % labelSpace === 0) {
+            return dateFormat(value, "dd.mm.yyyy HH:MM");
+          } else return null;
         },
       },
     };
