@@ -12,8 +12,8 @@
     "/tv": wrap({
       asyncComponent: () => import("./pages/TV.svelte"),
     }),
-    "/settings": wrap({
-      asyncComponent: () => import("./pages/Settings.svelte"),
+    "/block/:id?": wrap({
+      asyncComponent: () => import("./pages/Block.svelte"),
     }),
     "*": NotFound,
   };
