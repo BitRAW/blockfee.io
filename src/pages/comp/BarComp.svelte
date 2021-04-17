@@ -131,7 +131,9 @@
         break;
     }
     // let query = `SELECT avg(val), ts FROM median_fee WHERE ts > dateadd('${format}', - ${duration}, now()) SAMPLE BY 1h;`;
-    let query = `SELECT avg(val), ts FROM median_fee WHERE ts > dateadd('${format}', - ${duration},  to_timestamp('2016-03-29T09:23:19', 'yyyy-MM-ddTHH:mm:ss')) SAMPLE BY ${sample};`;
+    // let query = `SELECT avg(val), ts FROM median_fee WHERE ts > dateadd('${format}', -${duration},  to_timestamp('2016-03-29T09:23:19', 'yyyy-MM-ddTHH:mm:ss')) SAMPLE BY ${sample};`;
+    let query = `SELECT avg(val), ts FROM median_fee WHERE ts > dateadd('${format}', -${duration},  to_timestamp('2017-08-13T09:23:19', 'yyyy-MM-ddTHH:mm:ss')) AND ts < to_timestamp('2017-08-13T09:23:19', 'yyyy-MM-ddTHH:mm:ss') SAMPLE BY ${sample};`;
+
     let uri = getDataURI(query);
     loadData(uri);
   }
