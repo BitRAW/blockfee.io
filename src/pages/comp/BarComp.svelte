@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Chartist from "chartist";
   import dateFormat from "dateformat";
 
@@ -50,7 +50,7 @@
       labels: [],
       series: [{ name: "volatility", data: [] }],
     };
-    let lookback = (data.length / 4).toFixed(0);
+    let lookback = +(data.length / 4).toFixed(0);
     let c = 0;
     data.forEach((datapoint) => {
       if (c >= lookback) {
@@ -70,7 +70,7 @@
       fullWidth: true,
       axisX: {
         labelInterpolationFnc: function (value, index) {
-          let labelSpace = (data.length / 4).toFixed(0);
+          let labelSpace = +(data.length / 4).toFixed(0);
           if (index % labelSpace === 0) {
             return dateFormat(value, "dd.mm.yyyy HH:MM");
           } else return null;

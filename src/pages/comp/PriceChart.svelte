@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Chartist from "chartist";
   import dateFormat from "dateformat";
 
@@ -56,7 +56,7 @@
       fullWidth: true,
       axisX: {
         labelInterpolationFnc: function (value, index) {
-          let labelSpace = (length / 4).toFixed(0);
+          let labelSpace = +(length / 4).toFixed(0);
           if (index % labelSpace === 0) {
             return dateFormat(value, "dd.mm.yyyy HH:MM");
           } else return null;

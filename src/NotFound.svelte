@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import lottie from "lottie-web";
   import { onMount } from "svelte";
   onMount(() => {
