@@ -1,10 +1,10 @@
 <script lang="ts">
   import Chartist from "chartist";
-  import dateFormat from "dateformat";
 
   import TimeFrameSelector from "./TimeFrameSelector.svelte";
   import Loader from "./Loader.svelte";
   import { getDataURI } from "../../API/BitrawAPI";
+  import { getLabelInterpolationFnc } from "../../util/chartUtil";
   
   let tables = ["perc_75", "median_fee", "perc_25", "min_fee"];
 
@@ -55,12 +55,7 @@
       series: seriesOptions,
       fullWidth: true,
       axisX: {
-        labelInterpolationFnc: function (value, index) {
-          let labelSpace = +(length / 4).toFixed(0);
-          if (index % labelSpace === 0) {
-            return dateFormat(value, "dd.mm.yyyy HH:MM");
-          } else return null;
-        },
+        labelInterpolationFnc: getLabelInterpolationFnc(length),
       },
     };
 

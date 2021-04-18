@@ -1,6 +1,5 @@
 <script lang="ts">
   import Chartist from "chartist";
-  import dateFormat from "dateformat";
 
   import { tweened } from "svelte/motion";
   import { cubicOut } from "svelte/easing";
@@ -8,6 +7,7 @@
   import { getStandardDeviation } from "../../API/VolatilityAPI";
   import Loader from "./Loader.svelte";
   import TimeFrameSelector from "./TimeFrameSelector.svelte";
+  import { getLabelInterpolationFnc } from "../../util/chartUtil";
 
   let data;
   let hasLoaded = false;
@@ -69,12 +69,7 @@
       series: seriesOptions,
       fullWidth: true,
       axisX: {
-        labelInterpolationFnc: function (value, index) {
-          let labelSpace = +(data.length / 4).toFixed(0);
-          if (index % labelSpace === 0) {
-            return dateFormat(value, "dd.mm.yyyy HH:MM");
-          } else return null;
-        },
+        labelInterpolationFnc: getLabelInterpolationFnc(data.length),
       },
     };
 
