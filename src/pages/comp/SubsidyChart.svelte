@@ -15,6 +15,15 @@
     labels: [],
     series: [],
   };
+  
+  const timeFrameMap = {
+    '1h': { sample: '0', limit: 6 },
+    '6h': { sample: '0', limit: 36 },
+    '24h': { sample: '0', limit: 144 },
+    '7d': { sample: '12h', limit: 14 },
+    '30d': { sample: '3d', limit: 10 },
+    '1y': { sample: '1M', limit: 12 }
+  }
 
   async function loadChartData(uri, table) {
     const response = await fetch(uri);
@@ -87,37 +96,9 @@
       labels: [],
       series: [],
     };
-    let sample = "1h";
-    let limit = "24";
-    switch (e.detail) {
-      case "1h":
-        sample = "0";
-        limit = "6";
-        break;
-      case "6h":
-        sample = "0";
-        limit = "36";
-        break;
-      case "24h":
-        sample = "0";
-        limit = "144";
-        break;
-      case "7d":
-        sample = "12h";
-        limit = "14";
-        break;
-      case "30d":
-        sample = "3d";
-        limit = "10";
-        break;
-      case "1y":
-        sample = "1M";
-        limit = "12";
-        break;
 
-      default:
-        break;
-    }
+    const { limit = 24, sample = '1h' } = timeFrameMap[e.detail];
+    
     tables.forEach((table) => {
       chartData.series.push({ name: table, data: {} });
       let subQuerryAvg = sample !== "0" ? "avg(val)" : "val";

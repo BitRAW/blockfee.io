@@ -11,6 +11,15 @@
 
   let data;
   let hasLoaded = false;
+  
+  const timeFrameMap = {
+    '1h': { format: 'h', duration: 1, sample: '10m' },
+    '6h': { format: 'h', duration: 6, sample: '10m' },
+    '24h':{ format: 'd', duration: 1, sample: '10m' },
+    '7d': { format: 'd', duration: 7, sample: '1h' },
+    '30d':{ format: 'd', duration: 30, sample: '1h' },
+    '1y': { format: 'y', duration: 1, sample: '1d'}
+  }
 
   const tweenedStd = tweened(0, {
     duration: 1000,
@@ -92,44 +101,8 @@
   }
 
   function updateTimeFrame(e) {
-    let format = "h";
-    let duration = "6";
-    let sample = "10m";
-    switch (e.detail) {
-      case "1h":
-        format = "h";
-        duration = "1";
-        sample = "10m";
-        break;
-      case "6h":
-        format = "h";
-        duration = "6";
-        sample = "10m";
-        break;
-      case "24h":
-        format = "d";
-        duration = "1";
-        sample = "10m";
-        break;
-      case "7d":
-        format = "d";
-        duration = "7";
-        sample = "1h";
-        break;
-      case "30d":
-        format = "d";
-        duration = "30";
-        sample = "1h";
-        break;
-      case "1y":
-        format = "y";
-        duration = "1";
-        sample = "1d";
-        break;
+    const { format = 'h', duration = 6, sample = '10m' } = timeFrameMap[e.detail];
 
-      default:
-        break;
-    }
     // let query = `SELECT avg(val), ts FROM median_fee WHERE ts > dateadd('${format}', - ${duration}, now()) SAMPLE BY 1h;`;
     // let query = `SELECT avg(val), ts FROM median_fee WHERE ts > dateadd('${format}', -${duration},  to_timestamp('2016-03-29T09:23:19', 'yyyy-MM-ddTHH:mm:ss')) SAMPLE BY ${sample};`;
     let query = `SELECT avg(val), ts FROM median_fee WHERE ts > dateadd('${format}', -${duration},  to_timestamp('2017-08-13T09:23:19', 'yyyy-MM-ddTHH:mm:ss')) AND ts < to_timestamp('2017-08-13T09:23:19', 'yyyy-MM-ddTHH:mm:ss') SAMPLE BY ${sample};`;

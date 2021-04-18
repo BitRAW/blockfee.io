@@ -5,6 +5,7 @@
   import TimeFrameSelector from "./TimeFrameSelector.svelte";
   import Loader from "./Loader.svelte";
   import { getDataURI } from "../../API/BitrawAPI";
+  
   let tables = ["perc_75", "median_fee", "perc_25", "min_fee"];
 
   let seriesOptions = {};
@@ -13,6 +14,14 @@
     labels: [],
     series: [],
   };
+  const timeFrameMap = {
+    '1h': { sample: '10m', limit: 6 },
+    '6h': { sample: '1h', limit: 6 },
+    '24h': { sample: '3h', limit: 8 },
+    '7d': { sample: '12h', limit: 14 },
+    '30d': { sample: '3d', limit: 10 },
+    '1y': { sample: '1M', limit: 12 }
+  }
 
   async function loadChartData(uri, table) {
     const response = await fetch(uri);
@@ -83,37 +92,9 @@
       labels: [],
       series: [],
     };
-    let sample = "1h";
-    let limit = "24";
-    switch (e.detail) {
-      case "1h":
-        sample = "10m";
-        limit = "6";
-        break;
-      case "6h":
-        sample = "1h";
-        limit = "6";
-        break;
-      case "24h":
-        sample = "3h";
-        limit = "8";
-        break;
-      case "7d":
-        sample = "12h";
-        limit = "14";
-        break;
-      case "30d":
-        sample = "3d";
-        limit = "10";
-        break;
-      case "1y":
-        sample = "1M";
-        limit = "12";
-        break;
 
-      default:
-        break;
-    }
+    const { sample = '1h', limit = 24 } = timeFrameMap[e.detail];
+
     tables.forEach((table) => {
       chartData.series.push({ name: table, data: {} });
       let query = `SELECT avg(val), ${table}.ts FROM ${table} SAMPLE BY ${sample} ORDER BY ${table}.ts desc LIMIT ${limit};`;
