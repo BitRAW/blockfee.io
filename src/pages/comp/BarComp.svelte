@@ -1,16 +1,25 @@
-<script>
-  import { onMount } from "svelte";
+<script lang="ts">
   import Chartist from "chartist";
-  import dateFormat from "dateformat";
 
   import { tweened } from "svelte/motion";
   import { cubicOut } from "svelte/easing";
   import { getDataURI } from "../../API/BitrawAPI";
   import { getStandardDeviation } from "../../API/VolatilityAPI";
+  import Loader from "./Loader.svelte";
   import TimeFrameSelector from "./TimeFrameSelector.svelte";
+  import { getLabelInterpolationFnc } from "../../util/chartUtil";
 
   let data;
   let hasLoaded = false;
+  
+  const timeFrameMap = {
+    '1h': { format: 'h', duration: 1, sample: '10m' },
+    '6h': { format: 'h', duration: 6, sample: '10m' },
+    '24h':{ format: 'd', duration: 1, sample: '10m' },
+    '7d': { format: 'd', duration: 7, sample: '1h' },
+    '30d':{ format: 'd', duration: 30, sample: '1h' },
+    '1y': { format: 'y', duration: 1, sample: '1d'}
+  }
 
   const tweenedStd = tweened(0, {
     duration: 1000,
@@ -41,7 +50,7 @@
       labels: [],
       series: [{ name: "volatility", data: [] }],
     };
-    let lookback = (data.length / 4).toFixed(0);
+    let lookback = +(data.length / 4).toFixed(0);
     let c = 0;
     data.forEach((datapoint) => {
       if (c >= lookback) {
@@ -60,12 +69,7 @@
       series: seriesOptions,
       fullWidth: true,
       axisX: {
-        labelInterpolationFnc: function (value, index) {
-          let labelSpace = (data.length / 4).toFixed(0);
-          if (index % labelSpace === 0) {
-            return dateFormat(value, "dd.mm.yyyy HH:MM");
-          } else return null;
-        },
+        labelInterpolationFnc: getLabelInterpolationFnc(data.length),
       },
     };
 
@@ -92,44 +96,8 @@
   }
 
   function updateTimeFrame(e) {
-    let format = "h";
-    let duration = "6";
-    let sample = "10m";
-    switch (e.detail) {
-      case "1h":
-        format = "h";
-        duration = "1";
-        sample = "10m";
-        break;
-      case "6h":
-        format = "h";
-        duration = "6";
-        sample = "10m";
-        break;
-      case "24h":
-        format = "d";
-        duration = "1";
-        sample = "10m";
-        break;
-      case "7d":
-        format = "d";
-        duration = "7";
-        sample = "1h";
-        break;
-      case "30d":
-        format = "d";
-        duration = "30";
-        sample = "1h";
-        break;
-      case "1y":
-        format = "y";
-        duration = "1";
-        sample = "1d";
-        break;
+    const { format = 'h', duration = 6, sample = '10m' } = timeFrameMap[e.detail];
 
-      default:
-        break;
-    }
     // let query = `SELECT avg(val), ts FROM median_fee WHERE ts > dateadd('${format}', - ${duration}, now()) SAMPLE BY 1h;`;
     // let query = `SELECT avg(val), ts FROM median_fee WHERE ts > dateadd('${format}', -${duration},  to_timestamp('2016-03-29T09:23:19', 'yyyy-MM-ddTHH:mm:ss')) SAMPLE BY ${sample};`;
     let query = `SELECT avg(val), ts FROM median_fee WHERE ts > dateadd('${format}', -${duration},  to_timestamp('2017-08-13T09:23:19', 'yyyy-MM-ddTHH:mm:ss')) AND ts < to_timestamp('2017-08-13T09:23:19', 'yyyy-MM-ddTHH:mm:ss') SAMPLE BY ${sample};`;
@@ -182,26 +150,7 @@
           {$tweenedStd.toFixed(2)} sat/vB
         </p>
       {:else}
-        <svg
-          class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <circle
-            class="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            stroke-width="4"
-          />
-          <path
-            class="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-          />
-        </svg>
+        <Loader />
       {/if}
     </div>
   </div>

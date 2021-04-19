@@ -1,9 +1,11 @@
-<script>
+<script lang="ts">
   import Chartist from "chartist";
-  import dateFormat from "dateformat";
 
   import TimeFrameSelector from "./TimeFrameSelector.svelte";
+  import Loader from "./Loader.svelte";
   import { getDataURI } from "../../API/BitrawAPI";
+  import { getLabelInterpolationFnc } from "../../util/chartUtil";
+  
   let tables = ["perc_75", "median_fee", "perc_25", "min_fee"];
 
   let seriesOptions = {};
@@ -12,6 +14,14 @@
     labels: [],
     series: [],
   };
+  const timeFrameMap = {
+    '1h': { sample: '10m', limit: 6 },
+    '6h': { sample: '1h', limit: 6 },
+    '24h': { sample: '3h', limit: 8 },
+    '7d': { sample: '12h', limit: 14 },
+    '30d': { sample: '3d', limit: 10 },
+    '1y': { sample: '1M', limit: 12 }
+  }
 
   async function loadChartData(uri, table) {
     const response = await fetch(uri);
@@ -45,12 +55,7 @@
       series: seriesOptions,
       fullWidth: true,
       axisX: {
-        labelInterpolationFnc: function (value, index) {
-          let labelSpace = (length / 4).toFixed(0);
-          if (index % labelSpace === 0) {
-            return dateFormat(value, "dd.mm.yyyy HH:MM");
-          } else return null;
-        },
+        labelInterpolationFnc: getLabelInterpolationFnc(length),
       },
     };
 
@@ -82,37 +87,9 @@
       labels: [],
       series: [],
     };
-    let sample = "1h";
-    let limit = "24";
-    switch (e.detail) {
-      case "1h":
-        sample = "10m";
-        limit = "6";
-        break;
-      case "6h":
-        sample = "1h";
-        limit = "6";
-        break;
-      case "24h":
-        sample = "3h";
-        limit = "8";
-        break;
-      case "7d":
-        sample = "12h";
-        limit = "14";
-        break;
-      case "30d":
-        sample = "3d";
-        limit = "10";
-        break;
-      case "1y":
-        sample = "1M";
-        limit = "12";
-        break;
 
-      default:
-        break;
-    }
+    const { sample = '1h', limit = 24 } = timeFrameMap[e.detail];
+
     tables.forEach((table) => {
       chartData.series.push({ name: table, data: {} });
       let query = `SELECT avg(val), ${table}.ts FROM ${table} SAMPLE BY ${sample} ORDER BY ${table}.ts desc LIMIT ${limit};`;
@@ -140,26 +117,7 @@
     </div>
   {:else}
     <div class="flex-grow place-items-center">
-      <svg
-        class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-      >
-        <circle
-          class="opacity-25"
-          cx="12"
-          cy="12"
-          r="10"
-          stroke="currentColor"
-          stroke-width="4"
-        />
-        <path
-          class="opacity-75"
-          fill="currentColor"
-          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-        />
-      </svg>
+      <Loader />
     </div>
   {/if}
 </div>

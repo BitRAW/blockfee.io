@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Block from "./Block.svelte";
   import { getDataURI } from "../../API/BitrawAPI";
   import lottie from "lottie-web";

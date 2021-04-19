@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import BarComp from "./pages/comp/BarComp.svelte";
   import Blockchain from "./pages/comp/Blockchain.svelte";
   import PriceChart from "./pages/comp/PriceChart.svelte";

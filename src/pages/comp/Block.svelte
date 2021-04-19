@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import LastBlock from "./LastBlock.svelte";
   export let item = {};
   export let isLastBlock = false;
