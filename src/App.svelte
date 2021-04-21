@@ -1,5 +1,4 @@
 <script lang="ts">
-  import "../node_modules/chartist/dist/chartist.min.css";
   import Router from "svelte-spa-router";
   import { wrap } from "svelte-spa-router/wrap";
   import Index from "./Index.svelte";

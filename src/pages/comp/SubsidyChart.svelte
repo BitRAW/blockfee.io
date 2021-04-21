@@ -1,133 +1,135 @@
 <script lang="ts">
-  import Chartist from "chartist";
+  import Chart from "chart.js/auto";
 
   import TimeFrameSelector from "./TimeFrameSelector.svelte";
+  import dateFormat from "dateformat";
+
   import Loader from "./Loader.svelte";
   import { getDataURI } from "../../API/BitrawAPI";
   import { calculateBlockSubsidyRatio } from "../../API/BTCAPI";
-  import { getLabelInterpolationFnc } from "../../util/chartUtil";
+  import ChartCard from "./ChartCard.svelte";
 
   let tables = ["total_fee"];
 
-  let seriesOptions = {};
   let hasLoaded = 0;
-  var chartData = {
-    labels: [],
-    series: [],
-  };
-  
+  var subsidyChart;
+
   const timeFrameMap = {
-    '1h': { sample: '0', limit: 6 },
-    '6h': { sample: '0', limit: 36 },
-    '24h': { sample: '0', limit: 144 },
-    '7d': { sample: '12h', limit: 14 },
-    '30d': { sample: '3d', limit: 10 },
-    '1y': { sample: '1M', limit: 12 }
-  }
+    "1h": { sample: "0", limit: 6 },
+    "6h": { sample: "0", limit: 36 },
+    "24h": { sample: "0", limit: 144 },
+    "7d": { sample: "12h", limit: 14 },
+    "30d": { sample: "3d", limit: 10 },
+    "1y": { sample: "1M", limit: 12 },
+  };
 
   async function loadChartData(uri, table) {
+    let chartData = {
+      labels: [],
+      datasets: [],
+    };
     const response = await fetch(uri);
     const data = await response.json();
     hasLoaded++;
 
-    let feeSet = [];
+    let dataSet = {
+      label: table,
+      data: [],
+      fill: true,
+      backgroundColor: "rgb(75, 192, 192, 0.2)",
+      borderColor: "rgb(75, 192, 192)",
+      tension: 0.2,
+    };
 
     data.dataset.reverse();
 
     data.dataset.forEach((element) => {
       if (table === "total_fee") {
         let date = new Date(element[1]);
-        chartData.labels.push(date);
+        chartData.labels.push(dateFormat(date, "dd.mm.yyyy HH:MM"));
       }
       let blockreward =
         calculateBlockSubsidyRatio(element[2], element[0]) * 100;
-      feeSet.push(blockreward);
+      dataSet.data.push(blockreward);
     });
-    chartData.series.forEach((e) => {
-      if (e.name === table) {
-        e.data = feeSet;
-      }
-    });
-
+    chartData.datasets.push(dataSet);
     if (hasLoaded >= tables.length) {
-      createChart(chartData.labels.length);
+      createChart(chartData);
     }
   }
 
-  async function createChart(length) {
-    var options = {
-      series: seriesOptions,
-      fullWidth: true,
-      axisX: {
-        labelInterpolationFnc: getLabelInterpolationFnc(length),
+  async function createChart(data) {
+    const config = {
+      type: "line",
+      data: data,
+      options: {
+        plugins: {
+          tooltip: {
+            callbacks: {
+              labelColor: function (context) {
+                return {
+                  borderColor: context.dataset.borderColor,
+                  backgroundColor: context.dataset.borderColor,
+                  borderWidth: 0,
+                  borderRadius: 5,
+                };
+              },
+            },
+          },
+        },
+        scales: {
+          y: {
+            borderColor: "rgba(228, 228, 231,.2)",
+            grid: {
+              color: "rgba(228, 228, 231,.2)",
+            },
+            // max: 100,
+            // min: 0,
+          },
+          x: {
+            borderColor: "rgba(228, 228, 231,.2)",
+            grid: {
+              color: "rgba(228, 228, 231,.2)",
+            },
+            ticks: {
+              callback: function (index, val) {
+                const labelSpace = +(data.labels.length / 3).toFixed(0);
+
+                if (index % labelSpace === 0) {
+                  return this.getLabelForValue(val);
+                } else return null;
+              },
+            },
+          },
+        },
       },
     };
-
-    setTimeout(() => {
-      let chart = new Chartist.Line(".ct-chart-subsidy", chartData, options);
-      chart.on("draw", function (chartData) {
-        if (chartData.type === "line" || chartData.type === "area") {
-          chartData.element.animate({
-            d: {
-              begin: 200 * chartData.index,
-              dur: 1000,
-              from: chartData.path
-                .clone()
-                .scale(1, 0)
-                .translate(0, chartData.chartRect.height() + 15)
-                .stringify(),
-              to: chartData.path.clone().stringify(),
-              easing: Chartist.Svg.Easing.easeOutQuint,
-            },
-          });
-        }
-      });
-    }, 30);
+    var ctx = document.getElementById("subsidy-chart");
+    if (subsidyChart) {
+      subsidyChart.destroy();
+    }
+    subsidyChart = new Chart(ctx, config);
   }
 
   function updateTimeFrame(e) {
     hasLoaded = 0;
-    chartData = {
-      labels: [],
-      series: [],
-    };
 
-    const { limit = 24, sample = '1h' } = timeFrameMap[e.detail];
-    
+    const { limit = 24, sample = "1h" } = timeFrameMap[e.detail];
+
     tables.forEach((table) => {
-      chartData.series.push({ name: table, data: {} });
       let subQuerryAvg = sample !== "0" ? "avg(val)" : "val";
       let subQuerySample = sample !== "0" ? `SAMPLE BY ${sample}` : "";
       let subQueryLimit = limit !== "0" ? `LIMIT ${limit}` : "";
       let query = `SELECT  ${subQuerryAvg}, ${table}.ts as ts, blocks.block_nr FROM ${table} JOIN blocks on ts ${subQuerySample} ORDER BY ${table}.ts desc ${subQueryLimit};`;
       let uri = getDataURI(query);
       loadChartData(uri, table);
-      seriesOptions[table] = { showPoint: false, showArea: true };
     });
   }
 </script>
 
-<div
-  class=" bg-gray-900 rounded-md w-full h-full p-2 shadow-2xl items-center flex flex-col justify-center"
->
-  <div class="p-2 flex justify-between w-full flex-wrap items-start gap-y-4">
-    <p class="text-lg font-bold order-1">Block subsidy</p>
-
-    <div class="order-2 lg:order-3">
-      <TimeFrameSelector on:selectTime={updateTimeFrame} />
-    </div>
-  </div>
-  {#if hasLoaded >= tables.length}
-    <p class="self-start pl-5">% are subsidy</p>
-    <div class=" w-full h-full flex items-center">
-      <div class="ct-chart-subsidy w-full h-full" />
-    </div>
-  {:else}
-    <div class="flex-grow place-items-center">
-      <Loader />
-    </div>
-  {/if}
-</div>
-
-<style>
-</style>
+<ChartCard
+  title={"Block Subsidy"}
+  hasLoaded={hasLoaded >= tables.length}
+  chartId={"subsidy-chart"}
+  {updateTimeFrame}
+/>

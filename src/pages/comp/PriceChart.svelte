@@ -1,126 +1,166 @@
 <script lang="ts">
-  import Chartist from "chartist";
-
   import TimeFrameSelector from "./TimeFrameSelector.svelte";
   import Loader from "./Loader.svelte";
   import { getDataURI } from "../../API/BitrawAPI";
-  import { getLabelInterpolationFnc } from "../../util/chartUtil";
-  
-  let tables = ["perc_75", "median_fee", "perc_25", "min_fee"];
+  import Chart from "chart.js/auto";
+  import dateFormat from "dateformat";
+  import ChartCard from "./ChartCard.svelte";
 
-  let seriesOptions = {};
+  let tables = ["max_fee", "perc_75", "median_fee", "perc_25", "min_fee"];
+
   let hasLoaded = 0;
-  var chartData = {
-    labels: [],
-    series: [],
-  };
+  var feepriceChart;
+
   const timeFrameMap = {
-    '1h': { sample: '10m', limit: 6 },
-    '6h': { sample: '1h', limit: 6 },
-    '24h': { sample: '3h', limit: 8 },
-    '7d': { sample: '12h', limit: 14 },
-    '30d': { sample: '3d', limit: 10 },
-    '1y': { sample: '1M', limit: 12 }
-  }
+    "1h": { sample: "10m", limit: 6 },
+    "6h": { sample: "1h", limit: 6 },
+    "24h": { sample: "3h", limit: 8 },
+    "7d": { sample: "12h", limit: 14 },
+    "30d": { sample: "3d", limit: 10 },
+    "1y": { sample: "1M", limit: 12 },
+  };
+
+  const labelsMap = {
+    max_fee: "Max Fee",
+    perc_75: "75th Percentile",
+    median_fee: "Median Fee",
+    perc_25: "25th Percentile",
+    min_fee: "min Fee",
+  };
+  const colorMap = {
+    max_fee: "rgba(193, 69, 12, 1)",
+    perc_75: "rgba(193, 175, 12, 1)",
+    median_fee: "rgba(166, 193, 12, 1)",
+    perc_25: "rgba(63, 193, 12, 1)",
+    min_fee: "rgba(12, 193, 98, 1)",
+  };
+  const colorBGMap = {
+    max_fee: "rgba(193, 69, 12, .2)",
+    perc_75: "rgba(193, 175, 12, .2)",
+    median_fee: "rgba(166, 193, 12, .2)",
+    perc_25: "rgba(63, 193, 12, .2)",
+    min_fee: "rgba(12, 193, 98, .2)",
+  };
+  let chartData = {
+    labels: [],
+    datasets: [],
+  };
 
   async function loadChartData(uri, table) {
     const response = await fetch(uri);
     const data = await response.json();
     hasLoaded++;
 
-    let feeSet = [];
+    let dataSet = {
+      label: labelsMap[table],
+      data: [],
+      fill: true,
+      backgroundColor: colorBGMap[table],
+      borderColor: colorMap[table],
+      tension: 0.2,
+      hidden: table === "max_fee" ? true : false,
+    };
 
     data.dataset.reverse();
 
     data.dataset.forEach((element) => {
       if (table === "median_fee") {
         let date = new Date(element[1]);
-        chartData.labels.push(date);
+        chartData.labels.push(dateFormat(date, "dd.mm.yyyy HH:MM"));
       }
-      feeSet.push(element[0]);
-    });
-    chartData.series.forEach((e) => {
-      if (e.name === table) {
-        e.data = feeSet;
-      }
+      dataSet.data.push(element[0]);
     });
 
+    chartData.datasets.push(dataSet);
+
     if (hasLoaded >= tables.length) {
-      createChart(chartData.labels.length);
+      createChart(chartData);
     }
   }
 
-  async function createChart(length) {
-    var options = {
-      series: seriesOptions,
-      fullWidth: true,
-      axisX: {
-        labelInterpolationFnc: getLabelInterpolationFnc(length),
+  async function createChart(data) {
+    const config = {
+      type: "line",
+      data: data,
+      options: {
+        plugins: {
+          tooltip: {
+            callbacks: {
+              labelColor: function (context) {
+                return {
+                  borderColor: context.dataset.borderColor,
+                  backgroundColor: context.dataset.borderColor,
+                  borderWidth: 0,
+                  borderRadius: 5,
+                };
+              },
+              label: function (context) {
+                return `${context.dataset.label}: ${context.parsed.y}  sat / vB`;
+              },
+            },
+          },
+        },
+        scales: {
+          y: {
+            title: { text: "Fee price in: sat / vB", display: true },
+            borderColor: "rgba(228, 228, 231,.2)",
+            grid: {
+              color: "rgba(228, 228, 231,.2)",
+            },
+            ticks: {
+              // Include a dollar sign in the ticks
+              callback: function (value, index, values) {
+                return `${value} sat/vB`;
+              },
+            },
+            // max: 100,
+            // min: 0,
+          },
+          x: {
+            borderColor: "rgba(228, 228, 231,.2)",
+            grid: {
+              color: "rgba(228, 228, 231,.2)",
+            },
+            ticks: {
+              callback: function (index, val) {
+                const labelSpace = +(data.labels.length / 3).toFixed(0);
+
+                if (index % labelSpace === 0) {
+                  return this.getLabelForValue(val);
+                } else return null;
+              },
+            },
+          },
+        },
       },
     };
-
-    setTimeout(() => {
-      let chart = new Chartist.Line(".ct-chart", chartData, options);
-      chart.on("draw", function (chartData) {
-        if (chartData.type === "line" || chartData.type === "area") {
-          chartData.element.animate({
-            d: {
-              begin: 200 * chartData.index,
-              dur: 1000,
-              from: chartData.path
-                .clone()
-                .scale(1, 0)
-                .translate(0, chartData.chartRect.height() + 15)
-                .stringify(),
-              to: chartData.path.clone().stringify(),
-              easing: Chartist.Svg.Easing.easeOutQuint,
-            },
-          });
-        }
-      });
-    }, 30);
+    var ctx = document.getElementById("feeprice-chart");
+    if (feepriceChart) {
+      feepriceChart.destroy();
+    }
+    feepriceChart = new Chart(ctx, config);
   }
 
   function updateTimeFrame(e) {
     hasLoaded = 0;
     chartData = {
       labels: [],
-      series: [],
+      datasets: [],
     };
 
-    const { sample = '1h', limit = 24 } = timeFrameMap[e.detail];
+    const { sample = "1h", limit = 24 } = timeFrameMap[e.detail];
 
     tables.forEach((table) => {
-      chartData.series.push({ name: table, data: {} });
       let query = `SELECT avg(val), ${table}.ts FROM ${table} SAMPLE BY ${sample} ORDER BY ${table}.ts desc LIMIT ${limit};`;
       let uri = getDataURI(query);
       loadChartData(uri, table);
-      seriesOptions[table] = { showPoint: false, showArea: true };
     });
   }
 </script>
 
-<div
-  class=" bg-gray-900 rounded-md w-full h-full p-2 shadow-2xl items-center flex flex-col justify-center"
->
-  <div class="p-2 flex justify-between w-full flex-wrap items-start gap-y-4">
-    <p class="text-lg font-bold order-1">Fee Insight</p>
-
-    <div class="order-2 lg:order-3">
-      <TimeFrameSelector on:selectTime={updateTimeFrame} />
-    </div>
-  </div>
-  {#if hasLoaded >= tables.length}
-    <p class="self-start pl-5">sat/vB</p>
-    <div class=" w-full h-full flex items-center">
-      <div class="ct-chart w-full h-full" />
-    </div>
-  {:else}
-    <div class="flex-grow place-items-center">
-      <Loader />
-    </div>
-  {/if}
-</div>
-
-<style>
-</style>
+<ChartCard
+  title={"Fee Insight"}
+  hasLoaded={hasLoaded >= tables.length}
+  chartId={"feeprice-chart"}
+  {updateTimeFrame}
+/>
