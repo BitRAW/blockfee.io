@@ -6,4 +6,4 @@ steps:
     entrypoint: 'npm'
     args: ['run', 'build']
   - name: gcr.io/cloud-builders/gsutil
-    args: ['-m', 'rsync', '-r', '-c', '-d', './public', 'gs://test.blockfee.io']
+    args: ['-m', 'rsync', '-r', '-c', '-d', './public', 'gs://${_BUCKET_URL}']
