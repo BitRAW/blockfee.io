@@ -13,7 +13,7 @@
     <PriceChart />
   </div>
   <div class="lg:col-span-1 col-span-2 lg:pr-0 h-full">
-    <SubsidyChart />
+    <!-- <SubsidyChart /> -->
   </div>
   <div class="lg:col-span-1 col-span-2 flex h-full flex-col">
     <BarComp />

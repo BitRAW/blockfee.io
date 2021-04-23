@@ -7,20 +7,12 @@
   import TimeFrameSelector from "./TimeFrameSelector.svelte";
   import Chart from "chart.js/auto";
   import dateFormat from "dateformat";
-  import Bar from "../Bar.svelte";
+  import Bar from "./Bar.svelte";
+  import { timeFrameMap } from "../../util/chartUtils";
 
   let data;
   let hasLoaded = false;
   var subsidyChart;
-
-  const timeFrameMap = {
-    "1h": { format: "h", duration: 1, sample: "10m" },
-    "6h": { format: "h", duration: 6, sample: "10m" },
-    "24h": { format: "d", duration: 1, sample: "10m" },
-    "7d": { format: "d", duration: 7, sample: "1h" },
-    "30d": { format: "d", duration: 30, sample: "1h" },
-    "1y": { format: "y", duration: 1, sample: "1d" },
-  };
 
   const tweenedStd = tweened(0, {
     duration: 1000,
@@ -145,7 +137,7 @@
 
     // let query = `SELECT avg(val), ts FROM median_fee WHERE ts > dateadd('${format}', - ${duration}, now()) SAMPLE BY 1h;`;
     // let query = `SELECT avg(val), ts FROM median_fee WHERE ts > dateadd('${format}', -${duration},  to_timestamp('2016-03-29T09:23:19', 'yyyy-MM-ddTHH:mm:ss')) SAMPLE BY ${sample};`;
-    let query = `SELECT avg(val), ts FROM median_fee WHERE ts > dateadd('${format}', -${duration},  to_timestamp('2012-08-13T09:23:19', 'yyyy-MM-ddTHH:mm:ss')) AND ts < to_timestamp('2017-08-13T09:23:19', 'yyyy-MM-ddTHH:mm:ss') SAMPLE BY ${sample};`;
+    let query = `SELECT avg(val), ts FROM median_fee WHERE ts > dateadd('${format}', -${duration},  to_timestamp('2013-08-13T09:23:19', 'yyyy-MM-ddTHH:mm:ss')) AND ts < to_timestamp('2013-08-13T09:23:19', 'yyyy-MM-ddTHH:mm:ss') SAMPLE BY ${sample};`;
     let uri = getDataURI(query);
     loadData(uri);
   }
@@ -154,16 +146,15 @@
 <div
   class="bg-gray-900 w-full h-full flex flex-col p-4 rounded-md shadow-lg justify-start pb-10"
 >
-  <div class="lg:flex flex-none">
-    <label
-      for="transaction fees graph"
-      class="font-bold w-full text-lg flex gap-4 items-center"
-      >Volatility
+  <div class="flex-col lg:flex justify-between flex-grow w-full p-2 gap-2">
+    <p class="text-lg font-bold flex gap-4 items-center w-full">
+      Volatility
       {#if !hasLoaded}
         <Loader />
       {/if}
-    </label>
-    <div class="">
+    </p>
+
+    <div>
       <TimeFrameSelector on:selectTime={updateTimeFrame} />
     </div>
   </div>

@@ -1,27 +1,17 @@
 <script lang="ts">
   import Chart from "chart.js/auto";
 
-  import TimeFrameSelector from "./TimeFrameSelector.svelte";
   import dateFormat from "dateformat";
 
-  import Loader from "./Loader.svelte";
   import { getDataURI } from "../../API/BitrawAPI";
   import { calculateBlockSubsidyRatio } from "../../API/BTCAPI";
+  import { timeFrameMap } from "../../util/chartUtils";
   import ChartCard from "./ChartCard.svelte";
 
   let tables = ["total_fee"];
 
   let hasLoaded = 0;
   var subsidyChart;
-
-  const timeFrameMap = {
-    "1h": { sample: "0", limit: 6 },
-    "6h": { sample: "0", limit: 36 },
-    "24h": { sample: "0", limit: 144 },
-    "7d": { sample: "12h", limit: 14 },
-    "30d": { sample: "3d", limit: 10 },
-    "1y": { sample: "1M", limit: 12 },
-  };
 
   async function loadChartData(uri, table) {
     let chartData = {
@@ -114,13 +104,11 @@
   function updateTimeFrame(e) {
     hasLoaded = 0;
 
-    const { limit = 24, sample = "1h" } = timeFrameMap[e.detail];
-
+    const { format = "h", duration = 6, sample = "10m" } = timeFrameMap[
+      e.detail
+    ];
     tables.forEach((table) => {
-      let subQuerryAvg = sample !== "0" ? "avg(val)" : "val";
-      let subQuerySample = sample !== "0" ? `SAMPLE BY ${sample}` : "";
-      let subQueryLimit = limit !== "0" ? `LIMIT ${limit}` : "";
-      let query = `SELECT  ${subQuerryAvg}, ${table}.ts as ts, blocks.block_nr FROM ${table} JOIN blocks on ts ${subQuerySample} ORDER BY ${table}.ts desc ${subQueryLimit};`;
+      let query = `SELECT avg(val), ${table}.ts, blocks.block_nr FROM ${table} join blocks on ts WHERE ${table}.ts > dateadd('${format}', -${duration},  to_timestamp('2013-06-24T09:23:19', 'yyyy-MM-ddTHH:mm:ss')) AND ${table}.ts < to_timestamp('2013-06-24T09:23:19', 'yyyy-MM-ddTHH:mm:ss') SAMPLE BY ${sample} ORDER BY ${table}.ts DESC;`;
       let uri = getDataURI(query);
       loadChartData(uri, table);
     });

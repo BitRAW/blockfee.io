@@ -19,18 +19,10 @@
 
 <div class="flex pr-2 text-xs font-bold">
   <div
-    class:bg-cyan-500={activeElem !== "1h"}
-    class:bg-cyan-600={activeElem === "1h"}
-    on:click={setActiveElem}
-    class="bg-cyan-500 hover:bg-cyan-600 rounded-l-sm p-2 transition ease-in-out cursor-pointer"
-  >
-    1h
-  </div>
-  <div
     class:bg-cyan-500={activeElem !== "6h"}
     class:bg-cyan-600={activeElem === "6h"}
     on:click={setActiveElem}
-    class="bg-cyan-500 hover:bg-cyan-600 p-2 transition ease-in-out cursor-pointer"
+    class="bg-cyan-500 hover:bg-cyan-600 rounded-l-sm p-2 transition ease-in-out cursor-pointer"
   >
     6h
   </div>
@@ -62,8 +54,16 @@
     class:bg-cyan-500={activeElem !== "1y"}
     class:bg-cyan-600={activeElem === "1y"}
     on:click={setActiveElem}
-    class="bg-cyan-500 hover:bg-cyan-600 rounded-r-sm p-2 transition ease-in-out cursor-pointer"
+    class="bg-cyan-500 hover:bg-cyan-600  p-2 transition ease-in-out cursor-pointer"
   >
     1y
+  </div>
+  <div
+    class:bg-cyan-500={activeElem !== "all"}
+    class:bg-cyan-600={activeElem === "all"}
+    on:click={setActiveElem}
+    class="bg-cyan-500 hover:bg-cyan-600 rounded-r-sm p-2 transition ease-in-out cursor-pointer"
+  >
+    all
   </div>
 </div>

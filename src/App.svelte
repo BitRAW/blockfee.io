@@ -8,9 +8,6 @@
 
   const routes = {
     "/": Index,
-    "/tv": wrap({
-      asyncComponent: () => import("./pages/TV.svelte"),
-    }),
     "/block/:id?": wrap({
       asyncComponent: () => import("./pages/Block.svelte"),
     }),
