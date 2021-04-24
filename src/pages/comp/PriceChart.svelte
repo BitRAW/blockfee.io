@@ -125,6 +125,7 @@
       },
     };
     var ctx = document.getElementById("feeprice-chart");
+    ctx.height = 400;
     if (feepriceChart) {
       feepriceChart.destroy();
     }

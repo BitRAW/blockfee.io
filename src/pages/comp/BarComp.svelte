@@ -123,6 +123,8 @@
       },
     };
     var ctx = document.getElementById("volatility-chart");
+    ctx.height = 400;
+
     if (subsidyChart) {
       subsidyChart.destroy();
     }
