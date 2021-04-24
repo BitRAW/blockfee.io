@@ -23,7 +23,7 @@
             <p class="font-bold text-sm text-gray-700">
               # <a class="underline" href="#/block/{item[1]}">{item[1]}</a>
             </p>
-            <p class="text-xs font-bold">Median Fee: {item[4]} sat/vB</p>
+            <p class="text-sm font-bold">Median Fee: {item[4]} sat/vB</p>
           </div>
         {/if}
       </div>
