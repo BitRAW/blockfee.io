@@ -23,11 +23,7 @@
             <p class="font-bold text-sm text-gray-700">
               # <a class="underline" href="#/block/{item[1]}">{item[1]}</a>
             </p>
-            <p class="text-xs text-red-700">Max Fee: {item[2]} sat/vB</p>
-            <p class="text-xs text">75th percentile: {item[3]} sat/vB</p>
             <p class="text-xs font-bold">Median Fee: {item[4]} sat/vB</p>
-            <p class="text-xs">25th percentile: {item[5]} sat/vB</p>
-            <p class="text-xs">min Fee: {item[6]} sat/vB</p>
           </div>
         {/if}
       </div>
