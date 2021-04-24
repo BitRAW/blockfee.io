@@ -97,14 +97,6 @@
             grid: {
               color: "rgba(228, 228, 231,.2)",
             },
-            ticks: {
-              // Include a dollar sign in the ticks
-              callback: function (value, index, values) {
-                return `${value} sat/vB`;
-              },
-            },
-            // max: 100,
-            // min: 0,
           },
           x: {
             borderColor: "rgba(228, 228, 231,.2)",
