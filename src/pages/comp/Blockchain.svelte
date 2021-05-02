@@ -1,18 +1,8 @@
 <script lang="ts">
   import Block from "./Block.svelte";
   import { getDataURI } from "../../API/BitrawAPI";
-  import lottie from "lottie-web";
-  import { onMount } from "svelte";
+  import { blockCache } from "../../stores";
 
-  onMount(() => {
-    lottie.loadAnimation({
-      container: document.getElementById("block-loading"),
-      renderer: "svg",
-      loop: true,
-      autoplay: true,
-      path: "../img/trail-circle.json",
-    });
-  });
   let items = [];
 
   fetchBlocks();
@@ -22,7 +12,7 @@
     );
     let request = await fetch(uri);
     let data = await request.json();
-    items = data.dataset;
+    items = data.dataset ? data.dataset : $blockCache;
   }
 </script>
 

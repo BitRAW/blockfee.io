@@ -3,14 +3,14 @@
 
   import dateFormat from "dateformat";
 
-  import { getDataURI } from "../../API/BitrawAPI";
+  import { getDataURI, buildQuery } from "../../API/BitrawAPI";
   import { calculateBlockSubsidyRatio } from "../../API/BTCAPI";
   import { timeFrameMap } from "../../util/chartUtils";
   import ChartCard from "./ChartCard.svelte";
 
-  let tables = ["total_fee"];
+  let tables = ["total_fee", "blocks"];
 
-  let hasLoaded = 0;
+  let hasLoaded = false;
   var subsidyChart;
 
   async function loadChartData(uri, table) {
@@ -20,7 +20,7 @@
     };
     const response = await fetch(uri);
     const data = await response.json();
-    hasLoaded++;
+    hasLoaded = true;
 
     let dataSet = {
       label: table,
@@ -35,15 +35,15 @@
 
     data.dataset.forEach((element) => {
       if (table === "total_fee") {
-        let date = new Date(element[1]);
+        let date = new Date(element[0]);
         chartData.labels.push(dateFormat(date, "dd.mm.yyyy HH:MM"));
       }
       let blockreward =
-        calculateBlockSubsidyRatio(element[2], element[0]) * 100;
+        calculateBlockSubsidyRatio(element[2], element[1]) * 100;
       dataSet.data.push(blockreward);
     });
     chartData.datasets.push(dataSet);
-    if (hasLoaded >= tables.length) {
+    if (hasLoaded) {
       createChart(chartData);
     }
   }
@@ -102,22 +102,20 @@
   }
 
   function updateTimeFrame(e) {
-    hasLoaded = 0;
+    hasLoaded = false;
 
-    const { format = "h", duration = 6, sample = "10m" } = timeFrameMap[
+    const { format = "h", duration = 6, sample = undefined } = timeFrameMap[
       e.detail
     ];
-    tables.forEach((table) => {
-      let query = `SELECT avg(val), ${table}.ts, blocks.block_nr FROM ${table} join blocks on ts WHERE ${table}.ts > dateadd('${format}', -${duration},  to_timestamp('2013-06-24T09:23:19', 'yyyy-MM-ddTHH:mm:ss')) AND ${table}.ts < to_timestamp('2013-06-24T09:23:19', 'yyyy-MM-ddTHH:mm:ss') SAMPLE BY ${sample} ORDER BY ${table}.ts DESC;`;
-      let uri = getDataURI(query);
-      loadChartData(uri, table);
-    });
+    let query = buildQuery(tables, format, duration, sample);
+    let uri = getDataURI(query);
+    loadChartData(uri, tables[0]);
   }
 </script>
 
 <ChartCard
   title={"Block Subsidy"}
-  hasLoaded={hasLoaded >= tables.length}
+  {hasLoaded}
   chartId={"subsidy-chart"}
   {updateTimeFrame}
 />

@@ -1,13 +1,20 @@
 <script lang="ts">
-  import { getDataURI } from "../../API/BitrawAPI";
+  import { buildQuery, getDataURI } from "../../API/BitrawAPI";
   import Chart from "chart.js/auto";
   import dateFormat from "dateformat";
   import ChartCard from "./ChartCard.svelte";
   import { timeFrameMap } from "../../util/chartUtils";
 
-  let tables = ["max_fee", "perc_75", "median_fee", "perc_25", "min_fee"];
+  let tables = [
+    "avg_fee",
+    "max_fee",
+    "perc_75",
+    "median_fee",
+    "perc_25",
+    "min_fee",
+  ];
 
-  let hasLoaded = 0;
+  let hasLoaded = false;
   var feepriceChart;
 
   const labelsMap = {
@@ -15,7 +22,8 @@
     perc_75: "75th Percentile",
     median_fee: "Median Fee",
     perc_25: "25th Percentile",
-    min_fee: "min Fee",
+    min_fee: "Min Fee",
+    avg_fee: "Average Fee",
   };
   const colorMap = {
     max_fee: "rgba(193, 69, 12, 1)",
@@ -23,47 +31,47 @@
     median_fee: "rgba(166, 193, 12, 1)",
     perc_25: "rgba(63, 193, 12, 1)",
     min_fee: "rgba(12, 193, 98, 1)",
+    avg_fee: "rgba(75, 192, 192, 1)",
   };
-  const colorBGMap = {
-    max_fee: "rgba(193, 69, 12, .2)",
-    perc_75: "rgba(193, 175, 12, .2)",
-    median_fee: "rgba(166, 193, 12, .2)",
-    perc_25: "rgba(63, 193, 12, .2)",
-    min_fee: "rgba(12, 193, 98, .2)",
-  };
+  // const colorBGMap = {
+  //   max_fee: "rgba(193, 69, 12, .2)",
+  //   perc_75: "rgba(193, 175, 12, .2)",
+  //   median_fee: "rgba(166, 193, 12, .2)",
+  //   perc_25: "rgba(63, 193, 12, .2)",
+  //   min_fee: "rgba(12, 193, 98, .2)",
+  // };
   let chartData = {
     labels: [],
     datasets: [],
   };
 
-  async function loadChartData(uri, table) {
+  async function loadChartData(uri, tables) {
     const response = await fetch(uri);
     const data = await response.json();
-    hasLoaded++;
-
-    let dataSet = {
-      label: labelsMap[table],
-      data: [],
-      fill: true,
-      backgroundColor: colorBGMap[table],
-      borderColor: colorMap[table],
-      tension: 0.2,
-      hidden: table === "max_fee" ? true : false,
-    };
-
+    hasLoaded = true;
     data.dataset.reverse();
 
-    data.dataset.forEach((element) => {
-      if (table === "median_fee") {
-        let date = new Date(element[1]);
-        chartData.labels.push(dateFormat(date, "dd.mm.yyyy HH:MM"));
-      }
-      dataSet.data.push(element[0]);
-    });
-
-    chartData.datasets.push(dataSet);
-
-    if (hasLoaded >= tables.length) {
+    for (let i = 1; i <= tables.length; i++) {
+      const table = tables[i - 1];
+      let dataSet = {
+        label: labelsMap[table],
+        data: [],
+        fill: false,
+        borderColor: colorMap[table],
+        tension: 0.2,
+        borderDash: table === "avg_fee" ? [10, 10] : [0, 0],
+        hidden: table === "max_fee" ? true : false,
+      };
+      data.dataset.forEach((element) => {
+        if (table === "median_fee") {
+          let date = new Date(element[0]);
+          chartData.labels.push(dateFormat(date, "dd.mm.yyyy HH:MM"));
+        }
+        dataSet.data.push(element[i]);
+      });
+      chartData.datasets.push(dataSet);
+    }
+    if (hasLoaded) {
       createChart(chartData);
     }
   }
@@ -125,28 +133,26 @@
   }
 
   function updateTimeFrame(e) {
-    hasLoaded = 0;
+    hasLoaded = false;
     chartData = {
       labels: [],
       datasets: [],
     };
 
-    const { format = "h", duration = 6, sample = "10m" } = timeFrameMap[
+    const { format = "h", duration = 6, sample = undefined } = timeFrameMap[
       e.detail
     ];
 
-    tables.forEach((table) => {
-      let query = `SELECT avg(val), ts FROM ${table} WHERE ts > dateadd('${format}', -${duration},  to_timestamp('2013-08-13T09:23:19', 'yyyy-MM-ddTHH:mm:ss')) AND ts < to_timestamp('2013-08-13T09:23:19', 'yyyy-MM-ddTHH:mm:ss') SAMPLE BY ${sample};`;
+    let query = buildQuery(tables, format, duration, sample);
 
-      let uri = getDataURI(query);
-      loadChartData(uri, table);
-    });
+    let uri = getDataURI(query);
+    loadChartData(uri, tables);
   }
 </script>
 
 <ChartCard
   title={"Fee Insight"}
-  hasLoaded={hasLoaded >= tables.length}
+  {hasLoaded}
   chartId={"feeprice-chart"}
   {updateTimeFrame}
 />
