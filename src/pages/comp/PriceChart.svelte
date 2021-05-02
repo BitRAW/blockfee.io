@@ -4,6 +4,7 @@
   import dateFormat from "dateformat";
   import ChartCard from "./ChartCard.svelte";
   import { timeFrameMap } from "../../util/chartUtils";
+  import { text6Hrs } from "../../util/infoTextUtils";
 
   let tables = [
     "avg_fee",
@@ -16,6 +17,7 @@
 
   let hasLoaded = false;
   var feepriceChart;
+  let isLive;
 
   const labelsMap = {
     max_fee: "Max Fee",
@@ -33,13 +35,7 @@
     min_fee: "rgba(12, 193, 98, 1)",
     avg_fee: "rgba(75, 192, 192, 1)",
   };
-  // const colorBGMap = {
-  //   max_fee: "rgba(193, 69, 12, .2)",
-  //   perc_75: "rgba(193, 175, 12, .2)",
-  //   median_fee: "rgba(166, 193, 12, .2)",
-  //   perc_25: "rgba(63, 193, 12, .2)",
-  //   min_fee: "rgba(12, 193, 98, .2)",
-  // };
+
   let chartData = {
     labels: [],
     datasets: [],
@@ -125,7 +121,6 @@
       },
     };
     var ctx = document.getElementById("feeprice-chart");
-    ctx.height = 400;
     if (feepriceChart) {
       feepriceChart.destroy();
     }
@@ -142,6 +137,7 @@
     const { format = "h", duration = 6, sample = undefined } = timeFrameMap[
       e.detail
     ];
+    isLive = duration + format === "6h" ? true : false;
 
     let query = buildQuery(tables, format, duration, sample);
 
@@ -155,4 +151,7 @@
   {hasLoaded}
   chartId={"feeprice-chart"}
   {updateTimeFrame}
+  infoContent={"This chart shows various percentiles of the fees paid in blocks. " +
+    text6Hrs}
+  {isLive}
 />

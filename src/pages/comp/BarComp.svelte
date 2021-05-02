@@ -3,16 +3,16 @@
   import { cubicOut } from "svelte/easing";
   import { getDataURI, buildQuery } from "../../API/BitrawAPI";
   import { getStandardDeviation } from "../../API/VolatilityAPI";
-  import Loader from "./Loader.svelte";
-  import TimeFrameSelector from "./TimeFrameSelector.svelte";
   import Chart from "chart.js/auto";
   import dateFormat from "dateformat";
-  import Bar from "./Bar.svelte";
   import { timeFrameMap } from "../../util/chartUtils";
+  import ChartCard from "./ChartCard.svelte";
+  import { text6Hrs } from "../../util/infoTextUtils";
 
   let data;
   let hasLoaded = false;
   var subsidyChart;
+  let isLive;
 
   const tweenedStd = tweened(0, {
     duration: 1000,
@@ -22,21 +22,21 @@
   async function loadData(uri) {
     const response = await fetch(uri);
     data = await response.json();
-    let extractedData = data.dataset.map((datapoint) => {
-      return datapoint[1];
-    });
+    // let extractedData = data.dataset.map((datapoint) => {
+    //   return datapoint[1];
+    // });
     hasLoaded = true;
-    showBar(getStandardDeviation(extractedData));
+    // showBar(getStandardDeviation(extractedData));
     showChart(data.dataset);
   }
 
-  function showBar(std) {
-    $tweenedStd = std;
-    let percentage = std >= 100 ? 100 : std;
-    let bar = document.getElementById("colat-bar");
-    bar.classList.remove("w-0");
-    bar.style.width = percentage + "%";
-  }
+  // function showBar(std) {
+  //   $tweenedStd = std;
+  //   let percentage = std >= 100 ? 100 : std;
+  //   let bar = document.getElementById("colat-bar");
+  //   bar.classList.remove("w-0");
+  //   bar.style.width = percentage + "%";
+  // }
 
   function showChart(data) {
     let chartData = {
@@ -122,7 +122,6 @@
       },
     };
     var ctx = document.getElementById("volatility-chart");
-    ctx.height = 400;
 
     if (subsidyChart) {
       subsidyChart.destroy();
@@ -136,27 +135,19 @@
       e.detail
     ];
 
+    isLive = duration + format === "6h" ? true : false;
     let query = buildQuery(["median_fee"], format, duration, sample);
     let uri = getDataURI(query);
     loadData(uri);
   }
 </script>
 
-<div
-  class="bg-gray-900 w-full h-full flex flex-col p-4 rounded-md shadow-lg justify-start pb-10"
->
-  <div class="flex-col lg:flex justify-between flex-grow w-full p-2 gap-2">
-    <p class="text-lg font-bold flex gap-4 items-center w-full">
-      Volatility
-      {#if !hasLoaded}
-        <Loader />
-      {/if}
-    </p>
-
-    <div>
-      <TimeFrameSelector on:selectTime={updateTimeFrame} />
-    </div>
-  </div>
-  <Bar {tweenedStd} />
-  <canvas class="w-full h-full" id="volatility-chart" />
-</div>
+<ChartCard
+  title={"Volatility"}
+  {hasLoaded}
+  chartId={"volatility-chart"}
+  {updateTimeFrame}
+  infoContent={"This chart shows the volatility of the median fees over time. " +
+    text6Hrs}
+  {isLive}
+/>

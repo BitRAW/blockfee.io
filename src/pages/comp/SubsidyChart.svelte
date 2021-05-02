@@ -1,17 +1,17 @@
 <script lang="ts">
   import Chart from "chart.js/auto";
-
   import dateFormat from "dateformat";
-
   import { getDataURI, buildQuery } from "../../API/BitrawAPI";
   import { calculateBlockSubsidyRatio } from "../../API/BTCAPI";
   import { timeFrameMap } from "../../util/chartUtils";
+  import { text6Hrs } from "../../util/infoTextUtils";
   import ChartCard from "./ChartCard.svelte";
 
   let tables = ["total_fee", "blocks"];
 
   let hasLoaded = false;
   var subsidyChart;
+  let isLive;
 
   async function loadChartData(uri, table) {
     let chartData = {
@@ -107,6 +107,8 @@
     const { format = "h", duration = 6, sample = undefined } = timeFrameMap[
       e.detail
     ];
+    isLive = duration + format === "6h" ? true : false;
+
     let query = buildQuery(tables, format, duration, sample);
     let uri = getDataURI(query);
     loadChartData(uri, tables[0]);
@@ -118,4 +120,7 @@
   {hasLoaded}
   chartId={"subsidy-chart"}
   {updateTimeFrame}
+  infoContent={"This chart shows what percentage of the block reward was due to the subsidy. " +
+    text6Hrs}
+  {isLive}
 />

@@ -1,18 +1,12 @@
 <script lang="ts">
   import Block from "./Block.svelte";
-  import { getDataURI } from "../../API/BitrawAPI";
   import { blockCache } from "../../stores";
 
   let items = [];
 
   fetchBlocks();
   async function fetchBlocks() {
-    let uri = getDataURI(
-      "SELECT blocks.ts as ts, block_nr, max_fee.val as max_fee, perc_75.val as perc_75, median_fee.val as median_fee, perc_25.val as perc_25, min_fee.val as min_fee, total_fee.val as total_fee FROM blocks JOIN max_fee ON (ts) JOIN perc_75 ON (ts) JOIN median_fee ON (ts) JOIN perc_25 ON (ts) JOIN min_fee ON (ts) JOIN total_fee ON (ts) order By ts desc limit 20"
-    );
-    let request = await fetch(uri);
-    let data = await request.json();
-    items = data.dataset ? data.dataset : $blockCache;
+    let items = $blockCache;
   }
 </script>
 
