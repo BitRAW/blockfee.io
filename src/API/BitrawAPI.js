@@ -53,7 +53,7 @@ async function fetchData(query) {
 }
 
 function fetchBlocks(days) {
-  let query = buildQuery(allCharts, 'd', days)
+  let query = buildQuery(allCharts, 'h', days)
   return fetchData(query)
 }
 

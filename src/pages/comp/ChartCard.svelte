@@ -19,7 +19,7 @@
   class=" bg-gray-900 rounded-md w-full h-full p-2 shadow-2xl items-center flex flex-col justify-center"
 >
   <div class="flex justify-between w-full items-start">
-    <div class="flex-col lg:flex justify-between flex-grow w-full p-2 gap-2">
+    <div class="flex-col lg:flex justify-between flex-grow w-full p-2">
       <p class="text-lg font-bold flex gap-4 items-center w-full">
         {title}
         {#if !hasLoaded}
@@ -64,7 +64,7 @@
 
   <Tippy elementId={infoId} content={infoContent} />
 
-  <div class=" w-full h-full flex items-center">
-    <canvas class="w-full h-full" id={chartId} />
+  <div class=" w-full lg:h-full  h-72 flex items-center">
+    <canvas class="w-full lg:h-full  h-72" id={chartId} />
   </div>
 </div>

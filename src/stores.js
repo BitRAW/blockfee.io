@@ -1,3 +1,3 @@
 import { writable } from 'svelte/store'
 
-export const blockCache = writable([])
+export const blockCache = writable([1])

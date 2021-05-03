@@ -53,6 +53,8 @@
       type: "line",
       data: data,
       options: {
+        responsive: true,
+        maintainAspectRatio: false,
         plugins: {
           tooltip: {
             callbacks: {

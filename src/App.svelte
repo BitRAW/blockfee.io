@@ -1,8 +1,7 @@
 <script lang="ts">
   import Router from "svelte-spa-router";
   import { wrap } from "svelte-spa-router/wrap";
-  import { writable } from "svelte/store";
-  import { fetchData, fetchBlocks } from "./API/BitrawAPI";
+  import { fetchBlocks } from "./API/BitrawAPI";
   import Index from "./Index.svelte";
   import Footer from "./main-comp/Footer.svelte";
   import Header from "./main-comp/Header.svelte";
@@ -18,9 +17,10 @@
   };
   // fetchBlockData();
   async function fetchBlockData() {
-    let data = await fetchBlocks(1500);
-    console.log(data);
-    $blockCache = data.dataset;
+    let data = await fetchBlocks(60);
+    blockCache.update(() => {
+      return data.dataset;
+    });
   }
 </script>
 
