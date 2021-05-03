@@ -54,7 +54,14 @@ async function fetchData(query) {
 
 function fetchBlocks(days) {
   let query = buildQuery(allCharts, 'h', days)
+  return fetchfromJson()
   return fetchData(query)
+}
+
+async function fetchfromJson() {
+  let request = await fetch('/data.json')
+  let data = await request.json()
+  return data
 }
 
 export { getDataURI, fetchData, fetchBlocks, buildQuery }

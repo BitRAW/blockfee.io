@@ -8,10 +8,6 @@
   import SubsidyChart from "./pages/comp/SubsidyChart.svelte";
   import { blockCache } from "./stores";
 
-  blockCache.subscribe((value) => {
-    console.log(value);
-  }); // logs '0'
-
   let rainbow;
   onMount(() => {
     rainbow = lottie.loadAnimation({
@@ -27,7 +23,7 @@
 {#if $blockCache.length > 0}
   <div class="grid grid-cols-2 w-full gap-4 chain-chart-grid p-4">
     <div class="col-span-2 overflow-x-scroll blockchain-scroll">
-      <!-- <Blockchain /> -->
+      <Blockchain />
     </div>
     <div class="lg:col-span-1 col-span-2 lg:pr-0 h-full">
       <PriceChart />

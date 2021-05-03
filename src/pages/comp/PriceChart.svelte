@@ -5,6 +5,8 @@
   import ChartCard from "./ChartCard.svelte";
   import { timeFrameMap } from "../../util/chartUtils";
   import { text6Hrs } from "../../util/infoTextUtils";
+  import { blockCache } from "../../stores";
+  import type { BlockInfo } from "../../objects/BlockInfo";
 
   let tables = [
     "avg_fee",
@@ -41,12 +43,29 @@
     datasets: [],
   };
 
-  async function loadChartData(uri, tables) {
+  async function loadChartData(uri) {
     const response = await fetch(uri);
     const data = await response.json();
     hasLoaded = true;
     data.dataset.reverse();
+    buildChartData(data);
+  }
 
+  function loadFromStore() {
+    let data = { dataset: [] };
+    data.dataset = $blockCache.map((item: BlockInfo) => {
+      let values = [];
+      values.push(item["ts"]);
+      tables.forEach((element) => {
+        values.push(item[element]);
+      });
+      return values;
+    });
+    console.log(data);
+    buildChartData(data);
+  }
+
+  function buildChartData(data) {
     for (let i = 1; i <= tables.length; i++) {
       const table = tables[i - 1];
       let dataSet = {
@@ -144,7 +163,10 @@
     let query = buildQuery(tables, format, duration, sample);
 
     let uri = getDataURI(query);
-    loadChartData(uri, tables);
+    if (isLive) {
+      loadFromStore();
+    }
+    loadChartData(uri);
   }
 </script>
 

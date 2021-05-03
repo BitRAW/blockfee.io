@@ -6,6 +6,7 @@
   import Footer from "./main-comp/Footer.svelte";
   import Header from "./main-comp/Header.svelte";
   import NotFound from "./NotFound.svelte";
+  import { BlockInfo } from "./objects/BlockInfo";
   import { blockCache } from "./stores";
 
   const routes = {
@@ -15,11 +16,13 @@
     }),
     "*": NotFound,
   };
-  // fetchBlockData();
+  fetchBlockData();
   async function fetchBlockData() {
     let data = await fetchBlocks(60);
     blockCache.update(() => {
-      return data.dataset;
+      return data.dataset.map((datapoint) => {
+        return new BlockInfo(datapoint);
+      });
     });
   }
 </script>
