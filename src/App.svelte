@@ -7,7 +7,7 @@
   import Header from "./main-comp/Header.svelte";
   import NotFound from "./NotFound.svelte";
   import { BlockInfo } from "./objects/BlockInfo";
-  import { blockCache } from "./stores";
+  import { blockCache, highest75percVal } from "./stores";
 
   const routes = {
     "/": Index,
@@ -24,6 +24,11 @@
         return new BlockInfo(datapoint);
       });
     });
+    $blockCache.forEach((item) => {
+      $highest75percVal =
+        $highest75percVal < item.perc_75 ? item.perc_75 : $highest75percVal;
+    });
+    console.log($highest75percVal);
   }
 </script>
 

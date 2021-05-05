@@ -5,10 +5,6 @@
 
   let currentScroll = 10;
   let items: Array<BlockInfo> = $blockCache.slice(0, currentScroll);
-  $: maxFee = 0;
-  $: $blockCache.forEach((item) => {
-    maxFee = maxFee < item.perc_75 ? item.perc_75 : maxFee;
-  });
 </script>
 
 <div
@@ -19,7 +15,7 @@
     <div class="" />
     {#each items as item}
       <div class="px-10">
-        <SimpleBlock {item} {maxFee} />
+        <SimpleBlock {item} />
       </div>
     {/each}
   </div>
