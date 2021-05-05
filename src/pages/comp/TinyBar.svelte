@@ -16,6 +16,7 @@
   export let colorClass;
   export let value;
   export let tooltip;
+  export let unit;
 
   onMount(() => {
     $tweenedPerc = percentage + 10;
@@ -36,6 +37,6 @@
       {$tweenedValue.toFixed(0)}
     </span>
   </div>
-  <p class="text-xs pl-2 align-middle">sat/vB</p>
+  <p class="text-xs pl-2 align-middle">{unit}</p>
   <Tippy elementId={id} content={tooltip} />
 </div>
