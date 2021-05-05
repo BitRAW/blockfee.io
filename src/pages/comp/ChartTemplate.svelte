@@ -174,6 +174,6 @@
   {hasLoaded}
   {chartId}
   {updateTimeFrame}
-  infoContent={popupInfo + text4Hrs}
+  infoContent={popupInfo + ' ' + text4Hrs}
   {isLive}
 />
