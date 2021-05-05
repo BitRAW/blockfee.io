@@ -15,9 +15,9 @@
 
   const chartUnit = "%";
 
-  const chartTitle = "Subsidy";
+  const chartTitle = "Block Subsidy";
   const popupInfo =
-    "shows the percentage of rewards coming from block subsidies.";
+    "Composition of block rewards for miners: Percentage of block subsidy (vs. transaction fees).";
 
   function dataManipulationFunction(data) {
     let newData = data.map((element) => {
