@@ -2,10 +2,10 @@
   import lottie from "lottie-web";
   import { onMount } from "svelte";
 
-  import BarComp from "./pages/comp/BarComp.svelte";
   import Blockchain from "./pages/comp/Blockchain.svelte";
   import PriceChart from "./pages/comp/PriceChart.svelte";
   import SubsidyChart from "./pages/comp/SubsidyChart.svelte";
+  import VolatilityChart from "./pages/comp/VolatilityChart.svelte";
   import { blockCache } from "./stores";
 
   let rainbow;
@@ -23,7 +23,6 @@
 {#if $blockCache.length > 0}
   <div class="grid grid-cols-2 w-full gap-4 chain-chart-grid p-4">
     <Blockchain />
-
     <div class="lg:col-span-1 col-span-2 lg:pr-0 h-full">
       <PriceChart />
     </div>
@@ -31,7 +30,7 @@
       <SubsidyChart />
     </div>
     <div class="lg:col-span-1 col-span-2 flex h-full flex-col">
-      <BarComp />
+      <VolatilityChart />
     </div>
   </div>
 {:else}
@@ -42,6 +41,6 @@
 
 <style>
   .chain-chart-grid {
-    grid-template-rows: 1fr 2fr;
+    grid-template-rows: 1fr;
   }
 </style>
