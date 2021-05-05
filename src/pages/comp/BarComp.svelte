@@ -1,6 +1,6 @@
 <script lang="ts">
   import { getStandardDeviation } from "../../API/VolatilityAPI";
-  import ChartTemplate from "./chartTemplate.svelte";
+  import ChartTemplate from "./ChartTemplate.svelte";
 
   const tables = ["median_fee"];
   const lines = ["volatility"];

@@ -93,6 +93,13 @@
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
+          legend: {
+            align: "start",
+            labels: {
+              boxWidth: 25,
+              boxHeight: 25,
+            },
+          },
           tooltip: {
             callbacks: {
               labelColor: function (context) {

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import ChartTemplate from "./chartTemplate.svelte";
+  import ChartTemplate from "./ChartTemplate.svelte";
 
   const chartId = "feeprice-chart";
   const tables = [
