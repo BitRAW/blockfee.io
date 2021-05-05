@@ -1,8 +1,6 @@
 <script lang="ts">
-  import { onMount } from "svelte";
   import { link } from "svelte-spa-router";
-  import type { BlockInfo } from "../objects/BlockInfo";
-  import { blockCache, highest75percVal } from "../stores";
+  import { blockCache } from "../stores";
   import BlockBig from "./comp/BlockBig.svelte";
 
   export let params = {};
@@ -12,7 +10,6 @@
   function getBlock(blockId) {
     reload = false;
     block = getBlockFromCache(blockId);
-    console.log(block);
     if (!block) block = getBlockFromAPI(blockId);
     setTimeout(() => {
       reload = true;
@@ -21,9 +18,14 @@
   }
 
   function getBlockFromCache(id: number) {
-    return $blockCache.filter((item) => {
-      return item.block_nr == id;
-    })[0];
+    if (!id) {
+      console.log();
+      return $blockCache[0];
+    } else {
+      return $blockCache.filter((item) => {
+        return item.block_nr == id;
+      })[0];
+    }
   }
   function getBlockFromAPI(id: number) {
     return getBlockFromCache(id);
