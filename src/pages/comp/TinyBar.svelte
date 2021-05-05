@@ -1,7 +1,10 @@
 <script>
   import { onMount } from "svelte";
   import { cubicOut } from "svelte/easing";
+  import { safe_not_equal } from "svelte/internal";
   import { tweened } from "svelte/motion";
+  import { generateId } from "../../util/randomUtils";
+  import Tippy from "../helper-comp/Tippy.svelte";
   const tweenedPerc = tweened(10, {
     duration: 1000,
     easing: cubicOut,
@@ -13,19 +16,27 @@
   export let percentage;
   export let colorClass;
   export let value;
+  export let tooltip;
 
   onMount(() => {
     $tweenedPerc = percentage + 10;
     $tweenedValue = value;
   });
+  let id = "tinybar" + generateId(8);
 </script>
 
-<div class="w-full h-full flex">
+<div class="w-full h-full flex align-middle">
   <div
-    class="bg-{colorClass} h-5 rounded-md bg-opacity-80 text-center align-middle text-xs text-{colorClass} text-opacity-100"
+    {id}
+    class="bg-{colorClass} h-5 rounded-md bg-opacity-80 text-xs text-{colorClass} text-opacity-100 flex justify-items-center"
     style="width:{$tweenedPerc}%;"
   >
-    {$tweenedValue.toFixed(0)}
+    <span
+      class="inline-block text-center w-full align-text-middle cursor-default"
+    >
+      {$tweenedValue.toFixed(0)}
+    </span>
   </div>
-  <p class="text-xs pl-2">sat/vB</p>
+  <p class="text-xs pl-2 align-middle">sat/vB</p>
+  <Tippy elementId={id} content={tooltip} />
 </div>

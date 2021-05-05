@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { link } from "svelte-spa-router";
   import type { BlockInfo } from "../../objects/BlockInfo";
   import TinyBar from "./TinyBar.svelte";
 
@@ -23,21 +22,25 @@
         percentage={percentage25}
         colorClass={"stroke2"}
         value={item.perc_25}
+        tooltip={"25th Percentile"}
       />
       <TinyBar
         percentage={percentageMedian}
         colorClass={"stroke3"}
         value={item.median_fee}
+        tooltip={"Median Fee"}
       />
       <TinyBar
         percentage={percentage75}
         colorClass={"stroke4"}
         value={item.perc_75}
+        tooltip={"75th Percentile"}
       />
       <TinyBar
         percentage={percentageAvg}
         colorClass={"cyan-500"}
         value={item.avg_fee}
+        tooltip={"Average Fee"}
       />
     </div>
   </div>

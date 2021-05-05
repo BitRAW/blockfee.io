@@ -10,7 +10,6 @@
   onMount(() => {
     tippy("#" + elementId, {
       content: content,
-      trigger: "click",
       placement: "bottom",
     });
   });

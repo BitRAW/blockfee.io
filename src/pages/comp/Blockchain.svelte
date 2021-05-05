@@ -3,24 +3,50 @@
   import type { BlockInfo } from "../../objects/BlockInfo";
   import SimpleBlock from "./SimpleBlock.svelte";
 
-  let items: Array<BlockInfo> = $blockCache;
+  let currentScroll = 10;
+  let items: Array<BlockInfo> = $blockCache.slice(0, currentScroll);
   $: maxFee = 0;
-  $: items.forEach((item) => {
+  $: $blockCache.forEach((item) => {
     maxFee = maxFee < item.perc_75 ? item.perc_75 : maxFee;
   });
 </script>
 
-<div class="flex py-10 mb-4">
-  <div class="">
-    <!-- <Block isLastBlock={true} item={{}} /> -->
-  </div>
-  {#each items as item}
-    <div class="px-10">
-      <SimpleBlock {item} {maxFee} />
-      <!-- <Block {item} /> -->
-    </div>
-  {/each}
-  <div class="px-10">
-    <!-- <Block isLastBlock={true} item={{}} /> -->
+<div
+  class="col-span-2 overflow-x-scroll blockchain-scroll"
+  id="blockchain-scroll"
+>
+  <div class="flex py-10 mb-4">
+    <div class="" />
+    {#each items as item}
+      <div class="px-10">
+        <SimpleBlock {item} {maxFee} />
+      </div>
+    {/each}
   </div>
 </div>
+
+<style>
+  .blockchain-scroll::-webkit-scrollbar {
+    height: 0.8em;
+    padding: 1em;
+  }
+
+  .blockchain-scroll::-webkit-scrollbar-track {
+    margin: 1em;
+    border-radius: 1em;
+    background: "transparent";
+  }
+
+  .blockchain-scroll::-webkit-scrollbar-thumb {
+    background: rgb(59, 59, 59);
+    border-radius: 1em;
+  }
+
+  .blockchain-scroll::-webkit-scrollbar-thumb:hover {
+    background: rgb(46, 46, 46);
+  }
+
+  .blockchain-scroll::-webkit-scrollbar-thumb:active {
+    background: rgb(41, 41, 41);
+  }
+</style>

@@ -8,7 +8,7 @@
   let infoId = "info-" + generateId(10);
 
   export let updateTimeFrame;
-  export let title;
+  export let chartTitle;
   export let hasLoaded;
   export let chartId;
   export let infoContent;
@@ -21,7 +21,7 @@
   <div class="flex justify-between w-full items-start">
     <div class="flex-col lg:flex justify-between flex-grow w-full p-2">
       <p class="text-lg font-bold flex gap-4 items-center w-full">
-        {title}
+        {chartTitle}
         {#if !hasLoaded}
           <Loader />
         {/if}

@@ -7,7 +7,7 @@
 
   onMount(() => {
     if (!activeElem) {
-      activeElem = "6h";
+      activeElem = "4h";
       dispatch("selectTime", activeElem);
     }
   });
@@ -19,12 +19,12 @@
 
 <div class="flex pr-2 text-xs font-bold">
   <div
-    class:bg-cyan-500={activeElem !== "6h"}
-    class:bg-cyan-600={activeElem === "6h"}
+    class:bg-cyan-500={activeElem !== "4h"}
+    class:bg-cyan-600={activeElem === "4h"}
     on:click={setActiveElem}
     class="bg-cyan-500 hover:bg-cyan-600 rounded-l-sm p-2 transition ease-in-out cursor-pointer"
   >
-    6h
+    4h
   </div>
   <div
     class:bg-cyan-500={activeElem !== "24h"}
