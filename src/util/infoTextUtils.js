@@ -1,4 +1,4 @@
 const text4Hrs =
-  'The 4 hours chart contains the exact values from . For the other charts, the avarage is taken to make the chart more readable.'
+    'The 4 hours chart contains data on individual blocks. On the other charts, the data is smoothed out by aggregating blocks over a period of time.'
 
 export { text4Hrs }
