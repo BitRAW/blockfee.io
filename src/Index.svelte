@@ -4,7 +4,6 @@
 
   import BarComp from "./pages/comp/BarComp.svelte";
   import Blockchain from "./pages/comp/Blockchain.svelte";
-  import ChartTemplate from "./pages/comp/chartTemplate.svelte";
   import PriceChart from "./pages/comp/PriceChart.svelte";
   import SubsidyChart from "./pages/comp/SubsidyChart.svelte";
   import { blockCache } from "./stores";

@@ -1,7 +1,6 @@
 <script>
   import { onMount } from "svelte";
   import { cubicOut } from "svelte/easing";
-  import { safe_not_equal } from "svelte/internal";
   import { tweened } from "svelte/motion";
   import { generateId } from "../../util/randomUtils";
   import Tippy from "../helper-comp/Tippy.svelte";
