@@ -16,7 +16,9 @@
     }),
     "*": NotFound,
   };
-  fetchBlockData();
+  setTimeout(() => {
+    fetchBlockData();
+  }, 3000);
   async function fetchBlockData() {
     let data = await fetchBlocks(60);
     blockCache.update(() => {

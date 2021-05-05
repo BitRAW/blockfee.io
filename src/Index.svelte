@@ -11,11 +11,11 @@
   let rainbow;
   onMount(() => {
     rainbow = lottie.loadAnimation({
-      container: document.getElementById("rainbow-loading"),
+      container: document.getElementById("bitraw-loading"),
       renderer: "svg",
       loop: true,
       autoplay: true,
-      path: "../img/leftright-rainbow.json",
+      path: "../img/bitraw-glare.json",
     });
   });
 </script>
@@ -35,7 +35,7 @@
   </div>
 {:else}
   <div class="w-full h-full flex items-center justify-center">
-    <div class="w-50 h-50" id="rainbow-loading" />
+    <div class="w-50 h-50" id="bitraw-loading" />
   </div>
 {/if}
 
