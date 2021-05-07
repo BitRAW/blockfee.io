@@ -51,7 +51,7 @@
     <div class="w-8 h-8" id="powered-lightning" />
 
     <p>by &nbsp;</p>
-    <p class="underline font-bold ">BitRaw</p>
+    <p class="underline font-bold ">BitRAW</p>
   </div>
   {#if !online}
   <div class="flex items-center gap-2 text-red-600">
