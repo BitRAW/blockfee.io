@@ -31,7 +31,7 @@
           </a>
         </li>
         <li class="h-10 w-10">
-          <a href="#/block">
+          <a href="#/block/">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

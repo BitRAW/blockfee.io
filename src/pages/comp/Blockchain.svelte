@@ -1,41 +1,48 @@
 <script lang="ts">
-  import Block from "./Block.svelte";
-  import { getDataURI } from "../../API/BitrawAPI";
-  import lottie from "lottie-web";
-  import { onMount } from "svelte";
+  import { blockCache } from "../../stores";
+  import type { BlockInfo } from "../../objects/BlockInfo";
+  import SimpleBlock from "./SimpleBlock.svelte";
 
-  onMount(() => {
-    lottie.loadAnimation({
-      container: document.getElementById("block-loading"),
-      renderer: "svg",
-      loop: true,
-      autoplay: true,
-      path: "../img/trail-circle.json",
-    });
-  });
-  let items = [];
-
-  fetchBlocks();
-  async function fetchBlocks() {
-    let uri = getDataURI(
-      "SELECT blocks.ts as ts, block_nr, max_fee.val as max_fee, perc_75.val as perc_75, median_fee.val as median_fee, perc_25.val as perc_25, min_fee.val as min_fee, total_fee.val as total_fee FROM blocks JOIN max_fee ON (ts) JOIN perc_75 ON (ts) JOIN median_fee ON (ts) JOIN perc_25 ON (ts) JOIN min_fee ON (ts) JOIN total_fee ON (ts) order By ts desc limit 20"
-    );
-    let request = await fetch(uri);
-    let data = await request.json();
-    items = data.dataset;
-  }
+  let currentScroll = 10;
+  let items: Array<BlockInfo> = $blockCache.slice(0, currentScroll);
 </script>
 
-<div class="flex py-10 mb-4">
-  <div class="px-10">
-    <Block isLastBlock={true} item={{}} />
-  </div>
-  {#each items as item}
-    <div class="px-10">
-      <Block {item} />
-    </div>
-  {/each}
-  <div class="px-10">
-    <Block isLastBlock={true} item={{}} />
+<div
+  class="col-span-2 overflow-x-scroll blockchain-scroll"
+  id="blockchain-scroll"
+>
+  <div class="flex py-10 mb-4">
+    <div class="" />
+    {#each items as item}
+      <div class="px-10">
+        <SimpleBlock {item} />
+      </div>
+    {/each}
   </div>
 </div>
+
+<style>
+  .blockchain-scroll::-webkit-scrollbar {
+    height: 0.8em;
+    padding: 1em;
+  }
+
+  .blockchain-scroll::-webkit-scrollbar-track {
+    margin: 1em;
+    border-radius: 1em;
+    background: "transparent";
+  }
+
+  .blockchain-scroll::-webkit-scrollbar-thumb {
+    background: rgb(59, 59, 59);
+    border-radius: 1em;
+  }
+
+  .blockchain-scroll::-webkit-scrollbar-thumb:hover {
+    background: rgb(46, 46, 46);
+  }
+
+  .blockchain-scroll::-webkit-scrollbar-thumb:active {
+    background: rgb(41, 41, 41);
+  }
+</style>
