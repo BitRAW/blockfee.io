@@ -1,4 +1,8 @@
 <script lang="ts">
+  import Lottie from "lottie-web";
+
+  import { onMount } from "svelte";
+
   import Router from "svelte-spa-router";
   import { wrap } from "svelte-spa-router/wrap";
   import { fetchBlocks } from "./API/BitrawAPI";
@@ -16,9 +20,7 @@
     }),
     "*": NotFound,
   };
-  setTimeout(() => {
-    fetchBlockData();
-  }, 3000);
+  fetchBlockData();
   async function fetchBlockData() {
     let data = await fetchBlocks(60);
     blockCache.update(() => {
@@ -32,12 +34,27 @@
     });
     console.log($highest75percVal);
   }
+  onMount(() => {
+    Lottie.loadAnimation({
+      container: document.getElementById("bitraw-loading"),
+      renderer: "svg",
+      loop: true,
+      autoplay: true,
+      path: "../img/bitraw-glare.json",
+    });
+  });
 </script>
 
 <div class="">
   <Header />
   <div class="pt-24 flex bg-gray-800 pb-14">
-    <Router {routes} />
+    {#if $blockCache[0]}
+      <Router {routes} />
+    {:else}
+      <div class="w-full h-full flex items-center justify-center">
+        <div class="w-50 h-50" id="bitraw-loading" />
+      </div>
+    {/if}
   </div>
   <Footer />
 </div>

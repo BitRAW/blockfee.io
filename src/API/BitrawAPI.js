@@ -1,6 +1,6 @@
 import { allCharts } from '../util/chartUtils'
 
-let host = 'https://backend-5.bitraw.io'
+let host = 'https://backend.bitraw.io'
 let path = 'exec'
 let param = 'query'
 
@@ -38,7 +38,7 @@ function buildQuery(tablesOrig, timeUnit, timeFrame, sample) {
       return ` join ${table} on ts`
     })
     .join('')
-  query += ` where ${firstTable}.ts > dateadd('${timeUnit}',-${timeFrame}, to_timestamp('2020-09-28T09:40:01', 'yyyy-MM-ddTHH:mm:ss'))`
+  query += ` where ${firstTable}.ts > dateadd('${timeUnit}',-${timeFrame}, now())`
   query += sample ? ' sample by ' + sample : ''
   query += ` order by ${firstTable}.ts desc`
   query += ';'
@@ -52,16 +52,9 @@ async function fetchData(query) {
   return data
 }
 
-function fetchBlocks(days) {
-  let query = buildQuery(allCharts, 'h', days)
-  return fetchfromJson()
+function fetchBlocks(hours) {
+  let query = buildQuery(allCharts, 'h', hours)
   return fetchData(query)
-}
-
-async function fetchfromJson() {
-  let request = await fetch('/data.json')
-  let data = await request.json()
-  return data
 }
 
 export { getDataURI, fetchData, fetchBlocks, buildQuery }

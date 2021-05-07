@@ -1,43 +1,23 @@
 <script lang="ts">
-  import lottie from "lottie-web";
-  import { onMount } from "svelte";
-
   import Blockchain from "./pages/comp/Blockchain.svelte";
   import PriceChart from "./pages/comp/PriceChart.svelte";
   import SubsidyChart from "./pages/comp/SubsidyChart.svelte";
-  import VolatilityChart from "./pages/comp/VolatilityChart.svelte";
-  import { blockCache } from "./stores";
-
-  let rainbow;
-  onMount(() => {
-    rainbow = lottie.loadAnimation({
-      container: document.getElementById("bitraw-loading"),
-      renderer: "svg",
-      loop: true,
-      autoplay: true,
-      path: "../img/bitraw-glare.json",
-    });
-  });
+  import TotalFeeChart from "./pages/comp/TotalFeeChart.svelte";
 </script>
 
-{#if $blockCache.length > 0}
-  <div class="grid grid-cols-2 w-full gap-4 chain-chart-grid p-4">
-    <Blockchain />
-    <div class="lg:col-span-1 col-span-2 lg:pr-0 h-full">
-      <PriceChart />
-    </div>
-    <div class="lg:col-span-1 col-span-2 lg:pr-0 h-full">
-      <SubsidyChart />
-    </div>
-    <div class="lg:col-span-1 col-span-2 flex h-full flex-col">
-      <VolatilityChart />
-    </div>
+<div class="grid grid-cols-2 w-full gap-4 chain-chart-grid p-4">
+  <Blockchain />
+  <div class="lg:col-span-1 col-span-2 lg:pr-0 h-full">
+    <PriceChart />
   </div>
-{:else}
-  <div class="w-full h-full flex items-center justify-center">
-    <div class="w-50 h-50" id="bitraw-loading" />
+  <div class="lg:col-span-1 col-span-2 lg:pr-0 h-full">
+    <SubsidyChart />
   </div>
-{/if}
+  <div class="lg:col-span-1 col-span-2 flex h-full flex-col">
+    <!-- <VolatilityChart /> -->
+    <TotalFeeChart />
+  </div>
+</div>
 
 <style>
   .chain-chart-grid {

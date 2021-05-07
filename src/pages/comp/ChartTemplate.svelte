@@ -75,7 +75,7 @@
           let date = new Date(element[0]);
           chartData.labels.push(dateFormat(date, "dd.mm.yyyy HH:MM"));
         }
-        dataSet.data.push(element[i]);
+        dataSet.data.push(element[i].toFixed(1));
       });
       hasSetTimestamps = true;
       chartData.datasets.push(dataSet);
