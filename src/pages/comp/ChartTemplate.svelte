@@ -4,7 +4,7 @@
   import dateFormat from "dateformat";
   import ChartCard from "./ChartCard.svelte";
   import { getOpacityForColor, timeFrameMap } from "../../util/chartUtils";
-  import { text6Hrs } from "../../util/infoTextUtils";
+  import { text4Hrs, textIgnoredEmptyBlocks } from "../../util/infoTextUtils";
   import { blockCache } from "../../stores";
   import type { BlockInfo } from "../../objects/BlockInfo";
 
@@ -174,6 +174,6 @@
   {hasLoaded}
   {chartId}
   {updateTimeFrame}
-  infoContent={popupInfo + text6Hrs}
+  infoContent={popupInfo + ' ' + text4Hrs + ' ' + textIgnoredEmptyBlocks}
   {isLive}
 />

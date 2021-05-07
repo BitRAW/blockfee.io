@@ -15,8 +15,8 @@
 
   const chartUnit = "sat/vB";
 
-  const chartTitle = "Volatility";
-  const popupInfo = "Shows the Median Fee Volatility over time.";
+  const chartTitle = "Fee Rate Volatility";
+  const popupInfo = "Standard deviation of the median fee rate over time. The higher the value, the more fee rates fluctuate from block to block.";
 
   function dataManipulationFunction(data) {
     let lookback = +(data.length / 4).toFixed(0);

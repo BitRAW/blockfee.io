@@ -1,4 +1,7 @@
-const text6Hrs =
-  ' Only the 6 hours chart contains unagregated data. For the other charts, the avarage is taken to make the chart more readable.'
+const text4Hrs =
+    'The 4 hours chart contains data on individual blocks. On the other charts, the data is smoothed out by aggregating blocks over a period of time.'
 
-export { text6Hrs }
+const textIgnoredEmptyBlocks =
+    'Empty blocks are considered data distortion and therefore disregarded.'
+
+export { text4Hrs, textIgnoredEmptyBlocks }

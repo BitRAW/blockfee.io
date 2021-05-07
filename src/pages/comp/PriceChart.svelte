@@ -17,7 +17,7 @@
 
   const chartTitle = "Fee Insight";
   const popupInfo =
-    "This chart shows various percentiles of the fees paid in blocks.";
+    "Per-block distribution of transaction fee rates in sat/vbyte.";
 
   const labelsMap = {
     avg_fee: "Average Fee",
