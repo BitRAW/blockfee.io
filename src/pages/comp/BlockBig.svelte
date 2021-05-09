@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { highest75percVal } from "../../stores";
   import TinyBar from "./TinyBar.svelte";
 

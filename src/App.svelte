@@ -22,7 +22,7 @@
   };
   fetchBlockData();
   async function fetchBlockData() {
-    let data = await fetchBlocks(60);
+    let data = await fetchBlocks(4);
     blockCache.update(() => {
       return data.dataset.map((datapoint) => {
         return new BlockInfo(datapoint);

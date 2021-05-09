@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { generateId } from "../../util/randomUtils";
 
   import Loader from "./Loader.svelte";
