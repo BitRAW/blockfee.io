@@ -19,15 +19,13 @@ function buildQuery(tablesOrig, timeUnit, timeFrame, sample) {
     query += tables
       .map((table) =>
         table === 'blocks'
-          ? `max(${table}.block_nr)`
+          ? `max(${table}.val)`
           : `avg(${table}.val) as ${table}`,
       )
       .join(', ')
   } else {
     query += tables
-      .map((table) =>
-        table === 'blocks' ? `${table}.block_nr` : `${table}.val as ${table}`,
-      )
+      .map((table) => table === `${table}.val as ${table}`)
       .join(', ')
   }
   query += ' from '
