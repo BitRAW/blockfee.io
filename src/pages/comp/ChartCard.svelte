@@ -1,11 +1,11 @@
 <script lang="ts">
-  import { generateId } from "../../util/randomUtils";
+  import {generateId} from '../../util/randomUtils';
 
-  import Loader from "./Loader.svelte";
-  import TimeFrameSelector from "./TimeFrameSelector.svelte";
-  import Tippy from "../helper-comp/Tippy.svelte";
+  import Loader from './Loader.svelte';
+  import TimeFrameSelector from './TimeFrameSelector.svelte';
+  import Tippy from '../helper-comp/Tippy.svelte';
 
-  let infoId = "info-" + generateId(10);
+  const infoId = 'info-' + generateId(10);
 
   export let updateTimeFrame;
   export let chartTitle;

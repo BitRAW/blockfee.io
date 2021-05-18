@@ -7,7 +7,9 @@
     "build": "npm run build:tailwind && rollup -c",
     "start": "sirv public",
     "serve": "serve public -p 80",
-    "dev": "concurrently \"rollup -c -w\" \"npm run watch:tailwind\""
+    "dev": "concurrently \"rollup -c -w\" \"npm run watch:tailwind\"",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^16.0.0",
@@ -16,10 +18,15 @@
     "@rollup/plugin-typescript": "^6.0.0",
     "@tsconfig/svelte": "^1.0.0",
     "@types/dateformat": "^3.0.1",
+    "@typescript-eslint/eslint-plugin": "^4.24.0",
+    "@typescript-eslint/parser": "^4.24.0",
     "autoprefixer": "^10.2.1",
     "concurrently": "^5.3.0",
     "cross-env": "^7.0.3",
     "dotenv": "^8.2.0",
+    "eslint": "^7.26.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-svelte3": "^3.2.0",
     "postcss-cli": "^8.3.1",
     "rollup": "^2.3.4",
     "rollup-plugin-css-only": "^3.1.0",

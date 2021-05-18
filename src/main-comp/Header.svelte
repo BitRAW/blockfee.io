@@ -1,5 +1,5 @@
 <script>
-  import { location } from "svelte-spa-router";
+  import {location} from 'svelte-spa-router';
 </script>
 
 <div
@@ -18,7 +18,7 @@
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
-              class:text-cyan-500={$location === "/"}
+              class:text-cyan-500={$location === '/'}
               class=" hover:text-gray-400 stroke-current cursor-pointer"
             >
               <path
@@ -37,7 +37,7 @@
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
-              class:text-cyan-500={$location.includes("/block")}
+              class:text-cyan-500={$location.includes('/block')}
               class="hover:text-gray-400 stroke-current cursor-pointer"
             >
               <path

@@ -1,13 +1,13 @@
 <script lang="ts">
-  import lottie from "lottie-web";
-  import { onMount } from "svelte";
+  import lottie from 'lottie-web';
+  import {onMount} from 'svelte';
   onMount(() => {
     lottie.loadAnimation({
-      container: document.getElementById("not-found-body"),
-      renderer: "svg",
+      container: document.getElementById('not-found-body'),
+      renderer: 'svg',
       loop: true,
       autoplay: true,
-      path: "../img/turkey.json",
+      path: '../img/turkey.json',
     });
   });
 </script>
