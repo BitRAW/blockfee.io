@@ -1,24 +1,24 @@
 <script>
-  import lottie from "lottie-web";
-  import { onMount } from "svelte";
+  import lottie from 'lottie-web';
+  import {onMount} from 'svelte';
   let lightning;
   let isLottiePlayed = false;
   let online;
 
   onMount(() => {
     lightning = lottie.loadAnimation({
-      container: document.getElementById("powered-lightning"),
-      renderer: "svg",
+      container: document.getElementById('powered-lightning'),
+      renderer: 'svg',
       loop: false,
       autoplay: false,
-      path: "../img/ui-lightning.json",
+      path: '../img/ui-lightning.json',
     });
     lottie.loadAnimation({
-      container: document.getElementById("bitraw-footer"),
-      renderer: "svg",
+      container: document.getElementById('bitraw-footer'),
+      renderer: 'svg',
       loop: true,
       autoplay: true,
-      path: "../img/bitraw-glare.json",
+      path: '../img/bitraw-glare.json',
     });
 
     updateOnlineState();
@@ -36,9 +36,9 @@
     }
     isLottiePlayed = !isLottiePlayed;
     setTimeout(() => {
-      Object.assign(document.createElement("a"), {
-        target: "_blank",
-        href: "https://bitraw.io",
+      Object.assign(document.createElement('a'), {
+        target: '_blank',
+        href: 'https://bitraw.io',
       }).click();
       setTimeout(() => {
         lightning.stop();

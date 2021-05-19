@@ -1,16 +1,16 @@
 <script>
-  import { onMount } from "svelte";
+  import {onMount} from 'svelte';
 
-  import tippy from "tippy.js";
-  import "tippy.js/dist/tippy.css";
+  import tippy from 'tippy.js';
+  import 'tippy.js/dist/tippy.css';
 
   export let elementId;
   export let content;
 
   onMount(() => {
-    tippy("#" + elementId, {
+    tippy('#' + elementId, {
       content: content,
-      placement: "bottom",
+      placement: 'bottom',
     });
   });
 </script>

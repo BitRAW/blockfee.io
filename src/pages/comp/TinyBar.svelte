@@ -1,9 +1,9 @@
 <script>
-  import { onMount } from "svelte";
-  import { cubicOut } from "svelte/easing";
-  import { tweened } from "svelte/motion";
-  import { generateId } from "../../util/randomUtils";
-  import Tippy from "../helper-comp/Tippy.svelte";
+  import {onMount} from 'svelte';
+  import {cubicOut} from 'svelte/easing';
+  import {tweened} from 'svelte/motion';
+  import {generateId} from '../../util/randomUtils';
+  import Tippy from '../helper-comp/Tippy.svelte';
   const tweenedPerc = tweened(10, {
     duration: 1000,
     easing: cubicOut,
@@ -22,7 +22,7 @@
     $tweenedPerc = percentage + 10;
     $tweenedValue = value;
   });
-  let id = "tinybar" + generateId(8);
+  const id = 'tinybar' + generateId(8);
 </script>
 
 <div class="w-full h-full flex align-middle">

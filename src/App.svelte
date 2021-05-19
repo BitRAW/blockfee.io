@@ -1,28 +1,28 @@
 <script lang="ts">
-  import Lottie from "lottie-web";
+  import Lottie from 'lottie-web';
 
-  import { onMount } from "svelte";
+  import {onMount} from 'svelte';
 
-  import Router from "svelte-spa-router";
-  import { wrap } from "svelte-spa-router/wrap";
-  import { fetchBlocks } from "./API/BitrawAPI";
-  import Index from "./Index.svelte";
-  import Footer from "./main-comp/Footer.svelte";
-  import Header from "./main-comp/Header.svelte";
-  import NotFound from "./NotFound.svelte";
-  import { BlockInfo } from "./objects/BlockInfo";
-  import { blockCache, highest75percVal } from "./stores";
+  import Router from 'svelte-spa-router';
+  import {wrap} from 'svelte-spa-router/wrap';
+  import {fetchBlocks} from './API/BitrawAPI';
+  import Index from './Index.svelte';
+  import Footer from './main-comp/Footer.svelte';
+  import Header from './main-comp/Header.svelte';
+  import NotFound from './NotFound.svelte';
+  import {BlockInfo} from './objects/BlockInfo';
+  import {blockCache, highest75percVal} from './stores';
 
   const routes = {
-    "/": Index,
-    "/block/:id?": wrap({
-      asyncComponent: () => import("./pages/Block.svelte"),
+    '/': Index,
+    '/block/:id?': wrap({
+      asyncComponent: () => import('./pages/Block.svelte'),
     }),
-    "*": NotFound,
+    '*': NotFound,
   };
   fetchBlockData();
   async function fetchBlockData() {
-    let data = await fetchBlocks(4);
+    const data = await fetchBlocks(4);
     blockCache.update(() => {
       return data.dataset.map((datapoint) => {
         return new BlockInfo(datapoint);
@@ -36,11 +36,11 @@
   }
   onMount(() => {
     Lottie.loadAnimation({
-      container: document.getElementById("bitraw-loading"),
-      renderer: "svg",
+      container: document.getElementById('bitraw-loading'),
+      renderer: 'svg',
       loop: true,
       autoplay: true,
-      path: "../img/bitraw-glare.json",
+      path: '../img/bitraw-glare.json',
     });
   });
 </script>
