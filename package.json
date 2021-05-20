@@ -1,6 +1,6 @@
 {
   "name": "blockfee-io-frontend",
-  "version": "0.1.0",
+	"version": "0.1.1",
   "scripts": {
     "watch:tailwind": "postcss public/tailwind.css -o public/index.css -w",
     "build:tailwind": "cross-env NODE_ENV=production postcss public/tailwind.css -o public/index.css",

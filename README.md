@@ -15,6 +15,10 @@ Is currently under developement, no version has been released
 
 Pipelines for this project have been setup on google cloud. Branches that start with feature will be deployed on the dev.blockfee.io environment, while only the main branch will be deployed onto blockfee.io. other branches are ignored.
 
+### Versioning
+
+The script [versionUp.sh](versionUp.sh) is used to update versions. For historic releases, see [VERSIONS](VERSIONS.md).
+
 ## Technology
 
 - TypeScript
