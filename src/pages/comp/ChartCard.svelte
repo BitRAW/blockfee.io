@@ -1,11 +1,11 @@
 <script lang="ts">
-  import {generateId} from '../../util/randomUtils';
+  import { generateId } from "../../util/randomUtils";
 
-  import Loader from './Loader.svelte';
-  import TimeFrameSelector from './TimeFrameSelector.svelte';
-  import Tippy from '../helper-comp/Tippy.svelte';
+  import Loader from "./Loader.svelte";
+  import TimeFrameSelector from "./TimeFrameSelector.svelte";
+  import Tippy from "../helper-comp/Tippy.svelte";
 
-  const infoId = 'info-' + generateId(10);
+  const infoId = "info-" + generateId(10);
 
   export let updateTimeFrame;
   export let chartTitle;
@@ -33,13 +33,14 @@
     </div>
     <div class="w-full font-bold text-red-600 pt-2">
       {#if isLive}
-        <div class="flex items-center gap-2">
+        <!-- TODO: activate when polling is implemented -->
+        <!-- <div class="flex items-center gap-2">
           <div class="inline-flex absolute w-2 h-2 rounded-full bg-red-600" />
           <div
             class="inline-flex w-2 h-2 rounded-full animate-ping bg-red-600"
           />
           <p>Live</p>
-        </div>
+        </div> -->
       {/if}
     </div>
     <div class="pr-10 pt-2">

@@ -28,7 +28,8 @@
     }
   }
   function getBlockFromAPI(id: number) {
-    return getBlockFromCache(id);
+    //TODO: load block from api for real
+    return getBlockFromCache($blockCache[0].block_nr);
   }
 </script>
 
@@ -58,7 +59,7 @@
     {/if}
   </div>
   <div
-    class="m-2 w-full lg:w-1/3 border-gray-200 border-2 border-dashed rounded-lg flex-col justify-start h-96"
+    class="m-2 w-full lg:w-1/3 border-gray-200 border-2 border-dashed rounded-lg flex-col justify-start h-72"
   >
     {#if reload}
       <BlockBig {block} />

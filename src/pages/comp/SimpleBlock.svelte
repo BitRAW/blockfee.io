@@ -22,10 +22,10 @@
     </div>
     <div class="grid grid-cols-1 gap-1 flex-grow pt-1">
       <TinyBar
-        percentage={percentage25}
-        colorClass={"stroke2"}
-        value={item.perc_25}
-        tooltip={"25th Percentile"}
+        percentage={percentage75}
+        colorClass={"stroke4"}
+        value={item.perc_75}
+        tooltip={"75th Percentile"}
         {unit}
       />
       <TinyBar
@@ -36,10 +36,10 @@
         {unit}
       />
       <TinyBar
-        percentage={percentage75}
-        colorClass={"stroke4"}
-        value={item.perc_75}
-        tooltip={"75th Percentile"}
+        percentage={percentage25}
+        colorClass={"stroke2"}
+        value={item.perc_25}
+        tooltip={"25th Percentile"}
         {unit}
       />
       <TinyBar
