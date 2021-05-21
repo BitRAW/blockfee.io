@@ -20,7 +20,7 @@
 >
   <div class="flex justify-between w-full items-start">
     <div class="flex-col lg:flex justify-between flex-grow w-full p-2">
-      <p class="text-lg font-bold flex gap-4 items-center w-full">
+      <p class="text-lg font-bold flex gap-4 pb-2 items-center w-full">
         {chartTitle}
         {#if !hasLoaded}
           <Loader />
