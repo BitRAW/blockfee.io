@@ -1,6 +1,8 @@
 #!/bin/bash
 
-echo enter version number: 
+currentVersion=$(node -p -e "require('./package.json').version")
+
+echo enter version number \(current is $currentVersion\): 
 
 read versionNumber
 
