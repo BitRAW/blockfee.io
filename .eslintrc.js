@@ -23,5 +23,7 @@ module.exports = {
   ],
   rules: {
     'require-jsdoc': ['off'],
+    'camelcase': ['off'],
+    'linebreak-style': ['off'],
   },
 };
