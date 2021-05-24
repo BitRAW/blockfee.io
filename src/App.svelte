@@ -32,7 +32,6 @@
       $highest75percVal =
         $highest75percVal < item.perc_75 ? item.perc_75 : $highest75percVal;
     });
-    console.log($highest75percVal);
   }
   onMount(() => {
     Lottie.loadAnimation({

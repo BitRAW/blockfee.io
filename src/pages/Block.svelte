@@ -35,12 +35,12 @@
 
 <div class="h-full w-full flex justify-center start items-center">
   <div class="h-full w-6">
-    {#if block.block_nr < $blockCache[0].block_nr}
-      <a
-        href="/block/{block.block_nr + 1}"
-        use:link
-        on:click={() => (block = getBlock(block.block_nr + 1))}
-      >
+    <a
+    href="/block/{block.block_nr - 1}"
+    use:link
+    on:click={() => (block = getBlock(block.block_nr - 1))}
+  >
+
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="h-6 w-6 hover:text-cyan-500"
@@ -56,7 +56,6 @@
           />
         </svg>
       </a>
-    {/if}
   </div>
   <div
     class="m-2 w-full lg:w-1/3 border-gray-200 border-2 border-dashed rounded-lg flex-col justify-start h-72"
@@ -65,11 +64,12 @@
       <BlockBig {block} />
     {/if}
   </div>
+  {#if block.block_nr < $blockCache[0].block_nr}
 
   <a
-    href="/block/{block.block_nr - 1}"
-    use:link
-    on:click={() => (block = getBlock(block.block_nr - 1))}
+  href="/block/{block.block_nr + 1}"
+  use:link
+  on:click={() => (block = getBlock(block.block_nr + 1))}
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -86,4 +86,6 @@
       />
     </svg>
   </a>
+  {/if}
+
 </div>

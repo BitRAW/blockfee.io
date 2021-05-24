@@ -14,7 +14,6 @@
     <SubsidyChart />
   </div>
   <div class="lg:col-span-1 col-span-2 flex h-full flex-col">
-    <!-- <VolatilityChart /> -->
     <TotalFeeChart />
   </div>
 </div>
