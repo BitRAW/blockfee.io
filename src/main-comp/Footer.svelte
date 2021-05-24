@@ -1,7 +1,7 @@
 <script>
   import lottie from 'lottie-web';
   import {onMount} from 'svelte';
-  import {version} from '../../version'
+  import {version} from '../../version';
   let lightning;
   let isLottiePlayed = false;
   let online;
