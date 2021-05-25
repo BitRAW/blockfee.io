@@ -28,7 +28,7 @@
 <div class="w-full h-full flex align-middle">
   <div
     {id}
-    class="bg-{colorClass} h-5 rounded-md bg-opacity-80 text-xs text-{colorClass} text-opacity-100 flex justify-items-center"
+    class="bg-{colorClass} h-5 rounded-md bg-opacity-70 text-xs text-{colorClass} text-opacity-100 flex justify-items-center"
     style="width:{$tweenedPerc}%;"
   >
     <span
