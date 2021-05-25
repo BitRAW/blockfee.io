@@ -50,8 +50,8 @@
     {#if $blockCache[0]}
       <Router {routes} />
     {:else}
-      <div class="w-full h-full flex items-center justify-center">
-        <div class="w-50 h-50" id="bitraw-loading" />
+      <div class="z-5 w-full opacity-30 flex items-center justify-center">
+        <div class="w-24 h-24" id="bitraw-loading" />
       </div>
     {/if}
   </div>

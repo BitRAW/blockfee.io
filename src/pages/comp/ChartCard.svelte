@@ -65,7 +65,7 @@
 
   <Tippy elementId={infoId} content={infoContent} />
 
-  <div class=" w-full lg:h-full  h-72 flex items-center">
-    <canvas class="w-full lg:h-full  h-72" id={chartId} />
+  <div class=" w-full h-80 flex items-center">
+    <canvas class="w-full h-80" id={chartId} />
   </div>
 </div>
