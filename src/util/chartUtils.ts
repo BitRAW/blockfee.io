@@ -1,20 +1,11 @@
 const timeFrameMap = {
-  '4h': {format: 'h', duration: 4, sample: undefined},
-  '24h': {format: 'd', duration: 1, sample: '2h'},
-  '7d': {format: 'd', duration: 7, sample: '12h'},
-  '30d': {format: 'd', duration: 30, sample: '2d'},
-  '1y': {format: 'y', duration: 1, sample: '1M'},
-  'all': {format: 'y', duration: 999, sample: '4M'},
+  '4h': {timeframeUnit: 'h', timeframe: 4, sampleUnit: undefined, sample: undefined},
+  '24h': {timeframeUnit: 'd', timeframe: 1, sampleUnit: 'h', sample: 2},
+  '7d': {timeframeUnit: 'd', timeframe: 7, sampleUnit: 'h', sample: 12},
+  '30d': {timeframeUnit: 'd', timeframe: 30, sampleUnit: 'd', sample: 2},
+  '1y': {timeframeUnit: 'y', timeframe: 1, sampleUnit: 'M', sample: 1},
+  'all': {timeframeUnit: 'y', timeframe: 999, sampleUnit: 'M', sample: 4},
 };
-
-const allCharts = ['blocks',
-  'total_fee',
-  'avg_fee',
-  'min_fee',
-  'perc_25',
-  'median_fee',
-  'perc_75',
-  'max_fee'];
 
 function getOpacityForColor(colorString, opacity) {
   colorString = colorString.substring(0, colorString.length - 2);
@@ -22,4 +13,4 @@ function getOpacityForColor(colorString, opacity) {
   return colorString;
 }
 
-export {timeFrameMap, allCharts, getOpacityForColor};
+export {timeFrameMap, getOpacityForColor};

@@ -1,9 +1,10 @@
 <script lang="ts">
   import {calculateBlockSubsidyRatio} from '../../API/BTCAPI';
+import {BlockInfo} from '../../objects/BlockInfo';
   import ChartTemplate from './ChartTemplate.svelte';
 
-  const tables = ['total_fee', 'blocks'];
   const lines = ['subsidy'];
+  const resource = 'block/list';
   const labelsMap = {
     subsidy: 'Subsidy',
   };
@@ -21,10 +22,8 @@
 
   function dataManipulationFunction(data) {
     const newData = data.map((element) => {
-      return [
-        element[0],
-        calculateBlockSubsidyRatio(element[2], element[1]) * 100,
-      ];
+      element.subsidy = calculateBlockSubsidyRatio(element.block_nr, element.total_fee) * 100;
+      return element;
     });
     return newData;
   }
@@ -33,7 +32,7 @@
 </script>
 
 <ChartTemplate
-  {tables}
+  {resource}
   {lines}
   {labelsMap}
   {colorMap}

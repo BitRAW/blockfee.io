@@ -9,17 +9,15 @@ export class BlockInfo {
     perc_75: number
     max_fee: number
 
-    constructor(arr: Array<any>) {
-      [
-        this.ts,
-        this.block_nr,
-        this.total_fee,
-        this.avg_fee,
-        this.min_fee,
-        this.perc_25,
-        this.median_fee,
-        this.perc_75,
-        this.max_fee,
-      ] = arr;
+    constructor(obj: any) {
+      this.ts=obj.ts;
+      this.block_nr=obj.block_nr;
+      this.avg_fee=obj.avg_fee;
+      this.total_fee=obj.total_fee;
+      this.min_fee=obj.min_fee;
+      this.perc_25=obj.perc_25;
+      this.median_fee=obj.median_fee;
+      this.perc_75=obj.perc_75;
+      this.max_fee=obj.max_fee;
     }
 }

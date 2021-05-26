@@ -2,7 +2,8 @@
   import ChartTemplate from './ChartTemplate.svelte';
 
   const chartId = 'feeprice-chart';
-  const tables = [
+  const resource = 'block/list';
+  const lines = [
     'avg_fee',
     'max_fee',
     'perc_75',
@@ -10,8 +11,6 @@
     'perc_25',
     'min_fee',
   ];
-
-  const lines = tables;
 
   const chartUnit = 'sat/vB';
 
@@ -44,7 +43,7 @@
 </script>
 
 <ChartTemplate
-  {tables}
+  {resource}
   {lines}
   {labelsMap}
   {colorMap}

@@ -2,9 +2,9 @@
   import ChartTemplate from './ChartTemplate.svelte';
 
   const chartId = 'totalfee-chart';
-  const tables = ['total_fee'];
+  const resource = 'block/list';
 
-  const lines = tables;
+  const lines = ['total_fee'];
 
   const chartUnit = 'sat';
 
@@ -26,7 +26,7 @@
 </script>
 
 <ChartTemplate
-  {tables}
+  {resource}
   {lines}
   {labelsMap}
   {colorMap}
