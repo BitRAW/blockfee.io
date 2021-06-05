@@ -16,8 +16,8 @@
 <div class="p-1 w-40 h-40 rounded-lg border-dashed border-gray-200 border-2">
   <div class="w-full h-full flex-col items-center">
     <div class="w-full flex justify-center">
-      <a href="#/block/{item.block_nr}" class="font-bold underline"
-        >#{item.block_nr}</a
+      <a href="#/block/{item.block}" class="font-bold underline"
+        >#{item.block}</a
       >
     </div>
     <div class="grid grid-cols-1 gap-1 flex-grow pt-1">

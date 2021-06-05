@@ -1,5 +1,3 @@
-import {allCharts} from '../util/chartUtils';
-
 const host = 'https://api.bitraw.io';
 
 function getDataURI(path) {

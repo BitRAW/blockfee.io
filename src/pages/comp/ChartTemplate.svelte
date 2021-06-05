@@ -30,8 +30,8 @@
 
   async function loadChartData(uri) {
     const response = await fetch(uri);
-    const data = await response.json();
-    data.reverse().map((datapoint) => {
+    let data = await response.json();
+    data = data.reverse().map((datapoint) => {
       return new BlockInfo(datapoint);
     });
     buildChartData(data);
@@ -61,7 +61,7 @@
         borderColor: colorMap[line],
         tension: 0.2,
         borderDash: line === 'avg_fee' ? [10, 10] : [0, 0],
-        hidden: line === 'max_fee' ? true : false,
+        hidden: line === 'max_fee' || line === 'perc_90'|| line === 'perc_10' ? true : false,
       };
       if (!hasSetTimestamps) {
         data.forEach((element) => {
@@ -88,8 +88,8 @@
           legend: {
             align: 'start',
             labels: {
-              boxWidth: 25,
-              boxHeight: 25,
+              boxWidth: 20,
+              boxHeight: 20,
             },
           },
           tooltip: {

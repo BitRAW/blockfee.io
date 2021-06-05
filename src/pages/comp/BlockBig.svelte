@@ -13,7 +13,7 @@
 </script>
 
 <div class="p-2 border-b border-dashed font-bold text-lg w-full text-center">
-  #{block.block_nr}
+  #{block.block}
 </div>
 <div class="p-2">
   <p class="font-bold">Fee percentiles:</p>

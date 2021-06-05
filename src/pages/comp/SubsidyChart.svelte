@@ -22,7 +22,7 @@ import {BlockInfo} from '../../objects/BlockInfo';
 
   function dataManipulationFunction(data) {
     const newData = data.map((element) => {
-      element.subsidy = calculateBlockSubsidyRatio(element.block_nr, element.total_fee) * 100;
+      element.subsidy = calculateBlockSubsidyRatio(element.block, element.total_fee) * 100;
       return element;
     });
     return newData;
