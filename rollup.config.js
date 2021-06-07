@@ -1,46 +1,46 @@
-import svelte from 'rollup-plugin-svelte'
-import commonjs from '@rollup/plugin-commonjs'
-import resolve from '@rollup/plugin-node-resolve'
-import livereload from 'rollup-plugin-livereload'
-import { terser } from 'rollup-plugin-terser'
-import sveltePreprocess from 'svelte-preprocess'
-import typescript from '@rollup/plugin-typescript'
-import css from 'rollup-plugin-css-only'
-import { config } from 'dotenv'
-import replace from '@rollup/plugin-replace'
-import json from 'rollup-plugin-json'
-import { generateSW } from 'rollup-plugin-workbox'
+import svelte from 'rollup-plugin-svelte';
+import commonjs from '@rollup/plugin-commonjs';
+import resolve from '@rollup/plugin-node-resolve';
+import livereload from 'rollup-plugin-livereload';
+import {terser} from 'rollup-plugin-terser';
+import sveltePreprocess from 'svelte-preprocess';
+import typescript from '@rollup/plugin-typescript';
+import css from 'rollup-plugin-css-only';
+import {config} from 'dotenv';
+import replace from '@rollup/plugin-replace';
+import json from 'rollup-plugin-json';
+import {injectManifest} from 'rollup-plugin-workbox';
 
-const workboxConfig = require('./workbox-config.js')
-const production = !process.env.ROLLUP_WATCH
+const workboxConfig = require('./workbox-config.js');
+const production = !process.env.ROLLUP_WATCH;
 
 function serve() {
-  let server
+  let server;
 
   function toExit() {
-    if (server) server.kill(0)
+    if (server) server.kill(0);
   }
 
   return {
     writeBundle() {
-      if (server) return
+      if (server) return;
       server = require('child_process').spawn(
-        'npm',
-        ['run', 'start', '--', '--dev'],
-        {
-          stdio: ['ignore', 'inherit', 'inherit'],
-          shell: true,
-        },
-      )
+          'npm',
+          ['run', 'start', '--', '--dev'],
+          {
+            stdio: ['ignore', 'inherit', 'inherit'],
+            shell: true,
+          },
+      );
 
-      process.on('SIGTERM', toExit)
-      process.on('exit', toExit)
+      process.on('SIGTERM', toExit);
+      process.on('exit', toExit);
     },
-  }
+  };
 }
 
 export default {
-  input: 'src/main.ts',
+  input: [ 'src/main.ts', 'service-worker.js'],
   output: {
     sourcemap: !production,
     format: 'es',
@@ -58,7 +58,7 @@ export default {
     }),
     // we'll extract any component CSS out into
     // a separate file - better for performance
-    css({ output: 'bundle.css' }),
+    css({output: 'bundle.css'}),
 
     // If you have external dependencies installed from
     // npm, you'll most likely need these plugins. In
@@ -97,9 +97,9 @@ export default {
     // instead of npm run dev), minify
     production && terser(),
 
-    production && generateSW(workboxConfig)
+    production && injectManifest(workboxConfig),
   ],
   watch: {
     clearScreen: false,
   },
-}
+};

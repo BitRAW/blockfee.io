@@ -5,12 +5,14 @@
 
   import Router from 'svelte-spa-router';
   import {wrap} from 'svelte-spa-router/wrap';
+  import { addAlert } from './alert';
   import {fetchBlocks} from './API/BitrawAPI';
   import Index from './Index.svelte';
   import Footer from './main-comp/Footer.svelte';
   import Header from './main-comp/Header.svelte';
   import NotFound from './NotFound.svelte';
   import {BlockInfo} from './objects/BlockInfo';
+  import Alerts from './pages/comp/Alerts.svelte';
   import {blockCache, highest75percVal} from './stores';
 
   const routes = {
@@ -22,17 +24,24 @@
   };
   fetchBlockData();
   async function fetchBlockData() {
-    const data = await fetchBlocks(4);
-    blockCache.update(() => {
-      return data.map((datapoint) => {
-        return new BlockInfo(datapoint);
+    try {
+      const data = await fetchBlocks(4);
+
+      blockCache.update(() => {
+        return data.map((datapoint) => {
+          return new BlockInfo(datapoint);
+        });
       });
-    });
-    $blockCache.forEach((item) => {
-      $highest75percVal =
-        $highest75percVal < item.perc_75 ? item.perc_75 : $highest75percVal;
-    });
+
+      $blockCache.forEach((item) => {
+        $highest75percVal =
+          $highest75percVal < item.perc_75 ? item.perc_75 : $highest75percVal;
+      });
+    } catch {
+      addAlert({ message: 'Failed loading blocks', severity: 'error' })
+    }
   }
+
   onMount(() => {
     Lottie.loadAnimation({
       container: document.getElementById('bitraw-loading'),
@@ -56,4 +65,5 @@
     {/if}
   </div>
   <Footer />
+  <Alerts />
 </div>
