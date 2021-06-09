@@ -33,4 +33,11 @@ function fetchBlocks(hours) {
   return fetchData('block/list', 'h', hours);
 }
 
-export {buildUrl, fetchData, fetchBlocks};
+async function fetchBlock(id) {
+  const uri = getDataURI('block/'+id);
+  const request = await fetch(uri);
+  const data = await request.json();
+  return data;
+}
+
+export {buildUrl, fetchData, fetchBlocks, fetchBlock};

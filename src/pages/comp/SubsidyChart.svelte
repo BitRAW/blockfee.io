@@ -1,6 +1,5 @@
 <script lang="ts">
   import {calculateBlockSubsidyRatio} from '../../API/BTCAPI';
-import {BlockInfo} from '../../objects/BlockInfo';
   import ChartTemplate from './ChartTemplate.svelte';
 
   const lines = ['subsidy'];
