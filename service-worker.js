@@ -16,7 +16,7 @@ addEventListener('message', (event) => {
 
 // Cache Api calls with a Cache First strategy
 registerRoute(
-    ({url}) => url.origin === 'https://backend.bitraw.io',
+    ({url}) => url.origin === 'https://api.bitraw.io',
     new CacheFirst({
       cacheName: 'api-calls',
       plugins: [
