@@ -8,12 +8,35 @@ Is currently under developement, no version has been released
 
 ### Local
 
-> git clone git@github.com:BitRAW/blockfee.io.git .
-> npm install
+Clone the repo:
+
+`git clone git@github.com:BitRAW/blockfee.io.git .`
+
+Install dependencies:
+
+`npm install`
+
+Run in develepment mode:
+
+`npm run dev`
+
+### Build
+
+To build a production release locally, run:
+
+`npm run build`
 
 ### CI/CD
 
-Pipelines for this project have been setup on google cloud. Branches that start with feature will be deployed on the dev.blockfee.io environment, while only the main branch will be deployed onto blockfee.io. other branches are ignored.
+Pipelines for this project have been setup on google cloud via [cloudbuild.yaml](cloudbuild.yaml). Branches that start with feature will be deployed on the dev.blockfee.io environment, while only the main branch will be deployed onto blockfee.io. other branches are ignored.
+
+### Versioning
+
+The script [versionUp.sh](versionUp.sh) is used to update versions.
+
+`./versionUp.sh`
+
+For historic releases, see [VERSIONS](VERSIONS.md).
 
 ## Technology
 

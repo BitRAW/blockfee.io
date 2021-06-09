@@ -1,45 +1,42 @@
 <script lang="ts">
   import { link } from "svelte-spa-router";
+  import { fetchBlock } from "../API/BitrawAPI";
+  import { BlockInfo } from "../objects/BlockInfo";
   import { blockCache } from "../stores";
   import BlockBig from "./comp/BlockBig.svelte";
 
   export let params = {};
-  let reload = true;
   $: block = getBlock(params.id);
 
   function getBlock(blockId) {
-    reload = false;
     block = getBlockFromCache(blockId);
     if (!block) block = getBlockFromAPI(blockId);
-    setTimeout(() => {
-      reload = true;
-    }, 0);
     return block;
   }
 
   function getBlockFromCache(id: number) {
     if (!id) {
-      console.log();
       return $blockCache[0];
     } else {
       return $blockCache.filter((item) => {
-        return item.block_nr == id;
+        return item.block == id;
       })[0];
     }
   }
   function getBlockFromAPI(id: number) {
-    return getBlockFromCache(id);
+    return new BlockInfo(fetchBlock(id));
   }
 </script>
 
+
 <div class="h-full w-full flex justify-center start items-center">
   <div class="h-full w-6">
-    {#if block.block_nr < $blockCache[0].block_nr}
-      <a
-        href="/block/{block.block_nr + 1}"
-        use:link
-        on:click={() => (block = getBlock(block.block_nr + 1))}
-      >
+    <a
+    href="/block/{block.block - 1}"
+    use:link
+    on:click={() => (block = getBlock(block.block - 1))}
+  >
+
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="h-6 w-6 hover:text-cyan-500"
@@ -55,20 +52,18 @@
           />
         </svg>
       </a>
-    {/if}
   </div>
   <div
-    class="m-2 w-full lg:w-1/3 border-gray-200 border-2 border-dashed rounded-lg flex-col justify-start h-96"
+    class="m-2 w-full lg:w-1/3 border-gray-200 border-2 border-dashed rounded-lg flex-col justify-start h-72"
   >
-    {#if reload}
       <BlockBig {block} />
-    {/if}
   </div>
+  {#if block.block < $blockCache[0].block}
 
   <a
-    href="/block/{block.block_nr - 1}"
-    use:link
-    on:click={() => (block = getBlock(block.block_nr - 1))}
+  href="/block/{block.block + 1}"
+  use:link
+  on:click={() => (block = getBlock(block.block + 1))}
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -85,4 +80,7 @@
       />
     </svg>
   </a>
+  {/if}
+
 </div>
+

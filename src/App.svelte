@@ -24,7 +24,7 @@
   async function fetchBlockData() {
     const data = await fetchBlocks(4);
     blockCache.update(() => {
-      return data.dataset.map((datapoint) => {
+      return data.map((datapoint) => {
         return new BlockInfo(datapoint);
       });
     });
@@ -32,7 +32,6 @@
       $highest75percVal =
         $highest75percVal < item.perc_75 ? item.perc_75 : $highest75percVal;
     });
-    console.log($highest75percVal);
   }
   onMount(() => {
     Lottie.loadAnimation({
@@ -51,8 +50,8 @@
     {#if $blockCache[0]}
       <Router {routes} />
     {:else}
-      <div class="w-full h-full flex items-center justify-center">
-        <div class="w-50 h-50" id="bitraw-loading" />
+      <div class="z-5 w-full opacity-30 flex items-center justify-center">
+        <div class="w-24 h-24" id="bitraw-loading" />
       </div>
     {/if}
   </div>

@@ -1,6 +1,6 @@
 export class BlockInfo {
     ts: string
-    block_nr: number
+    block: number
     total_fee: number
     avg_fee: number
     min_fee: number
@@ -11,19 +11,17 @@ export class BlockInfo {
     perc_90: number
     max_fee: number
 
-    constructor(arr: Array<any>) {
-      [
-        this.ts,
-        this.block_nr,
-        this.total_fee,
-        this.avg_fee,
-        this.min_fee,
-        this.perc_10,
-        this.perc_25,
-        this.median_fee,
-        this.perc_75,
-        this.perc_90,
-        this.max_fee,
-      ] = arr;
+    constructor(obj: any) {
+      this.ts=obj.ts;
+      this.block=obj.block;
+      this.avg_fee=obj.avgFee;
+      this.total_fee=obj.totalFee;
+      this.min_fee=obj.minFee;
+      this.perc_10=obj.perc10;
+      this.perc_25=obj.perc25;
+      this.median_fee=obj.medianFee;
+      this.perc_75=obj.perc75;
+      this.perc_90=obj.perc90;
+      this.max_fee=obj.maxFee;
     }
 }

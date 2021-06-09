@@ -1,6 +1,6 @@
 {
-  "name": "svelte-ts-tailwind-base",
-  "version": "1.0.0",
+  "name": "blockfee-io-frontend",
+	"version": "0.2.0",
   "scripts": {
     "watch:tailwind": "postcss public/tailwind.css -o public/index.css -w",
     "build:tailwind": "cross-env NODE_ENV=production postcss public/tailwind.css -o public/index.css",

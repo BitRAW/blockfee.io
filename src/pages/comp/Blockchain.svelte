@@ -2,9 +2,14 @@
   import { blockCache } from "../../stores";
   import type { BlockInfo } from "../../objects/BlockInfo";
   import SimpleBlock from "./SimpleBlock.svelte";
+import { onMount } from "svelte";
 
   let currentScroll = 10;
-  let items: Array<BlockInfo> = $blockCache.slice(0, currentScroll);
+  let items: Array<BlockInfo> = $blockCache.slice(0, currentScroll).reverse();
+  onMount(()=>{
+    var elem = document.getElementById('blockchain-scroll');
+    elem.scrollLeft = elem.scrollWidth;
+  })
 </script>
 
 <div

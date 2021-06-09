@@ -1,58 +1,43 @@
-import {allCharts} from '../util/chartUtils';
+const host = 'https://api.bitraw.io';
 
-const host = 'https://backend.bitraw.io';
-const path = 'exec';
-const param = 'query';
-
-function getDataURI(query) {
-  const url = `${host}/${path}?${param}=${query}`;
+function getDataURI(path) {
+  const url = `${host}/${path}`;
   return encodeURI(url);
 }
 
-function buildQuery(tablesOrig, timeUnit, timeFrame, sample) {
-  const tables = [...tablesOrig];
-  const firstTable = tables[0];
-
-  let query = 'select ';
-  query += firstTable + '.ts, ';
-  if (sample) {
-    query += tables
-        .map((table) =>
-        table === 'blocks' ?
-          `max(${table}.val)` :
-          `avg(${table}.val) as ${table}`,
-        )
-        .join(', ');
-  } else {
-    query += tables
-        .map((table) => `${table}.val as ${table}`)
-        .join(', ');
+function buildUrl(resource, timeframeUnit, timeframe, sampleUnit, sample) {
+  let path = resource;
+  if (timeframeUnit === undefined || timeframe === undefined) {
+    return getDataURI(path);
   }
-  query += ' from ';
-  query += firstTable;
-  tables.shift(); // remove first table of array
-  query += tables
-      .map((table) => {
-        return ` join ${table} on ts`;
-      })
-      .join('');
-  query += ` where ${firstTable}.ts > dateadd('${timeUnit}',-${timeFrame}, now())`;
-  query += sample ? ' sample by ' + sample : '';
-  query += ` order by ${firstTable}.ts desc`;
-  query += ';';
-  return query;
+  path+=`?timeframeUnit=${timeframeUnit}`;
+  path+=`&timeframe=${timeframe}`;
+
+  if (sampleUnit === undefined || sample === undefined) {
+    return getDataURI(path);
+  }
+  path+=`&sampleUnit=${sampleUnit}`;
+  path+=`&sample=${sample}`;
+
+  return getDataURI(path);
 }
 
-async function fetchData(query) {
-  const uri = getDataURI(query);
+async function fetchData(resource, timeframeUnit, timeframe, sampleUnit, sample) {
+  const uri = buildUrl(resource, timeframeUnit, timeframe, sampleUnit, sample);
   const request = await fetch(uri);
   const data = await request.json();
   return data;
 }
 
 function fetchBlocks(hours) {
-  const query = buildQuery(allCharts, 'h', hours);
-  return fetchData(query);
+  return fetchData('block/list', 'h', hours);
 }
 
-export {getDataURI, fetchData, fetchBlocks, buildQuery};
+async function fetchBlock(id) {
+  const uri = getDataURI('block/'+id);
+  const request = await fetch(uri);
+  const data = await request.json();
+  return data;
+}
+
+export {buildUrl, fetchData, fetchBlocks, fetchBlock};

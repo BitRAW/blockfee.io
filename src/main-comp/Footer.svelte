@@ -1,6 +1,7 @@
 <script>
   import lottie from 'lottie-web';
   import {onMount} from 'svelte';
+  import {version} from '../../version';
   let lightning;
   let isLottiePlayed = false;
   let online;
@@ -46,19 +47,23 @@
       }, 500);
     }, 800);
   }
+  
 </script>
 
 <svelte:window on:online={updateOnlineState} on:offline={updateOnlineState} />
 
-<div class="fixed bottom-0 w-full h-10 bg-gray-900 flex justify-center gap-8">
+<div class="fixed bottom-0 w-full h-10 bg-gray-900 flex justify-between gap-8">
+  <div class='w-24'></div>
   <div
     on:click={playLightning}
-    class="hover:text-amber-300 flex items-center justify-center cursor-pointer"
+    class="hover:text-amber-300 flex items-center justify-center cursor-pointer flex-grow"
   >
     <div class="w-8 h-8" id="powered-lightning" />
 
-    <p>by &nbsp;</p>
-    <p class="underline font-bold ">BitRAW</p>
+    <div class="flex h-full items-center">
+      <div>by &nbsp;</div>
+      <div class="underline font-bold">BitRAW</div>
+    </div>
     <span class="w-10 h-10" id="bitraw-footer" />
   </div>
   {#if !online}
@@ -77,4 +82,5 @@
       You are offline!
     </div>
   {/if}
+  <div class="w-24 text-center text-gray-600 text-xs flex items-center">Version {version}</div>
 </div>

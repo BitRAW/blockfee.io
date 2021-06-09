@@ -20,7 +20,7 @@
 >
   <div class="flex justify-between w-full items-start">
     <div class="flex-col lg:flex justify-between flex-grow w-full p-2">
-      <p class="text-lg font-bold flex gap-4 items-center w-full">
+      <p class="text-lg font-bold flex gap-4 pb-2 items-center w-full">
         {chartTitle}
         {#if !hasLoaded}
           <Loader />
@@ -33,13 +33,14 @@
     </div>
     <div class="w-full font-bold text-red-600 pt-2">
       {#if isLive}
-        <div class="flex items-center gap-2">
+        <!-- TODO: activate when polling is implemented -->
+        <!-- <div class="flex items-center gap-2">
           <div class="inline-flex absolute w-2 h-2 rounded-full bg-red-600" />
           <div
             class="inline-flex w-2 h-2 rounded-full animate-ping bg-red-600"
           />
           <p>Live</p>
-        </div>
+        </div> -->
       {/if}
     </div>
     <div class="pr-10 pt-2">
@@ -64,7 +65,7 @@
 
   <Tippy elementId={infoId} content={infoContent} />
 
-  <div class=" w-full lg:h-full  h-72 flex items-center">
-    <canvas class="w-full lg:h-full  h-72" id={chartId} />
+  <div class=" w-full h-80 flex items-center">
+    <canvas class="w-full h-80" id={chartId} />
   </div>
 </div>

@@ -7,20 +7,19 @@
 
 <div class="grid grid-cols-2 w-full gap-4 chain-chart-grid p-4">
   <Blockchain />
-  <div class="lg:col-span-1 col-span-2 lg:pr-0 h-full">
+  <div class="col-span-2 lg:pr-0">
     <PriceChart />
   </div>
   <div class="lg:col-span-1 col-span-2 lg:pr-0 h-full">
     <SubsidyChart />
   </div>
-  <div class="lg:col-span-1 col-span-2 flex h-full flex-col">
-    <!-- <VolatilityChart /> -->
+  <div class="lg:col-span-1 col-span-2 flex h-full">
     <TotalFeeChart />
   </div>
 </div>
 
 <style>
   .chain-chart-grid {
-    grid-template-rows: 1fr;
+    grid-template-rows: 1fr,1fr,1fr,1fr;
   }
 </style>
