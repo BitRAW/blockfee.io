@@ -4,7 +4,7 @@
   import SimpleBlock from "./SimpleBlock.svelte";
 import { onMount } from "svelte";
 
-  let currentScroll = 10;
+  let currentScroll = 20;
   let items: Array<BlockInfo> = $blockCache.slice(0, currentScroll).reverse();
   onMount(()=>{
     var elem = document.getElementById('blockchain-scroll');
@@ -16,10 +16,13 @@ import { onMount } from "svelte";
   class="col-span-2 overflow-x-scroll blockchain-scroll"
   id="blockchain-scroll"
 >
-  <div class="flex py-10 mb-4">
-    <div class="" />
-    {#each items as item}
-      <div class="px-10">
+  <div class="flex py-2">
+    <div />
+    {#each items as item,i}
+      <div class="pl-5 relative">
+        {#if i===items.length-1}
+        <div class="absolute bg-red-700 text-xs font-bold p-2 rounded-full right-0 z-10 shadow-md -mt-2 -mr-2">latest</div> 
+        {/if}
         <SimpleBlock {item} />
       </div>
     {/each}
@@ -39,15 +42,15 @@ import { onMount } from "svelte";
   }
 
   .blockchain-scroll::-webkit-scrollbar-thumb {
-    background: rgb(59, 59, 59);
+    background: rgba(24, 24, 27);
     border-radius: 1em;
   }
 
   .blockchain-scroll::-webkit-scrollbar-thumb:hover {
-    background: rgb(46, 46, 46);
+    background: rgb(26, 26, 26);
   }
 
   .blockchain-scroll::-webkit-scrollbar-thumb:active {
-    background: rgb(41, 41, 41);
+    background: rgb(31, 31, 31);
   }
 </style>

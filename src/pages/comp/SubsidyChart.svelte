@@ -3,6 +3,7 @@
   import ChartTemplate from './ChartTemplate.svelte';
 
   const lines = ['subsidy'];
+  const hiddenLines = [];
   const resource = 'block/list';
   const labelsMap = {
     subsidy: 'Subsidy',
@@ -21,7 +22,7 @@
 
   function dataManipulationFunction(data) {
     const newData = data.map((element) => {
-      element.subsidy = calculateBlockSubsidyRatio(element.block, element.total_fee) * 100;
+      element.subsidy = (calculateBlockSubsidyRatio(element.block, element.total_fee) * 100).toFixed(2);
       return element;
     });
     return newData;
@@ -33,6 +34,7 @@
 <ChartTemplate
   {resource}
   {lines}
+  {hiddenLines}
   {labelsMap}
   {colorMap}
   {chartId}

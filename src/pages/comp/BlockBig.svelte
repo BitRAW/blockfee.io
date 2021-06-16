@@ -4,18 +4,22 @@
 
   export let block;
   $: percentageMin = (block.min_fee / $highest75percVal) * 100;
+  $: percentage10 = (block.perc_10 / $highest75percVal) * 100;
   $: percentage25 = (block.perc_25 / $highest75percVal) * 100;
   $: percentageMedian = (block.median_fee / $highest75percVal) * 100;
   $: percentage75 = (block.perc_75 / $highest75percVal) * 100;
+  $: percentage90 = (block.perc_90 / $highest75percVal) * 100;
   $: percentageAvg = (block.avg_fee / $highest75percVal) * 100;
   $: percentageMax = 100;
   $: unit = 'sat/vB';
 </script>
 
-<div class="p-2 border-b border-dashed font-bold text-lg w-full text-center">
-  #{block.block}
-</div>
-<div class="p-2">
+<div 
+class="bg-gray-900 rounded-md w-full h-full p-2 shadow-2xl"
+>
+  <p class="text-center font-bold text-lg">
+    #{block.block}
+  </p>
   <p class="font-bold">Fee percentiles:</p>
   <div class="grid grid-cols-4 gap-2 items-center">
     <div>Max Fee</div>
@@ -25,6 +29,17 @@
         colorClass={'stroke5'}
         value={block.max_fee}
         tooltip={'Max Fee'}
+        {unit}
+      />
+    </div>
+    
+    <div>90th Percentile</div>
+    <div class="col-span-3">
+      <TinyBar
+        percentage={percentage90}
+        colorClass={'gray2'}
+        value={block.perc_90}
+        tooltip={'90th Percentile'}
         {unit}
       />
     </div>
@@ -55,6 +70,16 @@
         colorClass={'stroke2'}
         value={block.perc_25}
         tooltip={'25th Percentile'}
+        {unit}
+      />
+    </div>
+    <div>10th Percentile</div>
+    <div class="col-span-3">
+      <TinyBar
+        percentage={percentage10}
+        colorClass={'gray2'}
+        value={block.perc_10}
+        tooltip={'10th Percentile'}
         {unit}
       />
     </div>

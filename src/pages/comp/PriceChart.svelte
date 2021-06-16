@@ -14,6 +14,12 @@
     'min_fee',
   ];
 
+  const hiddenLines = [
+    'Max Fee',
+    '90th Percentile',
+    '10th Percentile',
+  ]
+
   const chartUnit = 'sat/vB';
 
   const chartTitle = 'Fee Insight';
@@ -51,6 +57,7 @@
 <ChartTemplate
   {resource}
   {lines}
+  {hiddenLines}
   {labelsMap}
   {colorMap}
   {chartId}

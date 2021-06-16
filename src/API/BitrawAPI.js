@@ -34,7 +34,8 @@ function fetchBlocks(hours) {
 }
 
 async function fetchBlock(id) {
-  const uri = getDataURI('block/'+id);
+  id= (id === undefined || id === null)? '': id;
+  const uri = getDataURI('block/'+ id);
   const request = await fetch(uri);
   const data = await request.json();
   return data;

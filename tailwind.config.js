@@ -1,4 +1,4 @@
-const colors = require('tailwindcss/colors')
+const colors = require('tailwindcss/colors');
 module.exports = {
   purge: {
     content: ['./public/**/*.html', './src/**/*.svelte'],
@@ -32,8 +32,10 @@ module.exports = {
       stroke3: '#a6c10c',
       stroke4: '#c1af0c',
       stroke5: '#c1450c',
+      gray1: '#abb7b7',
+      gray2: '#e4e9ed',
     },
   },
   variants: {},
   plugins: [],
-}
+};

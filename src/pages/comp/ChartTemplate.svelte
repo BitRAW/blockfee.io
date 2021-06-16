@@ -1,12 +1,12 @@
 <script lang="ts">
-  import {buildUrl} from '../../API/BitrawAPI';
-  import Chart from 'chart.js/auto';
-  import dateFormat from 'dateformat';
-  import ChartCard from './ChartCard.svelte';
-  import {getOpacityForColor, timeFrameMap} from '../../util/chartUtils';
-  import {text4Hrs, textIgnoredEmptyBlocks} from '../../util/infoTextUtils';
-  import {blockCache} from '../../stores';
-  import {BlockInfo} from '../../objects/BlockInfo';
+  import { buildUrl } from "../../API/BitrawAPI";
+  import Chart from "chart.js/auto";
+  import dateFormat from "dateformat";
+  import ChartCard from "./ChartCard.svelte";
+  import { getOpacityForColor, timeFrameMap } from "../../util/chartUtils";
+  import { text4Hrs, textIgnoredEmptyBlocks } from "../../util/infoTextUtils";
+  import { blockCache } from "../../stores";
+  import { BlockInfo } from "../../objects/BlockInfo";
 
   export let resource;
   export let lines;
@@ -18,6 +18,7 @@
   export let chartTitle;
   export let popupInfo;
   export let isFill;
+  export let hiddenLines;
 
   let hasLoaded = false;
   let feepriceChart;
@@ -38,9 +39,7 @@
   }
 
   function loadFromStore() {
-    const data = $blockCache
-        .slice(0, 24)
-        .reverse();
+    const data = $blockCache.slice(0, 24).reverse();
     buildChartData(data);
   }
 
@@ -57,16 +56,16 @@
           return blockInfo[line];
         }),
         fill: isFill,
-        backgroundColor: getOpacityForColor(colorMap[line], '0.2'),
+        backgroundColor: getOpacityForColor(colorMap[line], "0.2"),
         borderColor: colorMap[line],
         tension: 0.2,
-        borderDash: line === 'avg_fee' ? [10, 10] : [0, 0],
-        hidden: line === 'max_fee' || line === 'perc_90'|| line === 'perc_10' ? true : false,
+        borderDash: line === "avg_fee" ? [10, 10] : [0, 0],
+        hidden: hiddenLines.includes(labelsMap[line]) ? true : false,
       };
       if (!hasSetTimestamps) {
         data.forEach((element) => {
           const date = new Date(element.ts);
-          chartData.labels.push(dateFormat(date, 'dd.mm.yyyy HH:MM'));
+          chartData.labels.push(dateFormat(date, "dd.mm.yyyy HH:MM"));
         });
       }
       hasSetTimestamps = true;
@@ -79,14 +78,28 @@
 
   async function createChart(data) {
     const config = {
-      type: 'line',
+      type: "line",
       data: data,
       options: {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
           legend: {
-            align: 'start',
+            onClick: function (e, legendItem, legend) {
+              const index = legendItem.datasetIndex;
+              const ci = legend.chart;
+              if (ci.isDatasetVisible(index)) {
+                ci.hide(index);
+                legendItem.hidden = true;
+              } else {
+                ci.show(index);
+                legendItem.hidden = false;
+              }
+              console.log(legend)
+              hiddenLines = legend.legendItems.filter((li)=>{return li.hidden}).map((li)=>{return li.text})
+              console.log(hiddenLines)
+            },
+            align: "start",
             labels: {
               boxWidth: 20,
               boxHeight: 20,
@@ -94,7 +107,7 @@
           },
           tooltip: {
             callbacks: {
-              labelColor: function(context) {
+              labelColor: function (context) {
                 return {
                   borderColor: context.dataset.borderColor,
                   backgroundColor: context.dataset.borderColor,
@@ -102,7 +115,7 @@
                   borderRadius: 5,
                 };
               },
-              label: function(context) {
+              label: function (context) {
                 return `${context.dataset.label}: ${context.parsed.y}  ${chartUnit}`;
               },
             },
@@ -110,18 +123,18 @@
         },
         scales: {
           y: {
-            borderColor: 'rgba(228, 228, 231,.2)',
+            borderColor: "rgba(228, 228, 231,.2)",
             grid: {
-              color: 'rgba(228, 228, 231,.2)',
+              color: "rgba(228, 228, 231,.2)",
             },
           },
           x: {
-            borderColor: 'rgba(228, 228, 231,.2)',
+            borderColor: "rgba(228, 228, 231,.2)",
             grid: {
-              color: 'rgba(228, 228, 231,.2)',
+              color: "rgba(228, 228, 231,.2)",
             },
             ticks: {
-              callback: function(index, val) {
+              callback: function (index, val) {
                 const labelSpace = +(data.labels.length / 3).toFixed(0);
 
                 if (index % labelSpace === 0) {
@@ -147,12 +160,21 @@
       datasets: [],
     };
 
-    const {timeframeUnit = 'h', timeframe = 4, sampleUnit= undefined, sample = undefined} = timeFrameMap[
-        e.detail
-    ];
-    isLive = timeframe+ timeframeUnit === '4h' ? true : false;
-    const sampled = isLive?'':'/sampled';
-    const uri = buildUrl(resource+sampled, timeframeUnit, timeframe, sampleUnit, sample);
+    const {
+      timeframeUnit = "h",
+      timeframe = 4,
+      sampleUnit = undefined,
+      sample = undefined,
+    } = timeFrameMap[e.detail];
+    isLive = timeframe + timeframeUnit === "4h" ? true : false;
+    const sampled = isLive ? "" : "/sampled";
+    const uri = buildUrl(
+      resource + sampled,
+      timeframeUnit,
+      timeframe,
+      sampleUnit,
+      sample
+    );
     if (isLive) {
       loadFromStore();
     } else {
@@ -166,6 +188,6 @@
   {hasLoaded}
   {chartId}
   {updateTimeFrame}
-  infoContent={popupInfo + ' ' + text4Hrs + ' ' + textIgnoredEmptyBlocks}
+  infoContent={popupInfo + " " + text4Hrs + " " + textIgnoredEmptyBlocks}
   {isLive}
 />

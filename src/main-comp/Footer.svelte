@@ -39,7 +39,7 @@
     setTimeout(() => {
       Object.assign(document.createElement('a'), {
         target: '_blank',
-        href: 'https://bitraw.io',
+        href: 'https://rft.global',
       }).click();
       setTimeout(() => {
         lightning.stop();
@@ -62,7 +62,7 @@
 
     <div class="flex h-full items-center">
       <div>by &nbsp;</div>
-      <div class="underline font-bold">BitRAW</div>
+      <div class="underline font-bold">RFT & BitRAW</div>
     </div>
     <span class="w-10 h-10" id="bitraw-footer" />
   </div>

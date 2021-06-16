@@ -6,7 +6,8 @@
 
   const lines = ['total_fee'];
 
-  const chartUnit = 'sat';
+  const hiddenLines =[];
+  const chartUnit = 'BTC';
 
   const chartTitle = 'Total Fees';
   const popupInfo = 'This chart shows the total fees per block.';
@@ -21,6 +22,10 @@
   const isFill = false;
 
   function dataManipulationFunction(data) {
+    data = data.map((block)=> {
+      block.total_fee = (block.total_fee/100000000).toFixed(8)
+      return block;
+    })
     return data;
   }
 </script>
@@ -28,6 +33,7 @@
 <ChartTemplate
   {resource}
   {lines}
+  {hiddenLines}
   {labelsMap}
   {colorMap}
   {chartId}

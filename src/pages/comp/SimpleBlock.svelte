@@ -13,9 +13,12 @@
   let unit = "sat/vB";
 </script>
 
-<div class="p-1 w-40 h-40 rounded-lg border-dashed border-gray-200 border-2">
+<div 
+class="bg-gray-900 rounded-md w-40 h-40 p-2 shadow-md"
+
+>
   <div class="w-full h-full flex-col items-center">
-    <div class="w-full flex justify-center">
+    <div class="w-full flex justify-center pb-2">
       <a href="#/block/{item.block}" class="font-bold underline"
         >#{item.block}</a
       >

@@ -38,5 +38,5 @@
     </span>
   </div>
   <p class="text-xs pl-2 align-middle">{unit}</p>
-  <Tippy elementId={id} content={tooltip} />
+  <Tippy elementId={id} content={`${tooltip} = ${value} ${unit}`} />
 </div>

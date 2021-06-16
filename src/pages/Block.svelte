@@ -1,86 +1,21 @@
-<script lang="ts">
-  import { link } from "svelte-spa-router";
-  import { fetchBlock } from "../API/BitrawAPI";
-  import { BlockInfo } from "../objects/BlockInfo";
-  import { blockCache } from "../stores";
-  import BlockBig from "./comp/BlockBig.svelte";
+<script>
+import { fetchBlock } from "../API/BitrawAPI";
+import { BlockInfo } from "../objects/BlockInfo";
 
-  export let params = {};
-  $: block = getBlock(params.id);
+import BlockBig from "./comp/BlockBig.svelte";
+import Loader from "./comp/Loader.svelte";
 
-  function getBlock(blockId) {
-    block = getBlockFromCache(blockId);
-    if (!block) block = getBlockFromAPI(blockId);
-    return block;
-  }
+export let params = {};
 
-  function getBlockFromCache(id: number) {
-    if (!id) {
-      return $blockCache[0];
-    } else {
-      return $blockCache.filter((item) => {
-        return item.block == id;
-      })[0];
-    }
-  }
-  function getBlockFromAPI(id: number) {
-    return new BlockInfo(fetchBlock(id));
-  }
+let block = fetchBlock(params.id);
+
 </script>
 
-
-<div class="h-full w-full flex justify-center start items-center">
-  <div class="h-full w-6">
-    <a
-    href="/block/{block.block - 1}"
-    use:link
-    on:click={() => (block = getBlock(block.block - 1))}
-  >
-
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6 hover:text-cyan-500"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z"
-          />
-        </svg>
-      </a>
-  </div>
-  <div
-    class="m-2 w-full lg:w-1/3 border-gray-200 border-2 border-dashed rounded-lg flex-col justify-start h-72"
-  >
-      <BlockBig {block} />
-  </div>
-  {#if block.block < $blockCache[0].block}
-
-  <a
-  href="/block/{block.block + 1}"
-  use:link
-  on:click={() => (block = getBlock(block.block + 1))}
-  >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      class="h-6 w-6 hover:text-cyan-500"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-    >
-      <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"
-      />
-    </svg>
-  </a>
-  {/if}
-
-</div>
-
+<div class="w-full h-full m-4 flex-col flex items-center">
+{#await block}
+  <Loader></Loader>
+  {:then block}
+  <BlockBig block={new BlockInfo(block)}></BlockBig>
+  <a href="#/" class="mt-4 bg-cyan-500 rounded-md transition-all hover:bg-cyan-600 focus:bg-cyan-700 h-10 w-40 font-bold text-center items-center">Back to Charts</a>
+  {/await}
+</div>  
