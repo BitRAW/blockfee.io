@@ -25,6 +25,7 @@ registerRoute(
         }),
         new ExpirationPlugin({
           maxEntries: 30,
+          maxAgeSeconds: 300, // max. 5min
         }),
       ],
     }),
