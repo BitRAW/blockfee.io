@@ -6,10 +6,10 @@
   import Router from 'svelte-spa-router';
   import {wrap} from 'svelte-spa-router/wrap';
   import {fetchBlocks} from './API/BitrawAPI';
-  import Index from './Index.svelte';
   import Footer from './main-comp/Footer.svelte';
   import Header from './main-comp/Header.svelte';
-  import NotFound from './NotFound.svelte';
+  import Index from './pages/Index.svelte';
+  import NotFound from './pages/NotFound.svelte';
   import {BlockInfo} from './objects/BlockInfo';
   import Alerts from './pages/helper-comp/Alerts.svelte';
   import {blockCache, highest75percVal} from './stores';

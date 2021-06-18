@@ -1,6 +1,7 @@
 <script lang="ts">
   import lottie from 'lottie-web';
   import {onMount} from 'svelte';
+
   onMount(() => {
     lottie.loadAnimation({
       container: document.getElementById('not-found-body'),
