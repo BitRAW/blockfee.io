@@ -1,4 +1,4 @@
-function getStandardDeviation(array) {
+function getStandardDeviation(array: Array<number>) {
   const n = array.length;
   const mean = array.reduce((a, b) => a + b) / n;
   return Math.sqrt(

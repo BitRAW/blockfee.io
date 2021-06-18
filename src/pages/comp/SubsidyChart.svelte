@@ -1,6 +1,12 @@
 <script lang="ts">
   import {calculateBlockSubsidyRatio} from '../../API/BTCAPI';
   import ChartTemplate from './ChartTemplate.svelte';
+  
+  import type {BlockInfo} from '../../objects/BlockInfo';
+  
+  interface SubsidyBlockInfo extends BlockInfo {
+    subsidy: string;
+  }
 
   const lines = ['subsidy'];
   const hiddenLines = [];
@@ -20,12 +26,11 @@
   const popupInfo =
     'Composition of block rewards for miners: Percentage of block subsidy (vs. transaction fees).';
 
-  function dataManipulationFunction(data) {
-    const newData = data.map((element) => {
+  function dataManipulationFunction(data: Array<BlockInfo>) {
+    return data.map((element: SubsidyBlockInfo) => {
       element.subsidy = (calculateBlockSubsidyRatio(element.block, element.total_fee) * 100).toFixed(2);
       return element;
     });
-    return newData;
   }
 
   const isFill = true;

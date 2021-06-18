@@ -1,6 +1,8 @@
 <script lang="ts">
   import ChartTemplate from './ChartTemplate.svelte';
 
+  import type {BlockInfo} from '../../objects/BlockInfo';
+
   const chartId = 'totalfee-chart';
   const resource = 'block/list';
 
@@ -21,12 +23,11 @@
 
   const isFill = false;
 
-  function dataManipulationFunction(data) {
-    data = data.map((block)=> {
-      block.total_fee = (block.total_fee/100000000).toFixed(8)
+  function dataManipulationFunction(data: Array<BlockInfo>) {
+    return data.map((block: BlockInfo)=> {
+      block.total_fee = (+block.total_fee/100000000).toFixed(8);
       return block;
-    })
-    return data;
+    });
   }
 </script>
 

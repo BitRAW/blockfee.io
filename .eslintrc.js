@@ -25,5 +25,11 @@ module.exports = {
     'require-jsdoc': ['off'],
     'camelcase': ['off'],
     'linebreak-style': ['off'],
+    'max-len': ['warn', {
+      code: 120,
+    }],
+  },
+  settings: {
+    'svelte3/typescript': () => require('typescript'),
   },
 };

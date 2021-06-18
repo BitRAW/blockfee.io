@@ -1,7 +1,7 @@
 export class BlockInfo {
     ts: string
     block: number
-    total_fee: number
+    total_fee: number | string
     avg_fee: number
     min_fee: number
     perc_10: number

@@ -1,15 +1,17 @@
 <script lang="ts">
-  import { blockCache } from "../../stores";
-  import type { BlockInfo } from "../../objects/BlockInfo";
-  import SimpleBlock from "./SimpleBlock.svelte";
-import { onMount } from "svelte";
+  import type {BlockInfo} from '../../objects/BlockInfo';
 
-  let currentScroll = 20;
-  let items: Array<BlockInfo> = $blockCache.slice(0, currentScroll).reverse();
-  onMount(()=>{
-    var elem = document.getElementById('blockchain-scroll');
+  import {blockCache} from '../../stores';
+  import SimpleBlock from './SimpleBlock.svelte';
+  import {onMount} from 'svelte';
+
+  const currentScroll = 20;
+  const items: Array<BlockInfo> = $blockCache.slice(0, currentScroll).reverse();
+
+  onMount(() => {
+    const elem = document.getElementById('blockchain-scroll');
     elem.scrollLeft = elem.scrollWidth;
-  })
+  });
 </script>
 
 <div
@@ -20,7 +22,7 @@ import { onMount } from "svelte";
     <div />
     {#each items as item,i}
       <div class="pl-5 relative">
-        {#if i===items.length-1}
+        {#if i === items.length-1}
         <div class="absolute bg-red-700 text-xs font-bold p-2 rounded-full right-0 z-10 shadow-md -mt-2 -mr-2">latest</div> 
         {/if}
         <SimpleBlock {item} />

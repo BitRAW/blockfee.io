@@ -4,6 +4,8 @@
   import {tweened} from 'svelte/motion';
   import {generateId} from '../../util/randomUtils';
   import Tippy from '../helper-comp/Tippy.svelte';
+
+  const id = 'tinybar' + generateId(8);
   const tweenedPerc = tweened(10, {
     duration: 1000,
     easing: cubicOut,
@@ -12,17 +14,17 @@
     duration: 1000,
     easing: cubicOut,
   });
-  export let percentage;
-  export let colorClass;
-  export let value;
-  export let tooltip;
-  export let unit;
 
   onMount(() => {
     $tweenedPerc = percentage + 10;
     $tweenedValue = value;
   });
-  const id = 'tinybar' + generateId(8);
+
+  export let percentage;
+  export let colorClass;
+  export let value;
+  export let tooltip;
+  export let unit;
 </script>
 
 <div class="w-full h-full flex align-middle">

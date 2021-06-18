@@ -1,6 +1,7 @@
 <script lang="ts">
   import {onMount} from 'svelte';
   import {createEventDispatcher} from 'svelte';
+
   const dispatch = createEventDispatcher();
 
   let activeElem;
@@ -11,6 +12,7 @@
       dispatch('selectTime', activeElem);
     }
   });
+
   function setActiveElem(e) {
     activeElem = e.target.innerHTML;
     dispatch('selectTime', activeElem);
