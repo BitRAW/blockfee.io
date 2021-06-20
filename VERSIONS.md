@@ -20,3 +20,6 @@ First Beta release
 - added link to rft
 - persisting hidden lines selection in chart
 - remodeling block layout
+
+## 0.2.2
+- added matrix for average fees by hour in weekdays
