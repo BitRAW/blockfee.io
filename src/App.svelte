@@ -48,7 +48,7 @@
     });
   });
 </script>
-
+<div class="hidden bg-stroke1 bg-stroke2 bg-stroke3 bg-stroke4 bg-gray1 bg-gray2 bg-stroke5 text-stroke1 text-stroke2 text-stroke3 text-stroke4 text-stroke5 text-gray1 text-gray2"></div>
 <div class="">
   <Header />
   <div class="pt-24 flex bg-gray-800 pb-14">
