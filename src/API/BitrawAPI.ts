@@ -49,4 +49,4 @@ async function fetchBlock(id) {
   return fetchData( `block/${id}`);
 }
 
-export {buildUrl, fetchData, fetchBlocks, fetchBlock};
+export {buildUrl, fetchData, fetchBlocks, fetchBlock, getDataURI};

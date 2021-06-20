@@ -62,7 +62,7 @@
 
     <div class="flex h-full items-center">
       <div>by &nbsp;</div>
-      <div class="underline font-bold">RFT & BitRAW</div>
+      <div class="underline font-bold">RFT</div>
     </div>
     <span class="w-10 h-10" id="bitraw-footer" />
   </div>

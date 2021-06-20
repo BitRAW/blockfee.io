@@ -19,6 +19,9 @@
     '/block/:id?': wrap({
       asyncComponent: () => import('./pages/Block.svelte'),
     }),
+    '/feematrix': wrap({
+      asyncComponent: () => import('./pages/FeeMatrix.svelte'),
+    }),
     '*': NotFound,
   };
 
