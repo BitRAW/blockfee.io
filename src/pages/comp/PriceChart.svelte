@@ -18,7 +18,7 @@
     'Max Fee',
     '90th Percentile',
     '10th Percentile',
-  ]
+  ];
 
   const chartUnit = 'sat/vB';
 

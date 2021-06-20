@@ -1,5 +1,5 @@
 <script>
-  import { location } from "svelte-spa-router";
+  import {location} from 'svelte-spa-router';
 </script>
 
 <div
@@ -18,7 +18,7 @@
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
-              class:text-cyan-500={$location === "/"}
+              class:text-cyan-500={$location === '/'}
               class=" hover:text-gray-400 stroke-current cursor-pointer"
             >
               <path
@@ -37,7 +37,7 @@
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
-              class:text-cyan-500={$location.includes("/block")}
+              class:text-cyan-500={$location.includes('/block')}
               class="hover:text-gray-400 stroke-current cursor-pointer"
             >
               <path
@@ -56,7 +56,7 @@
   <a class='w-full h-full flex justify-end items-center' target="_blank" rel="noopener noreferrer" href="https://github.com/bitRAW/blockfee.io">
         <svg
           viewBox="0 0 16 16"
-          class:text-cyan-500={$location === "/settings"}
+          class:text-cyan-500={$location === '/settings'}
           class="octicon octicon-mark-github v-align-middle hover:text-gray-400 cursor-pointer h-10 w-10"
           version="1.1"
           aria-hidden="true"

@@ -1,8 +1,8 @@
 <script lang="ts">
-  import Blockchain from './pages/comp/Blockchain.svelte';
-  import PriceChart from './pages/comp/PriceChart.svelte';
-  import SubsidyChart from './pages/comp/SubsidyChart.svelte';
-  import TotalFeeChart from './pages/comp/TotalFeeChart.svelte';
+  import Blockchain from './comp/Blockchain.svelte';
+  import PriceChart from './comp/PriceChart.svelte';
+  import SubsidyChart from './comp/SubsidyChart.svelte';
+  import TotalFeeChart from './comp/TotalFeeChart.svelte';
 </script>
 
 <div class="grid grid-cols-2 w-full gap-4 chain-chart-grid p-4">

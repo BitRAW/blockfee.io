@@ -1,49 +1,44 @@
 <script lang="ts">
-  import { buildUrl } from "../../API/BitrawAPI";
-  import Chart from "chart.js/auto";
-  import dateFormat from "dateformat";
-  import ChartCard from "./ChartCard.svelte";
-  import { getOpacityForColor, timeFrameMap } from "../../util/chartUtils";
-  import { text4Hrs, textIgnoredEmptyBlocks } from "../../util/infoTextUtils";
-  import { blockCache } from "../../stores";
-  import { BlockInfo } from "../../objects/BlockInfo";
+  import {fetchData} from '../../API/BitrawAPI';
+  import Chart from 'chart.js/auto';
+  import dateFormat from 'dateformat';
+  import ChartCard from './ChartCard.svelte';
+  import {getOpacityForColor, timeFrameMap} from '../../util/chartUtils';
+  import {text4Hrs, textIgnoredEmptyBlocks} from '../../util/infoTextUtils';
+  import {blockCache} from '../../stores';
+  import {BlockInfo} from '../../objects/BlockInfo';
+  
+  import type {ChartConfiguration, LegendItem} from 'chart.js';
 
-  export let resource;
-  export let lines;
+  type ExtendedBlockInfo = BlockInfo & { [key: string]: any };
+
+  export let resource: string;
+  export let lines: Array<string>;
   export let labelsMap;
-  export let chartId;
+  export let chartId: string;
   export let colorMap;
-  export let chartUnit;
-  export let dataManipulationFunction;
-  export let chartTitle;
-  export let popupInfo;
-  export let isFill;
-  export let hiddenLines;
+  export let chartUnit: string;
+  export let dataManipulationFunction: (data: Array<BlockInfo>) => Array<ExtendedBlockInfo>;
+  export let chartTitle: string;
+  export let popupInfo: string;
+  export let isFill: boolean;
+  export let hiddenLines: Array<string>;
 
   let hasLoaded = false;
-  let feepriceChart;
-  let isLive;
+  let feepriceChart: Chart;
+  let isLive: boolean;
 
   let chartData = {
     labels: [],
     datasets: [],
   };
 
-  async function loadChartData(uri) {
-    const response = await fetch(uri);
-    let data = await response.json();
-    data = data.reverse().map((datapoint) => {
-      return new BlockInfo(datapoint);
-    });
-    buildChartData(data);
-  }
-
   function loadFromStore() {
     const data = $blockCache.slice(0, 24).reverse();
     buildChartData(data);
   }
 
-  function buildChartData(data) {
+  function buildChartData(data: Array<BlockInfo>) {
     hasLoaded = true;
     let hasSetTimestamps = false;
     data = dataManipulationFunction(data);
@@ -56,16 +51,16 @@
           return blockInfo[line];
         }),
         fill: isFill,
-        backgroundColor: getOpacityForColor(colorMap[line], "0.2"),
+        backgroundColor: getOpacityForColor(colorMap[line], '0.2'),
         borderColor: colorMap[line],
         tension: 0.2,
-        borderDash: line === "avg_fee" ? [10, 10] : [0, 0],
+        borderDash: line === 'avg_fee' ? [10, 10] : [0, 0],
         hidden: hiddenLines.includes(labelsMap[line]) ? true : false,
       };
       if (!hasSetTimestamps) {
         data.forEach((element) => {
           const date = new Date(element.ts);
-          chartData.labels.push(dateFormat(date, "dd.mm.yyyy HH:MM"));
+          chartData.labels.push(dateFormat(date, 'dd.mm.yyyy HH:MM'));
         });
       }
       hasSetTimestamps = true;
@@ -77,16 +72,17 @@
   }
 
   async function createChart(data) {
-    const config = {
-      type: "line",
+    const config: ChartConfiguration<'line'> = {
+      type: 'line',
       data: data,
       options: {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
           legend: {
-            onClick: function (e, legendItem, legend) {
+            onClick: function(e, legendItem: LegendItem, legend: any) {
               const index = legendItem.datasetIndex;
+              console.log('legend', legend, legendItem);
               const ci = legend.chart;
               if (ci.isDatasetVisible(index)) {
                 ci.hide(index);
@@ -95,11 +91,13 @@
                 ci.show(index);
                 legendItem.hidden = false;
               }
-              console.log(legend)
-              hiddenLines = legend.legendItems.filter((li)=>{return li.hidden}).map((li)=>{return li.text})
-              console.log(hiddenLines)
+              hiddenLines = legend.legendItems.filter((li)=>{
+                return li.hidden;
+              }).map((li)=>{
+                return li.text;
+              });
             },
-            align: "start",
+            align: 'start',
             labels: {
               boxWidth: 20,
               boxHeight: 20,
@@ -107,15 +105,15 @@
           },
           tooltip: {
             callbacks: {
-              labelColor: function (context) {
+              labelColor: function(context) {
                 return {
-                  borderColor: context.dataset.borderColor,
-                  backgroundColor: context.dataset.borderColor,
+                  borderColor: context.dataset.borderColor.toString(),
+                  backgroundColor: context.dataset.borderColor.toString(),
                   borderWidth: 0,
                   borderRadius: 5,
                 };
               },
-              label: function (context) {
+              label: function(context) {
                 return `${context.dataset.label}: ${context.parsed.y}  ${chartUnit}`;
               },
             },
@@ -123,18 +121,16 @@
         },
         scales: {
           y: {
-            borderColor: "rgba(228, 228, 231,.2)",
             grid: {
-              color: "rgba(228, 228, 231,.2)",
+              color: 'rgba(228, 228, 231,.2)',
             },
           },
           x: {
-            borderColor: "rgba(228, 228, 231,.2)",
             grid: {
-              color: "rgba(228, 228, 231,.2)",
+              color: 'rgba(228, 228, 231,.2)',
             },
             ticks: {
-              callback: function (index, val) {
+              callback: function(index: number, val) {
                 const labelSpace = +(data.labels.length / 3).toFixed(0);
 
                 if (index % labelSpace === 0) {
@@ -153,7 +149,7 @@
     feepriceChart = new Chart(ctx, config);
   }
 
-  function updateTimeFrame(e) {
+  async function updateTimeFrame(e) {
     hasLoaded = false;
     chartData = {
       labels: [],
@@ -161,24 +157,22 @@
     };
 
     const {
-      timeframeUnit = "h",
+      timeframeUnit = 'h',
       timeframe = 4,
       sampleUnit = undefined,
       sample = undefined,
     } = timeFrameMap[e.detail];
-    isLive = timeframe + timeframeUnit === "4h" ? true : false;
-    const sampled = isLive ? "" : "/sampled";
-    const uri = buildUrl(
-      resource + sampled,
-      timeframeUnit,
-      timeframe,
-      sampleUnit,
-      sample
-    );
+    isLive = timeframe + timeframeUnit === '4h' ? true : false;
+    const sampled = isLive ? '' : '/sampled';
+
     if (isLive) {
       loadFromStore();
     } else {
-      loadChartData(uri);
+      const data = await fetchData(resource+sampled, {timeframeUnit, timeframe, sample, sampleUnit});
+      const chartData = data.reverse().map((datapoint) => {
+        return new BlockInfo(datapoint);
+      });
+      buildChartData(chartData);
     }
   }
 </script>
@@ -188,6 +182,6 @@
   {hasLoaded}
   {chartId}
   {updateTimeFrame}
-  infoContent={popupInfo + " " + text4Hrs + " " + textIgnoredEmptyBlocks}
+  infoContent={popupInfo + ' ' + text4Hrs + ' ' + textIgnoredEmptyBlocks}
   {isLive}
 />

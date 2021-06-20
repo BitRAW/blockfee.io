@@ -1,8 +1,10 @@
 <script lang="ts">
+  import type {BlockInfo} from '../../objects/BlockInfo';
+
   import {highest75percVal} from '../../stores';
   import TinyBar from './TinyBar.svelte';
 
-  export let block;
+  export let block: BlockInfo;
   $: percentageMin = (block.min_fee / $highest75percVal) * 100;
   $: percentage10 = (block.perc_10 / $highest75percVal) * 100;
   $: percentage25 = (block.perc_25 / $highest75percVal) * 100;

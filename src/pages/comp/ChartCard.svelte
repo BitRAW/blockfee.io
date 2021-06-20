@@ -1,18 +1,18 @@
 <script lang="ts">
   import {generateId} from '../../util/randomUtils';
 
-  import Loader from './Loader.svelte';
+  import Loader from '../helper-comp/Loader.svelte';
   import TimeFrameSelector from './TimeFrameSelector.svelte';
   import Tippy from '../helper-comp/Tippy.svelte';
 
   const infoId = 'info-' + generateId(10);
 
-  export let updateTimeFrame;
-  export let chartTitle;
-  export let hasLoaded;
-  export let chartId;
-  export let infoContent;
-  export let isLive;
+  export let updateTimeFrame: (e: CustomEvent<HTMLElement>) => void;
+  export let chartTitle: string;
+  export let hasLoaded: boolean;
+  export let chartId: string;
+  export let infoContent: string;
+  export let isLive: boolean;
 </script>
 
 <div
