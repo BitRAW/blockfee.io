@@ -1,7 +1,7 @@
 <script lang="ts">
   import {fetchData} from '../../API/BitrawAPI';
   import Chart from 'chart.js/auto';
-  import dateFormat from 'dateformat';
+  import { format } from 'date-fns';
   import ChartCard from './ChartCard.svelte';
   import {getOpacityForColor, timeFrameMap} from '../../util/chartUtils';
   import {text4Hrs, textIgnoredEmptyBlocks} from '../../util/infoTextUtils';
@@ -60,7 +60,7 @@
       if (!hasSetTimestamps) {
         data.forEach((element) => {
           const date = new Date(element.ts);
-          chartData.labels.push(dateFormat(date, 'dd.mm.yyyy HH:MM'));
+          chartData.labels.push(format(date, 'dd.MM.yyyy HH:mm'));
         });
       }
       hasSetTimestamps = true;

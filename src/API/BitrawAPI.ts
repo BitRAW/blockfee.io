@@ -28,14 +28,14 @@ function buildUrl(resource: string, queryParams?: BitrawApiQueryParameters) {
   return getDataURI(`${resource}?${urlSearchParams.toString()}`);
 }
 
-async function fetchData(resource: string, queryParams?: BitrawApiQueryParameters) {
+async function fetchData<T>(resource: string, queryParams?: BitrawApiQueryParameters): Promise<T> {
   const uri = buildUrl(resource, queryParams);
   try {
     const request = await fetch(uri);
     return await request.json();
   } catch (err) {
     addAlert({message: 'Error fetching data!', severity: 'error'});
-    return [];
+    return null;
   }
 }
 

@@ -15,11 +15,10 @@ onMount(()=>{
 function percentageToHsl(percentage, hue0, hue1) {
   const hue = (percentage * (hue1 - hue0)) + hue0;
   const color = 'hsl(' + hue + ', 100%, 50%)';
-  console.log(color);
   return color;
 }
 </script>
-<div  class="flex justify-center items-center rounded-sm text-gray-600 hover:-m-1 hover:font-bold cursor-default transition-all ease-in-out" id="fee-matrix-{cellId}">
+<div  class="flex justify-center items-center rounded-sm text-gray-700 hover:-m-1 hover:font-bold cursor-default transition-all ease-in-out" id="fee-matrix-{cellId}">
   <p>
       {value}
   </p>
