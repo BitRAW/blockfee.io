@@ -8,12 +8,8 @@ import {
 import {weekdaysMap} from '../util/matrixUtils';
 import MatrixCell from './comp/MatrixCell.svelte';
 import Loader from './helper-comp/Loader.svelte';
+import type {MatrixDay} from '../objects/MatrixDay';
 
-type MatrixDay = {
-  hour: number,
-  value: number,
-  weekday: number
-}
 
 let matrix: Promise<Array<Array<MatrixDay>>> = null;
 
@@ -74,7 +70,7 @@ onMount(() => {
               {#if j===0}
                 <div class="bg-gray-700 rounded-sm text-center">{weekdaysMap[`${feematrixElement.weekday}`]}</div>
               {/if}
-              <MatrixCell value={feematrixElement.value}></MatrixCell>
+              <MatrixCell day={feematrixElement}></MatrixCell>
             {/each}
           {/each}
           {/await}
