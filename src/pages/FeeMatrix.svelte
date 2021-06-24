@@ -9,9 +9,13 @@ import {weekdaysMap} from '../util/matrixUtils';
 import MatrixCell from './comp/MatrixCell.svelte';
 import Loader from './helper-comp/Loader.svelte';
 import type {MatrixDay} from '../objects/MatrixDay';
+import Tippy from './helper-comp/Tippy.svelte';
 
 
 let matrix: Promise<Array<Array<MatrixDay>>> = null;
+const infoElementId : string = 'feematrix-info';
+const infoContent : string = 'This matrix shows the fee prices for bitcoin transactions in satoshi/virtualByte for a given hour in a weekday. The average is continuously calculated from a 1 year timeframe.';
+
 
 onMount(() => {
   let date = new Date();
@@ -48,10 +52,27 @@ onMount(() => {
 </script>
 
 <div class="w-full h-full bg-gray-900 rounded-md shadow-mdm flex-col flex m-4 p-2 overflow-x-scroll lg:overflow-x-visible">
-    <div class="flex pb-4">
+    <div class="flex justify-between w-full pb-4">
         <p class="text-lg font-bold">
-            Fee Price Matrix
+            Average Fee Price Distribution on Weekdays
         </p>
+        <div id="{infoElementId}">
+            <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6 hover:text-cyan-500 transition-colors ease-in-out cursor-pointer"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+        <Tippy elementId={infoElementId} content={infoContent}></Tippy>
+        </div>
     </div>
     {#if matrix}
       <div class="grid grid-cols-25 gap-1  w-max lg:w-full">
