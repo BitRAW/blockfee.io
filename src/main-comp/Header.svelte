@@ -32,20 +32,18 @@
         </li>
         <li class="h-10 w-10">
           <a href="#/block/">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              class:text-cyan-500={$location.includes('/block')}
-              class="hover:text-gray-400 stroke-current cursor-pointer"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
-              />
+            <svg xmlns="http://www.w3.org/2000/svg"    class:text-cyan-500={$location.includes('/block')}
+            class="hover:text-gray-400 stroke-current cursor-pointer"
+          fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+            </svg>
+          </a>
+        </li>
+        <li class="h-10 w-10">
+          <a href="#/feematrix/">
+            <svg xmlns="http://www.w3.org/2000/svg" class:text-cyan-500={$location.includes('/feematrix')}
+            class="hover:text-gray-400 stroke-current cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
             </svg>
           </a>
         </li>
@@ -56,7 +54,6 @@
   <a class='w-full h-full flex justify-end items-center' target="_blank" rel="noopener noreferrer" href="https://github.com/bitRAW/blockfee.io">
         <svg
           viewBox="0 0 16 16"
-          class:text-cyan-500={$location === '/settings'}
           class="octicon octicon-mark-github v-align-middle hover:text-gray-400 cursor-pointer h-10 w-10"
           version="1.1"
           aria-hidden="true"

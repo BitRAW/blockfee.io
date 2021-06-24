@@ -56,3 +56,8 @@ Using BitRAWs Commodity Manager this web frontend displays charts for analyzing 
 - Show charts as well as separate blocks
 - Installable as offline app with PWA
 - caches data and static files
+
+
+## Feedback and Questions
+
+https://t.me/blockfee

@@ -26,6 +26,11 @@ module.exports = {
     ],
   },
   theme: {
+    extend: {
+      gridTemplateColumns: {
+        '25': 'repeat(25, minmax(0, 1fr))',
+      },
+    },
     colors: {
       transparent: 'transparent',
       current: 'currentColor',
@@ -52,6 +57,9 @@ module.exports = {
       gray2: '#e4e9ed',
     },
   },
-  variants: {},
+  variants: {
+    margin: ['responsive, hover'],
+    fontWeight: ['responsive, hover'],
+  },
   plugins: [],
 };

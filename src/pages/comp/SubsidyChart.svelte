@@ -22,7 +22,7 @@
 
   const chartUnit = '%';
 
-  const chartTitle = 'Block Subsidy';
+  const chartTitle = 'Block Subsidy Percentage';
   const popupInfo =
     'Composition of block rewards for miners: Percentage of block subsidy (vs. transaction fees).';
 
