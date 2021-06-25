@@ -14,7 +14,7 @@ import Tippy from './helper-comp/Tippy.svelte';
 
 let matrix: Promise<Array<Array<MatrixDay>>> = null;
 const infoElementId : string = 'feematrix-info';
-const infoContent : string = 'This matrix shows the fee prices for bitcoin transactions in satoshi/virtualByte for a given hour in a weekday. The average is continuously calculated from a 1 year timeframe.';
+const infoContent : string = 'Each block in the blockchain has a median fee rate. This matrix shows aggregates of these median fee rates. They are grouped according to when exactly a block was mined within a week, over the time span of a year. The averages of those values are what is displayed in the chart. They are denominated in satoshis/virtualByte. The data is continuously being updated and always represents the most recent 12 months.';
 
 
 onMount(() => {
@@ -52,9 +52,9 @@ onMount(() => {
 </script>
 
 <div class="w-full h-full bg-gray-900 rounded-md shadow-mdm flex-col flex m-4 p-2 overflow-x-scroll lg:overflow-x-visible">
-    <div class="flex justify-between w-full pb-4">
+    <div class="flex justify-between w-full pb-2">
         <p class="text-lg font-bold">
-            Average Fee Price Distribution on Weekdays
+            Median Fee Rate: Hourly Distribution over Weekdays
         </p>
         <div id="{infoElementId}">
             <svg
@@ -73,6 +73,11 @@ onMount(() => {
         </svg>
         <Tippy elementId={infoElementId} content={infoContent}></Tippy>
         </div>
+    </div>
+    <div class="flex justify-between w-full pb-4">
+        <p>
+            Measured in sat/vByte, averaged out over the past 12 months.
+        </p>
     </div>
     {#if matrix}
       <div class="grid grid-cols-25 gap-1  w-max lg:w-full">

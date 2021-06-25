@@ -24,7 +24,7 @@
 
   const chartTitle = 'Fee Insight';
   const popupInfo =
-    'Per-block distribution of transaction fee rates in sat/vbyte.';
+    'Per-block distribution of transaction fee rates in sat/vByte.';
 
   const labelsMap = {
     avg_fee: 'Average Fee',
