@@ -76,7 +76,7 @@ onMount(() => {
     </div>
     <div class="flex justify-between w-full pb-4">
         <p>
-            Measured in sat/vByte, averaged out over the past 12 months.
+            Measured in sat/vByte, averaged out over the past 12 months
         </p>
     </div>
     {#if matrix}
