@@ -28,7 +28,7 @@
       </p>
 
       <div>
-        <TimeFrameSelector on:selectTime={updateTimeFrame} />
+        <TimeFrameSelector options={['4h', '24h', '7d', '30d', '1y', 'all']} activeOption="4h" on:selectTime={updateTimeFrame} />
       </div>
     </div>
     <div class="w-full font-bold text-red-600 pt-2">

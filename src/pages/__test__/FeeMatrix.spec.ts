@@ -35,10 +35,10 @@ describe('FeeMatrix', () => {
 
     // when
     const state = feeMatrix.$capture_state() as any;
-    const matrix = await state.matrix;
+    const data = await state.data;
 
     // then
-    expect(matrix).toEqual(matrixData());
+    expect(data.matrix).toEqual(matrixData());
   });
 
   it('should calculate matrix for UTC+02', async () => {
@@ -48,11 +48,11 @@ describe('FeeMatrix', () => {
 
     // when
     const state = feeMatrix.$capture_state() as any;
-    const matrix = await state.matrix;
+    const data = await state.data;
 
     // then
-    expect(matrix[0][2].value).toEqual(matrixData()[0][0].value);
-    expect(matrix[0][0].value).toEqual(matrixData()[6][22].value);
+    expect(data.matrix[0][2].value).toEqual(matrixData()[0][0].value);
+    expect(data.matrix[0][0].value).toEqual(matrixData()[6][22].value);
   });
 
   it('should calculate matrix for UTC-02', async () => {
@@ -62,10 +62,10 @@ describe('FeeMatrix', () => {
 
     // when
     const state = feeMatrix.$capture_state() as any;
-    const matrix = await state.matrix;
+    const data = await state.data;
 
     // then
-    expect(matrix[0][0].value).toEqual(matrixData()[0][2].value);
-    expect(matrix[6][22].value).toEqual(matrixData()[0][0].value);
+    expect(data.matrix[0][0].value).toEqual(matrixData()[0][2].value);
+    expect(data.matrix[6][22].value).toEqual(matrixData()[0][0].value);
   });
 });

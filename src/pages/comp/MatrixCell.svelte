@@ -7,12 +7,13 @@ import {weekdaysMap} from '../../util/matrixUtils';
 import type {MatrixDay} from '../../objects/MatrixDay';
 
 export let day: MatrixDay;
+export let maxValue: number;
 
 const cellId = generateId(10);
 
 onMount(()=>{
   const element = document.getElementById('fee-matrix-'+cellId);
-  element.style.backgroundColor = percentageToHsl(day.value/100, 120, 0);
+  element.style.backgroundColor = percentageToHsl(day.value/maxValue, 120, 0);
 });
 
 function percentageToHsl(percentage, hue0, hue1) {
