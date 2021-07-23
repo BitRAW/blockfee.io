@@ -3,20 +3,27 @@
 
   import {blockCache} from '../../stores';
   import SimpleBlock from './SimpleBlock.svelte';
-  import {onMount} from 'svelte';
+  import {onMount, tick} from 'svelte';
 
   const currentScroll = 20;
-  const items: Array<BlockInfo> = $blockCache.slice(0, currentScroll).reverse();
+  let items: Array<BlockInfo>= [];
+  let scrollEl: HTMLDivElement;
 
   onMount(() => {
-    const elem = document.getElementById('blockchain-scroll');
-    elem.scrollLeft = elem.scrollWidth;
+    blockCache.subscribe((blocks) => {
+      items = blocks.slice(0, currentScroll).reverse();
+      tick().then(() => {
+        if (scrollEl) {
+          scrollEl.scrollLeft = scrollEl.scrollWidth;
+        }
+      });
+    });
   });
 </script>
 
 <div
   class="col-span-2 overflow-x-scroll blockchain-scroll"
-  id="blockchain-scroll"
+  bind:this={scrollEl}
 >
   <div class="flex py-2">
     <div />
