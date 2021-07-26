@@ -1,5 +1,5 @@
 import {addAlert} from '../alert';
-import { BlockInfo } from '../objects/BlockInfo';
+import type {BlockInfo} from '../objects/BlockInfo';
 
 export const apiBase = 'api.bitraw.io';
 const host = `https://${apiBase}`;
