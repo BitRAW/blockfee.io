@@ -8,19 +8,28 @@ type MessageCallback = {
   cb: MessageCallbackFn
 };
 
-const ws = new WebSocket(`wss://${apiBase}/ws`);
 const subscribers: MessageCallback[] = [];
 
-ws.addEventListener('message', (msg: MessageEvent<any>) => {
-  try {
-    const parsedMessage = JSON.parse(msg.data);
-    subscribers
-        .filter((mc) => !mc.messageType || mc.messageType === parsedMessage.type)
-        .forEach((mc) => mc.cb(parsedMessage));
-  } catch (e) {
-    console.error('could not parse message', msg.data);
-  }
-});
+const connectWs = () => {
+  const ws = new WebSocket(`wss://${apiBase}/ws`);
+
+  ws.addEventListener('message', (msg: MessageEvent<any>) => {
+    try {
+      const parsedMessage = JSON.parse(msg.data);
+      subscribers
+          .filter((mc) => !mc.messageType || mc.messageType === parsedMessage.type)
+          .forEach((mc) => mc.cb(parsedMessage));
+    } catch (e) {
+      console.error('could not parse message', msg.data);
+    }
+  });
+
+  ws.addEventListener('close', () => {
+    setTimeout(connectWs, 10);
+  });
+};
+
+connectWs();
 
 export const subscribe = (cb: MessageCallbackFn, messageType?: MessageType) => {
   const subscriber = {cb, messageType};
