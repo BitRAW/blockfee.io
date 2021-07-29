@@ -13,6 +13,9 @@
   import {BlockInfo} from './objects/BlockInfo';
   import Alerts from './pages/helper-comp/Alerts.svelte';
   import {blockCache, highest75percVal} from './stores';
+  import {MessageType} from './objects/Message';
+  import type {Message} from './objects/Message';
+  import {subscribe} from './API/WebSocketAPI';
 
   const routes = {
     '/': Index,
@@ -28,11 +31,7 @@
   async function fetchBlockData() {
     const data = await fetchBlocks(4);
 
-    blockCache.update(() => {
-      return data.map((datapoint) => {
-        return new BlockInfo(datapoint);
-      });
-    });
+    blockCache.set(data.map((datapoint) => new BlockInfo(datapoint)));
 
     $blockCache.forEach((item) => {
       $highest75percVal =
@@ -40,8 +39,17 @@
     });
   }
 
+  const onNewBlock = (msg: Message) => {
+    if (msg.type === MessageType.new_block) {
+      blockCache.update((cache) => {
+        return [new BlockInfo(msg.payload), ...cache];
+      });
+    }
+  };
+
   onMount(() => {
     fetchBlockData();
+    subscribe(onNewBlock, MessageType.new_block);
     Lottie.loadAnimation({
       container: document.getElementById('bitraw-loading'),
       renderer: 'svg',

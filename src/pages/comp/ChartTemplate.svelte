@@ -1,7 +1,7 @@
 <script lang="ts">
   import {fetchData} from '../../API/BitrawAPI';
   import Chart from 'chart.js/auto';
-  import { format } from 'date-fns';
+  import {format} from 'date-fns';
   import ChartCard from './ChartCard.svelte';
   import {getOpacityForColor, timeFrameMap} from '../../util/chartUtils';
   import {text4Hrs, textIgnoredEmptyBlocks} from '../../util/infoTextUtils';
@@ -9,6 +9,7 @@
   import {BlockInfo} from '../../objects/BlockInfo';
   
   import type {ChartConfiguration, LegendItem} from 'chart.js';
+  import {onMount} from 'svelte';
 
   type ExtendedBlockInfo = BlockInfo & { [key: string]: any };
 
@@ -33,15 +34,20 @@
     datasets: [],
   };
 
-  function loadFromStore() {
-    const data = $blockCache.slice(0, 24).reverse();
-    buildChartData(data);
-  }
+  onMount(() => {
+    blockCache.subscribe((blocks) => {
+      buildChartData(blocks.slice(0, 24).reverse());
+    });
+  });
 
   function buildChartData(data: Array<BlockInfo>) {
     hasLoaded = true;
     let hasSetTimestamps = false;
     data = dataManipulationFunction(data);
+    chartData = {
+      labels: [],
+      datasets: [],
+    };
 
     for (let i = 1; i <= lines.length; i++) {
       const line = lines[i - 1];
@@ -151,10 +157,6 @@
 
   async function updateTimeFrame(e) {
     hasLoaded = false;
-    chartData = {
-      labels: [],
-      datasets: [],
-    };
 
     const {
       timeframeUnit = 'h',
@@ -165,15 +167,11 @@
     isLive = timeframe + timeframeUnit === '4h' ? true : false;
     const sampled = isLive ? '' : '/sampled';
 
-    if (isLive) {
-      loadFromStore();
-    } else {
-      const data = await fetchData(resource+sampled, {timeframeUnit, timeframe, sample, sampleUnit});
-      const chartData = data.reverse().map((datapoint) => {
-        return new BlockInfo(datapoint);
-      });
-      buildChartData(chartData);
-    }
+    const data = await fetchData<BlockInfo[]>(resource+sampled, {timeframeUnit, timeframe, sample, sampleUnit});
+    const chartData = data.map((datapoint) => {
+      return new BlockInfo(datapoint);
+    });
+    blockCache.set(chartData);
   }
 </script>
 

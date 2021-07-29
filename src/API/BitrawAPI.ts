@@ -1,6 +1,8 @@
 import {addAlert} from '../alert';
+import type {BlockInfo} from '../objects/BlockInfo';
 
-const host = 'https://api.bitraw.io';
+export const apiBase = 'api.bitraw.io';
+const host = `https://${apiBase}`;
 
 type BitrawApiQueryParameters = {
   timeframeUnit?: string;
@@ -40,7 +42,7 @@ async function fetchData<T>(resource: string, queryParams?: BitrawApiQueryParame
 }
 
 function fetchBlocks(hours: number) {
-  return fetchData('block/list', {timeframeUnit: 'h', timeframe: hours});
+  return fetchData<BlockInfo[]>('block/list', {timeframeUnit: 'h', timeframe: hours});
 }
 
 async function fetchBlock(id) {
