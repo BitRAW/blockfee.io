@@ -1,7 +1,7 @@
 <script lang="ts">
   import type {BlockInfo} from '../../objects/BlockInfo';
 
-  import {blockCache} from '../../stores';
+  import {blockCache, defaultTimeframe} from '../../stores';
   import SimpleBlock from './SimpleBlock.svelte';
   import {onMount, tick} from 'svelte';
 
@@ -11,7 +11,7 @@
 
   onMount(() => {
     blockCache.subscribe((blocks) => {
-      items = blocks.slice(0, currentScroll).reverse();
+      items = blocks[defaultTimeframe].slice(0, currentScroll).reverse();
       tick().then(() => {
         if (scrollEl) {
           scrollEl.scrollLeft = scrollEl.scrollWidth;

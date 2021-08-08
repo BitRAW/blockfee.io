@@ -12,7 +12,7 @@
   import NotFound from './pages/NotFound.svelte';
   import {BlockInfo} from './objects/BlockInfo';
   import Alerts from './pages/helper-comp/Alerts.svelte';
-  import {blockCache, highest75percVal} from './stores';
+  import {blockCache, defaultTimeframe, highest75percVal} from './stores';
   import {MessageType} from './objects/Message';
   import type {Message} from './objects/Message';
   import {subscribe} from './API/WebSocketAPI';
@@ -31,9 +31,12 @@
   async function fetchBlockData() {
     const data = await fetchBlocks(4);
 
-    blockCache.set(data.map((datapoint) => new BlockInfo(datapoint)));
+    blockCache.update((cache) => ({
+      ...cache,
+      [defaultTimeframe]: data.map((datapoint) => new BlockInfo(datapoint)),
+    }));
 
-    $blockCache.forEach((item) => {
+    $blockCache[defaultTimeframe].forEach((item) => {
       $highest75percVal =
         $highest75percVal < item.perc_75 ? item.perc_75 : $highest75percVal;
     });
@@ -42,7 +45,10 @@
   const onNewBlock = (msg: Message) => {
     if (msg.type === MessageType.new_block) {
       blockCache.update((cache) => {
-        return [new BlockInfo(msg.payload), ...cache];
+        return Object.keys(cache).reduce((acc, timeframe) => {
+          acc[timeframe] = [new BlockInfo(msg.payload), ...acc[timeframe]];
+          return acc;
+        }, {});
       });
     }
   };
@@ -62,7 +68,7 @@
 <div class="">
   <Header />
   <div class="pt-24 flex bg-gray-800 pb-14">
-    {#if $blockCache[0]}
+    {#if $blockCache[defaultTimeframe]}
       <Router {routes} />
     {:else}
       <div class="z-5 w-full opacity-30 flex items-center justify-center">
