@@ -5,7 +5,7 @@
   import ChartCard from './ChartCard.svelte';
   import {getOpacityForColor, timeFrameMap} from '../../util/chartUtils';
   import {text4Hrs, textIgnoredEmptyBlocks} from '../../util/infoTextUtils';
-  import {blockCache} from '../../stores';
+  import {blockCache, defaultTimeframe} from '../../stores';
   import {BlockInfo} from '../../objects/BlockInfo';
   
   import type {ChartConfiguration, LegendItem} from 'chart.js';
@@ -28,6 +28,7 @@
   let hasLoaded = false;
   let feepriceChart: Chart;
   let isLive: boolean;
+  let timeframeKey: string = defaultTimeframe;
 
   let chartData = {
     labels: [],
@@ -35,9 +36,7 @@
   };
 
   onMount(() => {
-    blockCache.subscribe((blocks) => {
-      buildChartData(blocks.slice(0, 24).reverse());
-    });
+    buildChartData($blockCache[timeframeKey].slice(0, 24).reverse());
   });
 
   function buildChartData(data: Array<BlockInfo>) {
@@ -164,14 +163,21 @@
       sampleUnit = undefined,
       sample = undefined,
     } = timeFrameMap[e.detail];
-    isLive = timeframe + timeframeUnit === '4h' ? true : false;
+    timeframeKey = timeframe + timeframeUnit;
+    isLive = timeframeKey === defaultTimeframe ? true : false;
     const sampled = isLive ? '' : '/sampled';
 
-    const data = await fetchData<BlockInfo[]>(resource+sampled, {timeframeUnit, timeframe, sample, sampleUnit});
-    const chartData = data.map((datapoint) => {
-      return new BlockInfo(datapoint);
-    });
-    blockCache.set(chartData);
+    let data: BlockInfo[] = [];
+    if ($blockCache[timeframeKey]) {
+      data = $blockCache[timeframeKey];
+    } else {
+      data = await fetchData<BlockInfo[]>(resource+sampled, {timeframeUnit, timeframe, sample, sampleUnit});
+      data = data.map((datapoint) => {
+        return new BlockInfo(datapoint);
+      });
+      blockCache.update((cache) => ({...cache, [timeframeKey]: data}));
+    }
+    buildChartData(data.slice(0, 24).reverse());
   }
 </script>
 

@@ -1,7 +1,11 @@
 import {writable} from 'svelte/store';
 import type {BlockInfo} from './objects/BlockInfo';
 
-const blockCache = writable<Array<BlockInfo>>([]);
+type BlockCache = { [key: string]: Array<BlockInfo> };
+
+export const defaultTimeframe = '4h';
+
+const blockCache = writable<BlockCache>({});
 
 const highest75percVal = writable(0);
 
