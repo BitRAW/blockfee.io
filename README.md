@@ -58,7 +58,7 @@ For historic releases, see [VERSIONS](VERSIONS.md).
 
 ## Features
 
-Using BitRAWs Commodity Manager this web frontend displays charts for analyzing various metrics in relation to blockfees.
+Using BitRAWs Commodity Manager this web frontend displays charts for analyzing various metrics in relation to bitcoin transaction fees.
 
 - Show charts as well as separate blocks
 - Installable as offline app with PWA
